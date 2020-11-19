@@ -15,10 +15,10 @@ df = pd.DataFrame(achiveForms)
 print(df)
 
 # field names 
-#fields = ['name', 'branch', 'year', 'cgpa']
+#fields = ['date', 'host', 'guest', 'hostScores','guestScore']
 
 # name of csv file 
-#filename = "university_records.csv"
+#filename = "football.csv"
 
 # writing to csv file 
 #with open(filename, 'w') as csvfile:
@@ -33,7 +33,7 @@ print(df)
 
 
 
-#homeName=input('Please enter the home team name:')
+
 homeName=input('Please enter the home team name:')
 guestName = input("Please enter the visiting team name:")
 
