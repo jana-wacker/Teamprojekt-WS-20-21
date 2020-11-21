@@ -6,6 +6,7 @@ root = Tk()
 
 from teamproject.crawler import fetch_data
 from teamproject.models import ExperienceAlwaysWins
+from teamproject.predict_basic.py import predict_winner
 
 
 def main():
@@ -35,6 +36,28 @@ def main():
     myEmptyLable = Label(root, text="           ")
     myEmptyLable.grid(row=5, column=1, columnspan=3)
 
+    # Dropdowns für Mannschaften1
+    clicked1 = StringVar()
+    clicked1.set("Bayern")
+    dropDown1 = OptionMenu(root, clicked1, "Bayern", "Hamburg", "Stuttgart", "Bremen", "Madrid", "Barcelona",
+                           "Bukarest")
+    dropDown1.grid(row=6, column=1)
+
+    # Lable für die Dropdowns
+    dropLable1 = Label(root, text="Choose the first Team:")
+    dropLable1.grid(row=5, column=1)
+
+    #Dropdowns für Mannschaften2
+    clicked2 = StringVar()
+    clicked2.set("Bayern")
+    dropDown2 = OptionMenu(root, clicked2, "Bayern", "Hamburg", "Stuttgart", "Bremen", "Madrid", "Barcelona",
+                           "Bukarest")
+    dropDown2.grid(row=6, column=3)
+
+    # Lable für die Dropdowns
+    dropLable2 = Label(root, text="Choose the second Team:")
+    dropLable2.grid(row=5, column=3)
+
     # Buttons für die Aufrufe der Funktionen
     buttonCrawler = Button(root, text="Activate Crawler", padx=10, pady=5)
     buttonCrawler.grid(row=2, column=1)
@@ -46,29 +69,9 @@ def main():
     myEmptyLable2 = Label(root, text="           ")
     myEmptyLable2.grid(row=4, column=1, columnspan=3)
 
-    # Button to calculate odds
-    buttonOdds = Button(root, text="Calculate Odds", padx=30, pady=15)
+    # Button to calculate odds,call function to predict the winner from the other skript
+    buttonOdds = Button(root, text="Calculate Odds", padx=30, pady=15,
+                        command= predict_winner.predict_winner(clicked1, clicked2))
     buttonOdds.grid(row=6, column=2)
-
-    # Dropdowns für Mannschaften
-    clicked1 = StringVar()
-    clicked1.set("Bayern")
-    dropDown1 = OptionMenu(root, clicked1, "Bayern", "Hamburg", "Stuttgart", "Bremen", "Madrid", "Barcelona",
-                           "Bukarest")
-    dropDown1.grid(row=6, column=1)
-
-    # Lable für die Dropdowns
-    dropLable1 = Label(root, text="Choose the first Team:")
-    dropLable1.grid(row=5, column=1)
-
-    clicked2 = StringVar()
-    clicked2.set("Bayern")
-    dropDown2 = OptionMenu(root, clicked2, "Bayern", "Hamburg", "Stuttgart", "Bremen", "Madrid", "Barcelona",
-                           "Bukarest")
-    dropDown2.grid(row=6, column=3)
-
-    # Lable für die Dropdowns
-    dropLable2 = Label(root, text="Choose the second Team:")
-    dropLable2.grid(row=5, column=3)
 
     root.mainloop()
