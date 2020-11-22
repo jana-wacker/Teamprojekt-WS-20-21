@@ -30,16 +30,18 @@ import json
 
 def fetch_data():
     year = 2003
+    # Two while loops to go through the different years and gamedays
     while year < 2021:
         year = year + 1
         gameday = 1
 
         while gameday < 35:
 
+            # The data from the URL is saved in a dictionary
             r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
             r_dict = r.json()
-            print(r_dict)
 
+            # There's an array for every information we want to save in a separate file
             team1 = []
             team1points = []
             team2 = []
@@ -47,6 +49,7 @@ def fetch_data():
             location = []
             date = []
 
+            # The loop goes through all the information in the dictionary and adds the information to the right array
             for i in r_dict:
                 if i['MatchIsFinished']:
                     team1.append(i['Team1']['TeamName'])
@@ -61,7 +64,6 @@ def fetch_data():
 
                 else:
                     continue
-
             print(team1)
             print(team2)
             print(team1points)
@@ -70,6 +72,7 @@ def fetch_data():
             print(date)
 
 
+            # Creating a dictionary with all the relevant information
             data = {
                 'Location': location,
                 'Date': date,
@@ -79,6 +82,7 @@ def fetch_data():
                 'Team2': team2
                 }
 
+            # Creating a CSV file to store the information
             df = pd.DataFrame(data)
             df.to_csv('Crawler.csv', index=False)
 
