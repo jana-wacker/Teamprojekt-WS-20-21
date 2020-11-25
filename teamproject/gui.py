@@ -4,9 +4,9 @@ Add your GUI code here.
 from tkinter import *
 root = Tk()
 
-from teamproject.crawler import fetch_data
-from teamproject.models import ExperienceAlwaysWins
-from teamproject.predict_basic.py import predict_winner
+from crawler import fetch_data
+from models import ExperienceAlwaysWins
+#from predict_basic import predict_winner
 
 
 def main():
@@ -70,8 +70,8 @@ def main():
     myEmptyLable2.grid(row=4, column=1, columnspan=3)
 
     # Button to calculate odds,call function to predict the winner from the other skript
-    buttonOdds = Button(root, text="Calculate Odds", padx=30, pady=15,
-                        command= predict_winner.predict_winner(clicked1, clicked2))
+    buttonOdds = Button(root, text="Calculate Odds", padx=30, pady=15,)
+ #                       command= predict_winner.predict_winner(clicked1, clicked2))
     buttonOdds.grid(row=6, column=2)
 
     root.mainloop()
