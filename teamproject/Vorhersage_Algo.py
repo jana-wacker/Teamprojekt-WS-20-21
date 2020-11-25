@@ -1,6 +1,8 @@
 # importing the csv module
 #import csv
 import pandas as pd
+import gui
+gui_main = gui.main()
 
 
 # my data rows as dictionary objects
@@ -32,10 +34,14 @@ print(df)
     #writer.writerows(mydict)
 
 
+'''These input fields should be the ones from the gui 
+I am not completely sure if it is working, if not I don't know how to access the variables from the gui file'''
 
+homeName = gui_main.homeTeam
+guestName = gui_main.guestTeam
 
-homeName=input('Please enter the home team name:')
-guestName = input("Please enter the visiting team name:")
+#homeName=input('Please enter the home team name:')
+#guestName = input("Please enter the visiting team name:")
 
 
 #guestName=input("Please enter the visiting team name:")
