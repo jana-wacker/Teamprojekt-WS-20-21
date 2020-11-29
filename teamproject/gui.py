@@ -5,7 +5,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 from crawler import fetch_data
 from models import ExperienceAlwaysWins
-import Vorhersage_Algo
+from Vorhersage_Algo import algoPrediction
 from tkcalendar import DateEntry
 root = Tk()
 
@@ -18,7 +18,7 @@ def main():
 
     # For demo purposes, this is how you could access methods from other
     # modules:
-    matchNumber = Vorhersage_Algo.matchNumber()
+    #matchNumber = Vorhersage_Algo.matchNumber()
     data = fetch_data()
     model = ExperienceAlwaysWins(data)
     winner = model.predict_winner('Tübingen', 'Leverkusen')
@@ -119,11 +119,8 @@ def main():
     buttonAlgo = Button(root, text="Activate the AI", padx=10, pady=5)
     buttonAlgo.grid(row=10, column=4)
 
-    # Button to calculate odds,call function to predict the winner from the other script
-    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, )
-
-    #command= ......... homeTeam, guestTeam )
-    # This should activate the Vorhersage_Algo File, but that starts itself -> FIX
+    # Button to calculate odds,call function to predict the winner from the Vorhersage_Algo script
+    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, command=algoPrediction(homeTeam, guestTeam) )
     buttonOdds.grid(row=7, column=2)
 
     # Setting up a calender to choose the game day

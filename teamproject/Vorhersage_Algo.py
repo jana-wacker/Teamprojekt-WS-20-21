@@ -34,8 +34,10 @@ print(df)
     #writer.writerows(mydict)
 
 
-'''These input fields should be the ones from the gui 
-I am not completely sure if it is working, if not I don't know how to access the variables from the gui file'''
+'''These input fields pull which team the user selected to compare  
+    (Source: the GUI dropdown fields)
+    
+!!!  I am not completely sure if it is working, if not I don't know how to access the variables from the gui file'''
 
 homeName = gui_main.homeTeam
 guestName = gui_main.guestTeam
@@ -44,14 +46,16 @@ guestName = gui_main.guestTeam
 #guestName = input("Please enter the visiting team name:")
 
 
-#guestName=input("Please enter the visiting team name:")
 #######################################################################################################
+'''Calculate the number of games 
+
+Variables: homeName, guestName  - both form GUI 
+Function: iterates through the dictionary of data, searches for the two respective teams, 
+            when found -> add one to the counter of matches 
+            
+'''
 
 
-
-
-
-#######################################################################################################
 #Calculate the number of games for a particular home and away team, and form it into a new list.
 def matchNumber(homeName, guestName):
     newAchiveForms=[]
@@ -61,12 +65,11 @@ def matchNumber(homeName, guestName):
             count=count+1
             newAchiveForms.append(achiveForms[i])
     return count
-#######################################################################################################
-
-
 
 
 #######################################################################################################
+
+
 #Find the home and away teams and form them into a new list.
 def newAchiveForms(homeName, guestName):
     newList=[]
@@ -80,7 +83,6 @@ def newAchiveForms(homeName, guestName):
 
 #print(newAchiveForms(homeName,guestName))
 ########################################################################################################
-
 
 
 #######################################################################################################
@@ -99,7 +101,6 @@ def ProHomeWin(aList):
 #######################################################################################################
 
 
-
 #######################################################################################################
 #Counts the number of times the home team has lost.
 def ProHomeLoss(aList):
@@ -114,7 +115,6 @@ def ProHomeLoss(aList):
 
 #print(ProHomeLoss(newAchiveForms(homeName,guestName)))
 #######################################################################################################
-
 
 
 #######################################################################################################
@@ -134,16 +134,29 @@ def ProHomeTied(aList):
 
 
 
-#######################################################################################################
-#The final output, this part can be written in main
-if matchNumber(homeName, guestName)==0:
-    print('Sorry, there was no game between these two teams last quarter.')
-else:
-    Result={'Home Team Name':homeName,
+'''The final method to print out the results 
+Variables: homeName, guestName - the teams chosen from the GUI 
+
+Function: 1. Check if there are any matches, if not, tell user 
+          2. If there are matches, create an array with all the results 
+          Results: call all the definied methods above with the two variables, store output in array 
+          3. print out the array with results 
+          
+Usage: To be called in the GUI button "Activate the AI" 
+
+'''
+
+
+#Method for the results to be called in the GUI button to predict results
+def algoPrediction(homeName, guestName):
+    if matchNumber(homeName, guestName)==0:
+        print('Sorry, there was no game between these two teams last quarter.')
+    else:
+     result={'Home Team Name':homeName,
             'Away Team Name': guestName,
             'Total number of matches': matchNumber(homeName, guestName),
             'Home team win ratio': ProHomeWin(newAchiveForms(homeName,guestName)),
             'Home team loss ratio': ProHomeLoss(newAchiveForms(homeName,guestName)),
             'Home and away team tie ratio': ProHomeTied(newAchiveForms(homeName,guestName))}
-    print(Result)
+    print(result)
     input('Please enter the probability of your prediction:')
