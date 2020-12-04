@@ -161,8 +161,8 @@ def main():
     # Button to calculate odds,call function to predict the winner from the Vorhersage_Algo script
     """Does not work yet"""
     # Button to calculate odds,call function to predict the winner from the other script
-    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, font=myFont, bg="orange",
-                        highlightthickness=2, highlightbackground="#111", command = algoPrediction)
+    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, font=myFont,
+                        bg="orange", command = algoPrediction)
     buttonOdds.grid(row=7, column=2)
 
     # Setting up a calender to choose the game day
