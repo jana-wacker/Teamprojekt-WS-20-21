@@ -1,8 +1,9 @@
-# importing the csv module
+
+# Jana: We don't need that here. The crawler should only be started from the gui.
+#importing the csv module
 #import csv
 import pandas as pd
-import gui
-gui_main = gui.main()
+from tkinter.messagebox import showinfo
 
 
 # my data rows as dictionary objects
@@ -14,7 +15,7 @@ achiveForms =[{'date': '2009-08-07T20:30:00', 'host': 'Hannover', 'guest': 'Duss
                 {'date': '2009-08-08T15:30:00', 'host': 'Munich', 'guest': 'Hannover', 'hostScores': '2','guestScores':'1'}]
 
 df = pd.DataFrame(achiveForms)
-print(df)
+#print(df)
 
 # field names
 #fields = ['date', 'host', 'guest', 'hostScores','guestScore']
@@ -39,8 +40,6 @@ print(df)
     
 !!!  I am not completely sure if it is working, if not I don't know how to access the variables from the gui file'''
 
-homeName = gui_main.homeTeam
-guestName = gui_main.guestTeam
 
 #homeName=input('Please enter the home team name:')
 #guestName = input("Please enter the visiting team name:")
@@ -87,7 +86,7 @@ def newAchiveForms(homeName, guestName):
 
 #######################################################################################################
 #Counts the number of times the home team has won, drawn, and lost.
-def ProHomeWin(aList):
+def ProHomeWin(aList, homeName, guestName):
     hostWinCount = 0
     if matchNumber(homeName, guestName)==0:
         return 0
@@ -103,7 +102,7 @@ def ProHomeWin(aList):
 
 #######################################################################################################
 #Counts the number of times the home team has lost.
-def ProHomeLoss(aList):
+def ProHomeLoss(aList, homeName, guestName):
     hostLossCount = 0
     if matchNumber(homeName, guestName)==0:
         return 0
@@ -119,7 +118,7 @@ def ProHomeLoss(aList):
 
 #######################################################################################################
 #Counts the number of times the home team has drawn.
-def ProHomeTied(aList):
+def ProHomeTied(aList, homeName, guestName):
     tiedCount = 0
     if matchNumber(homeName, guestName)==0:
         return 0
@@ -158,5 +157,7 @@ def algoPrediction(homeName, guestName):
             'Home team win ratio': ProHomeWin(newAchiveForms(homeName,guestName)),
             'Home team loss ratio': ProHomeLoss(newAchiveForms(homeName,guestName)),
             'Home and away team tie ratio': ProHomeTied(newAchiveForms(homeName,guestName))}
-    print(result)
-    input('Please enter the probability of your prediction:')
+    # Jana: Added Info-Box to display result, since I am not sure, how it will work if you use the "print"-command
+    #print(result)
+    showinfo("Activation Crawler", result)
+    #input('Please enter the probability of your prediction:')
