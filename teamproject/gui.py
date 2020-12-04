@@ -14,8 +14,10 @@ from tkcalendar import DateEntry
 import csv
 import pkgutil
 import teamproject.Algorithms
+import tkinter.font as font
 
 root = Tk()
+
 
 def getTeams():
 
@@ -61,10 +63,13 @@ def main():
 
     lable_background.config(width=900, height=600)
 
+    # Setting a lable style for all the descriptions
+    myFont = font.Font(family="Helviva", size=14)
+
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!")
     myLable.grid(row=0, column=1, columnspan=6, )
-    myLable.config(font=("TkCaptionFont", 14))
+    myLable.config(font=("Times", 17))
 
     # Empty Lines - don't know how else to do it
     myEmptyLable = Label(root)
@@ -79,27 +84,30 @@ def main():
     myEmptyLable2.grid(row=11, column=1, columnspan=6)
 
     # All of the labels
-    settingsLable = Label(root, text="Activate the AI or Start the Crawler here:")
+    settingsLable = Label(root, text="Activate the AI or Start the Crawler here:", bg="silver")
     settingsLable.grid(row=9, column=2, columnspan=6)
+    settingsLable.config(font=("TKCaptionFont", 12))
 
     chooseDateLable = Label(root, text="Choose the day \n of the game")
     chooseDateLable.grid(row=5, column=5)
+    chooseDateLable.config(font=("TKCaptionFont", 12))
 
-    dropLable1 = Label(root, text="Choose the Home Team:")
+    dropLable1 = Label(root, text="Choose the Home Team:", bg="mediumblue", fg="yellow")
     dropLable1.grid(row=5, column=1)
+    dropLable1.config(font=("TKCaptionFont", 12))
 
-    dropLable2 = Label(root, text="Choose the Guest Team:")
+    dropLable2 = Label(root, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
     dropLable2.grid(row=5, column=3)
+    dropLable2.config(font=("TKCaptionFont", 12))
 
     chooseCrawlerLabel = Label(root, text="Choose an Algorithm for calculation:")
     chooseCrawlerLabel.grid(row=12, column=1)
+    chooseCrawlerLabel.config(font=("TKCaptionFont", 12))
 
     # Bsp List for TeamHome
-    #teamsHome = {"Tübingen": 1, "München": 2, "Madrid": 3, "Hamburg": 4, "Bukarest": 5}
     teamsHome = getTeams()
 
     # Bsp List for TeamGuest
-    #teamsGuest = {"Bayern": 1, "München": 2, "Madrid": 3, "Hamburg": 4, "Bukarest": 5}
     teamsGuest = getTeams()
 
     '''Setup of the dropdown menus for the teams 
@@ -152,7 +160,9 @@ def main():
 
     # Button to calculate odds,call function to predict the winner from the Vorhersage_Algo script
     """Does not work yet"""
-    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, command = algoPrediction)
+    # Button to calculate odds,call function to predict the winner from the other script
+    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, font=myFont, bg="orange",
+                        highlightthickness=2, highlightbackground="#111", command = algoPrediction)
     buttonOdds.grid(row=7, column=2)
 
     # Setting up a calender to choose the game day
