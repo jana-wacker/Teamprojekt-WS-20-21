@@ -36,7 +36,7 @@ def getTeams():
 
 def main():
     """
-    Creates and shows the main window.
+    Creates and shows the main window with all the buttons and labels .
     """
     # Add code here to create and initialize window.
 
