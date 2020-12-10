@@ -1,0 +1,6 @@
+pandas~=1.1.4
+setuptools~=46.4.0
+pillow~=8.0.1
+tkcalendar~=1.6.1
+requests~=2.23.0
+pyreconstruct~=2.2.0
