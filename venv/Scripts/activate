@@ -37,7 +37,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
+<<<<<<< HEAD
 VIRTUAL_ENV="D:\Teamprojekt Files\Teamprojekt-WS-20-21\venv"
+=======
+VIRTUAL_ENV="C:\Users\jana-\OneDrive\UNI\Informatik\Teamprojekt\Teamprojekt-WS-20-21\venv"
+>>>>>>> upstream/Integration
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
@@ -59,7 +63,11 @@ if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     else
     if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
         # special case for Aspen magic directories
+<<<<<<< HEAD
         # see http://www.zetadev.com/software/aspen/
+=======
+        # see https://aspen.io/
+>>>>>>> upstream/Integration
         PS1="[`basename \`dirname \"$VIRTUAL_ENV\"\``] $PS1"
     else
         PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
