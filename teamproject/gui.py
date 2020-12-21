@@ -1,31 +1,30 @@
 """
-Jana: Before anything works, the button "Activate Crawler" must be pressed. This button invokes the crawler (obviously)
-and creates the .csv data needed. Otherwise, fetch_all_data would be called a few times which
-extremely slows down the app. However, I have not figured out yet, how we can pass on the selected teams to the
-algorithm. This is something I postponed since I do not know the newest version of the algorithm.
-@Yupei As soon as you committed your version on GitHub, I (or someone else) can continue to integrate it into the GUI.
-And please save your prediction-modules in the Algorithms-package. Makes it easier to retrieve the different algorithms.
+Jana: The prototype works now :) But I only included one algorithm (the minimal one) so far.
+The choice of algorithm should be automized in the future.
 """
+
 from tkinter import *
 from PIL import Image, ImageTk
+import pandas as pd
 from teamproject.crawler import fetch_all_data
-from teamproject.Algorithms.Vorhersage_Algo import algoPrediction
+from teamproject.Algorithms.MinimalerVorhersageAlgo import predict
 from tkcalendar import DateEntry
 import csv
 import pkgutil
 import teamproject.Algorithms
 import tkinter.font as font
+#import pandas as pd
+
 
 root = Tk()
 
+# Jana: This is not fixed yet, we need to fetch the data first when the csv is emtpy.
+# Otherwise the program won't open.
+#fetch_all_data()
+
 
 def getTeams():
-
-    '''
-    Gets Teams based on the data of the crawler
-    '''
-
-    with open('Alldata.csv', newline='') as all_data_raw:
+    with open('Alldata.csv', newline='', encoding="utf8") as all_data_raw:
         Teams = []
         all_data = csv.DictReader(all_data_raw, delimiter=',')
         for row in all_data:
@@ -33,6 +32,9 @@ def getTeams():
                 Teams.append(row['Team1'])
     return Teams
 
+
+# Needed by the Vorhersage_Algo
+data = pd.read_csv("Alldata.csv")
 
 def main():
     """
@@ -44,11 +46,11 @@ def main():
     # modules:
     #matchNumber = Vorhersage_Algo.matchNumber()
     #model = ExperienceAlwaysWins(data)
-    #winner = model.predict_winner('Tübingen', 'Leverkusen')
+    #winner = model.predict_winner('T�bingen', 'Leverkusen')
     #print(winner)
 
 
-    # Basics für das Window
+    # Basics f�r das Window
     root.geometry("900x600")
     root.title("Bundesliga Vorhersagen")
 
@@ -116,24 +118,31 @@ def main():
     The method *teamsHome.keys() puts all of the keys, from the teamsHome List into the dropdown menu. 
 
     '''
-    # Dropdowns für Mannschaften1
-    firstTeamHome = list(teamsHome)[0]
+    # Dropdowns f�r Mannschaften1
+    firstTeamHome = teamsHome[0]
     clicked1 = StringVar(root)
     clicked1.set(firstTeamHome)
     dropDown1 = OptionMenu(root, clicked1, *teamsHome)
     # This is for the Algo section, to know which team is selected
-    homeTeam = clicked1.get()
+    #homeTeam = clicked1.get()
     dropDown1.grid(row=6, column=1)
 
-    # Dropdowns für Mannschaften2
-    firstTeamGuest = list(teamsGuest)[0]
+    # Dropdowns f�r Mannschaften2
+    firstTeamGuest = teamsGuest[0]
     clicked2 = StringVar(root)
     clicked2.set(firstTeamGuest)
     dropDown2 = OptionMenu(root, clicked2, *teamsGuest)
     # This is for the Algo section, to know which team is selected
-    guestTeam = clicked2.get()
+    #guestTeam = clicked2.get()
     dropDown2.grid(row=6, column=3)
 
+    # syncs clicks [ZWISCHENLÖSUNG]
+    def sync1():
+        return clicked1.get()
+    def sync2():
+        return clicked2.get()
+
+    # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
     """Jana: Don't know why there's an error"""
@@ -144,14 +153,15 @@ def main():
                                                           onerror=lambda x: None):
         Algos.append(modname)
 
-    firstAlgo = list(Algos)[0]
+
+    selectedAlgo = list(Algos)[0]
     clicked3 = StringVar()
-    clicked3.set(firstAlgo)
+    clicked3.set(selectedAlgo)
     dropDownAlgo = OptionMenu(root, clicked3, *Algos)
     dropDownAlgo.grid(row=13, column=1)
 
     # Buttons to activate the search for the data
-    buttonCrawler = Button(root, text="Activate Crawler", padx=10, pady=5, command = fetch_all_data)
+    buttonCrawler = Button(root, text="Activate Crawler", padx=10, pady=5, command=fetch_all_data)
     buttonCrawler.grid(row=15, column=3)
 
     # Button to activate the AI Process
@@ -161,14 +171,16 @@ def main():
     # Button to calculate odds,call function to predict the winner from the Vorhersage_Algo script
     """Does not work yet"""
     # Button to calculate odds,call function to predict the winner from the other script
+
+    #startPrediction = partial (predict, syn1(), sync2(), data)
     buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, font=myFont,
-                        bg="orange", command = algoPrediction)
+                        bg="orange", command=lambda: predict(sync1(), sync2(), data))
     buttonOdds.grid(row=7, column=2)
 
     # Setting up a calender to choose the game day
     calendar = DateEntry(root, width=12, year=2020, month=11, day=26,
                          background="darkblue", foreground="white", borderwidth=2)
     calendar.grid(row=6, column=5)
-
     root.mainloop()
+
 
