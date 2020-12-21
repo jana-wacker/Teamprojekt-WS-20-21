@@ -106,7 +106,8 @@ def main():
     dropLable1.config(font=("TKCaptionFont", 12))
 
     # Button to calculate odds,call function to predict the winner from the other script
-    '''Does not work yet '''
+    '''Does not work yet 
+    -the button is all the way up there because otherwise the frames are arranged weirdly... '''
     buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=myFont, bg="orange",
                         command= algoPrediction)
     buttonOdds.pack(side="left", padx=40, pady=40)
