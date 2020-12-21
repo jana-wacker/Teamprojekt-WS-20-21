@@ -81,7 +81,6 @@ def fetch_all_data():
     """
     Query data from "the internet" and return in our internal format.
     * Year (int): Year the crawler starts to collect the data
-    * Gameday (int): First gameday which is taken into the data collection
     """
     year = 2004
 
@@ -132,6 +131,4 @@ def fetch_all_data():
 
 
         year = year + 1
-
-
 
