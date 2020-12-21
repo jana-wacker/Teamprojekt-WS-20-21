@@ -47,61 +47,76 @@ def main():
     #winner = model.predict_winner('Tübingen', 'Leverkusen')
     #print(winner)
 
-
     # Basics für das Window
-    root.geometry("900x600")
+    root.geometry("1200x900")
     root.title("Bundesliga Vorhersagen")
+    # Variables for the size of the picture
+    x_Picture = 1200
+    y_Picture = 900
 
     '''Trying to set the background picture '''
     image1 = Image.open("field.jpg")
-    image1_resized = image1.resize((900, 600), Image.ANTIALIAS)
+    image1_resized = image1.resize((x_Picture, y_Picture), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
 
     lable_background = Label(image=pic_ready)
     lable_background.image = pic_ready
     lable_background.place(x=0, y=0)
 
-    lable_background.config(width=900, height=600)
-
-    # Setting a lable style for all the descriptions
-    myFont = font.Font(family="Helviva", size=14)
+    lable_background.config(x_Picture, y_Picture)
 
     # Lable for the header
-    myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!")
-    myLable.grid(row=0, column=1, columnspan=6, )
+    myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
+                    bg="light green")
+    myLable.pack(side="top", padx=10)
     myLable.config(font=("Times", 17))
 
-    # Empty Lines - don't know how else to do it
-    myEmptyLable = Label(root)
-    myEmptyLable.grid(row=5, column=1, columnspan=6)
-    myEmptyLable = Label(root)
-    myEmptyLable.grid(row=1, column=1, columnspan=6)
-    myEmptyLable = Label(root)
-    myEmptyLable.grid(row=8, column=1, columnspan=6)
-    myEmptyLable2 = Label(root)
-    myEmptyLable2.grid(row=4, column=1, columnspan=3)
-    myEmptyLable2 = Label(root)
-    myEmptyLable2.grid(row=11, column=1, columnspan=6)
+    # Marking where the lables start, depending on the size of the main window
+    begin_Labels = x_Picture / 4
+
+    '''Setting up all the frames to insert the labels and the buttons into '''
+    rahmenBelow = Frame(master=root, bg="purple")
+    rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=200)
+
+    rahmenMiddle = Frame(master=root, bg="firebrick")
+    rahmenMiddle.pack(side="left", padx=begin_Labels, pady=5)
+
+    rahmenTeamHome = Frame(master=rahmenMiddle, bg="forest green")
+    rahmenTeamHome.pack(side="left", padx=5, pady=5)
+
+    rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cornflower blue")
+    rahmenTeamGuest.pack(side="right", padx=5, pady=5)
+
+    rahmenCalender = Frame(master=rahmenMiddle, bg="cadet blue")
+    rahmenCalender.pack(side="top", padx=15, pady=15)
+
+    rahmenAlgo = Frame(master=rahmenBelow, bg="lightblue")
+    rahmenAlgo.pack(side="left", padx=5, pady=5)
+
+    rahmenCrawler = Frame(master=rahmenBelow, bg="lightgreen")
+    rahmenCrawler.pack(side="left", padx=5, pady=5)
 
     # All of the labels
-    settingsLable = Label(root, text="Activate the AI or Start the Crawler here:", bg="silver")
-    settingsLable.grid(row=9, column=2, columnspan=6)
+    settingsLable = Label(rahmenCrawler, text="Activate the AI or Start the Crawler here:", bg="silver")
+    settingsLable.pack(side="top", padx=5)
     settingsLable.config(font=("TKCaptionFont", 12))
 
-    chooseDateLable = Label(root, text="Choose the day \n of the game")
-    chooseDateLable.grid(row=5, column=5)
-    chooseDateLable.config(font=("TKCaptionFont", 12))
-
-    dropLable1 = Label(root, text="Choose the Home Team:", bg="mediumblue", fg="yellow")
-    dropLable1.grid(row=5, column=1)
+    dropLable1 = Label(master=rahmenTeamHome, text="Choose the Home Team:", bg="mediumblue", fg="yellow")
+    dropLable1.pack(side="top", padx=5, pady=5)
     dropLable1.config(font=("TKCaptionFont", 12))
 
-    dropLable2 = Label(root, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
-    dropLable2.grid(row=5, column=3)
+    # Button to calculate odds,call function to predict the winner from the other script
+    '''Does not work yet '''
+    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=myFont, bg="orange",
+                        command= algoPrediction)
+    buttonOdds.pack(side="left", padx=40, pady=40)
+
+    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
+    dropLable2.pack(side="top", padx=5, pady=5)
     dropLable2.config(font=("TKCaptionFont", 12))
 
-    chooseCrawlerLabel = Label(root, text="Choose an Algorithm for calculation:")
-    chooseCrawlerLabel.grid(row=12, column=1)
+    chooseCrawlerLabel = Label(master=rahmenAlgo, text="Choose an Algorithm for calculation:")
+    chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
     chooseCrawlerLabel.config(font=("TKCaptionFont", 12))
 
     # Bsp List for TeamHome
@@ -120,19 +135,20 @@ def main():
     firstTeamHome = list(teamsHome)[0]
     clicked1 = StringVar(root)
     clicked1.set(firstTeamHome)
-    dropDown1 = OptionMenu(root, clicked1, *teamsHome)
+    dropDown1 = OptionMenu(rahmenTeamHome, clicked1, *teamsHome)
     # This is for the Algo section, to know which team is selected
     homeTeam = clicked1.get()
-    dropDown1.grid(row=6, column=1)
+    dropDown1.pack(side="top", padx=5, pady=5)
 
     # Dropdowns für Mannschaften2
     firstTeamGuest = list(teamsGuest)[0]
     clicked2 = StringVar(root)
     clicked2.set(firstTeamGuest)
-    dropDown2 = OptionMenu(root, clicked2, *teamsGuest)
+    dropDown2 = OptionMenu(rahmenTeamGuest, clicked2, *teamsGuest)
     # This is for the Algo section, to know which team is selected
     guestTeam = clicked2.get()
-    dropDown2.grid(row=6, column=3)
+    dropDown2.pack(side="top", padx=5, pady=5)
+
 
     # The choice of an algorithm
     # Import from package "Algorithms"
@@ -147,28 +163,26 @@ def main():
     firstAlgo = list(Algos)[0]
     clicked3 = StringVar()
     clicked3.set(firstAlgo)
-    dropDownAlgo = OptionMenu(root, clicked3, *Algos)
-    dropDownAlgo.grid(row=13, column=1)
+    dropDownAlgo = OptionMenu(rahmenAlgo, clicked3, *Algos)
+    dropDownAlgo.pack(side="top", padx=5)
 
     # Buttons to activate the search for the data
-    buttonCrawler = Button(root, text="Activate Crawler", padx=10, pady=5, command = fetch_all_data)
-    buttonCrawler.grid(row=15, column=3)
+    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler", padx=10, pady=5)
+    buttonCrawler.pack(side="left", padx=5)
 
     # Button to activate the AI Process
-    buttonAlgo = Button(root, text="Activate the AI", padx=10, pady=5)
-    buttonAlgo.grid(row=15, column=4)
-
-    # Button to calculate odds,call function to predict the winner from the Vorhersage_Algo script
-    """Does not work yet"""
-    # Button to calculate odds,call function to predict the winner from the other script
-    buttonOdds = Button(root, text="Calculate Odds", padx=18, pady=15, font=myFont,
-                        bg="orange", command = algoPrediction)
-    buttonOdds.grid(row=7, column=2)
+    buttonAlgo = Button(rahmenCrawler, text="Activate the AI", padx=10, pady=5)
+    buttonAlgo.pack(side="left", padx=5)
 
     # Setting up a calender to choose the game day
-    calendar = DateEntry(root, width=12, year=2020, month=11, day=26,
+
+    chooseDateLable = Label(master=rahmenCalender, text="Choose the day \n of the game")
+    chooseDateLable.pack(side="top", padx=5, pady=5)
+    chooseDateLable.config(font=("TKCaptionFont", 12))
+
+    calendar = DateEntry(rahmenCalender, width=12, year=2020, month=11, day=26,
                          background="darkblue", foreground="white", borderwidth=2)
-    calendar.grid(row=6, column=5)
+    calendar.pack(side="top", padx=5, pady=5)
 
     root.mainloop()
 
