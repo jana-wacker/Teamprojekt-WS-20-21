@@ -3,15 +3,22 @@ This module contains code to fetch required data from the internet and convert
 it to our internal format.
 """
 
-
 import pandas as pd
 import requests
-from tkinter.messagebox import showinfo
 import json
 
 
 def fetch_data():
-    year = 2003
+    """
+    Query data from "the internet" and return in our internal format.
+    * Year (int): Year the crawler starts to collect the data
+    * Gameday (int): First gameday which is taken into the data collection
+    * UntilYear (int): Data is collected until this year
+    * UntilGameday (int): Data is collected until this gameday
+    """
+    year = input
+    UntilYear = input()
+    UntilGameday = input()
 
     # There's an array for every information we want to save in a separate file
     team1 = []
@@ -22,11 +29,11 @@ def fetch_data():
     date = []
 
     # Two while loops to go through the different years and gamedays
-    while year < 2005:
+    while year < UntilYear:
         year = year + 1
-        gameday = 1
+        gameday = input()
 
-        while gameday < 35:
+        while gameday < UntilGameday:
 
             # The data from the URL is saved in a dictionary
             r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
@@ -69,12 +76,15 @@ def fetch_data():
             gameday = gameday + 1
 
 
-#fetch_data()
-
 
 def fetch_all_data():
+    """
+    Query data from "the internet" and return in our internal format.
+    * Year (int): Year the crawler starts to collect the data
+    * Gameday (int): First gameday which is taken into the data collection
+    """
     year = 2004
-    counter = 1
+
 
     # There's an array for every information we want to save in a separate file
     team1 = []
@@ -122,9 +132,6 @@ def fetch_all_data():
 
 
         year = year + 1
-        counter = counter + 1
 
-# Jana: Hab ne Info-Box hinzugefügt, damit die GUI ausgeben kann, wenn alle Daten geladen wurden
-    showinfo("Activation Crawler", "Data has been fetched")
 
 
