@@ -181,5 +181,5 @@ def algoPrediction(data):
     print(result)
 
 
-print(algoPrediction(encapsulation(data)))
+#print(algoPrediction(encapsulation(data)))
 #showinfo("Activation Crawler", result)
