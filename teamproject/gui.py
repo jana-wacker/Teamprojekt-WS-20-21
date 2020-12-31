@@ -6,12 +6,12 @@ The choice of algorithm should be automized in the future.
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from teamproject.crawler import fetch_all_data
-from teamproject.Algorithms.MinimalerVorhersageAlgo import predict
+from crawler import fetch_all_data
+from Algorithms.MinimalerVorhersageAlgo import predict
 from tkcalendar import DateEntry
 import csv
 import pkgutil
-import teamproject.Algorithms
+import Algorithms
 import tkinter.font as font
 #import pandas as pd
 
@@ -65,7 +65,7 @@ def main():
     lable_background.image = pic_ready
     lable_background.place(x=0, y=0)
 
-    lable_background.config(x_Picture, y_Picture)
+    #lable_background.config(x_Picture, y_Picture)
 
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
@@ -111,7 +111,7 @@ def main():
     '''Does not work yet 
     -the button is all the way up there because otherwise the frames are arranged weirdly... '''
     # startPrediction = partial (predict, syn1(), sync2(), data)
-    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=myFont, bg="orange",
+    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
                         command=lambda: predict(sync1(), sync2(), data))
     buttonOdds.pack(side="left", padx=40, pady=40)
 
@@ -164,7 +164,7 @@ def main():
     # The choice of an algorithm
     # Import from package "Algorithms"
     """Jana: Don't know why there's an error"""
-    package = teamproject.Algorithms
+    package = Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',
@@ -174,12 +174,10 @@ def main():
 
     selectedAlgo = list(Algos)[0]
     clicked3 = StringVar()
-    clicked3.set(firstAlgo)
+    clicked3.set(selectedAlgo)
     dropDownAlgo = OptionMenu(rahmenAlgo, clicked3, *Algos)
     dropDownAlgo.pack(side="top", padx=5)
     clicked3.set(selectedAlgo)
-    dropDownAlgo = OptionMenu(root, clicked3, *Algos)
-    dropDownAlgo.grid(row=13, column=1)
 
     # Buttons to activate the search for the data
     buttonCrawler = Button(rahmenCrawler, text="Activate Crawler", padx=10, pady=5)
