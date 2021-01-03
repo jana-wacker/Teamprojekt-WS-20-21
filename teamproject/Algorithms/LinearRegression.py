@@ -1,6 +1,5 @@
+"""Jana: Module should not be used yet, correct?"""
 import pandas as pd
-import gui
-gui_main = gui.main()
 
 #use for plotting data
 pd.set_option('display.max_columns', 10)

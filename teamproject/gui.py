@@ -1,19 +1,19 @@
 """
-Jana: The prototype works now :) But I only included one algorithm (the minimal one) so far.
-The choice of algorithm should be automized in the future.
+Jana: The prototype works now :) The algorithm-choice is automatised now, but I am currently reworking
+the poissonDistribution.py module. After that, all algorithms should work.
 """
 
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
 from crawler import fetch_all_data
-from Algorithms.MinimalerVorhersageAlgo import predict
 from tkcalendar import DateEntry
 import csv
 import pkgutil
 import Algorithms
 import tkinter.font as font
-#import pandas as pd
+import os
+import importlib
 
 
 root = Tk()
@@ -22,9 +22,10 @@ root = Tk()
 # Otherwise the program won't open.
 #fetch_all_data()
 
+alldata = os.path.join(os.path.dirname(__file__), 'Alldata.csv')
 
 def getTeams():
-    with open('Alldata.csv', newline='', encoding="utf8") as all_data_raw:
+    with open(alldata, newline='', encoding="utf8") as all_data_raw:
         Teams = []
         all_data = csv.DictReader(all_data_raw, delimiter=',')
         for row in all_data:
@@ -34,7 +35,7 @@ def getTeams():
 
 
 # Needed by the Vorhersage_Algo
-data = pd.read_csv("Alldata.csv")
+data = pd.read_csv(alldata)
 
 def main():
     """
@@ -57,7 +58,8 @@ def main():
     y_Picture = 900
 
     '''Trying to set the background picture '''
-    image1 = Image.open("field.jpg")
+    background = os.path.join(os.path.dirname(__file__), 'field.jpg')
+    image1 = Image.open(background)
     image1_resized = image1.resize((x_Picture, y_Picture), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
 
@@ -106,14 +108,6 @@ def main():
     dropLable1 = Label(master=rahmenTeamHome, text="Choose the Home Team:", bg="mediumblue", fg="yellow")
     dropLable1.pack(side="top", padx=5, pady=5)
     dropLable1.config(font=("TKCaptionFont", 12))
-
-    # Button to calculate odds,call function to predict the winner from the other script
-    '''Does not work yet 
-    -the button is all the way up there because otherwise the frames are arranged weirdly... '''
-    # startPrediction = partial (predict, syn1(), sync2(), data)
-    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
-                        command=lambda: predict(sync1(), sync2(), data))
-    buttonOdds.pack(side="left", padx=40, pady=40)
 
     dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
     dropLable2.pack(side="top", padx=5, pady=5)
@@ -178,6 +172,19 @@ def main():
     dropDownAlgo = OptionMenu(rahmenAlgo, clicked3, *Algos)
     dropDownAlgo.pack(side="top", padx=5)
     clicked3.set(selectedAlgo)
+
+    # Imports chosen module for prediction
+    def syncAlgo():
+        module = importlib.import_module(clicked3.get())
+        return module
+
+    # Button to calculate odds,call function to predict the winner from the other script
+    '''Does not work yet 
+    -the button is all the way up there because otherwise the frames are arranged weirdly... '''
+    # When clicked, prediction of the chosen model is triggered
+    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
+                        command=lambda: syncAlgo().predict(sync1(), sync2(), data))
+    buttonOdds.pack(side="left", padx=40, pady=40)
 
     # Buttons to activate the search for the data
     buttonCrawler = Button(rahmenCrawler, text="Activate Crawler", padx=10, pady=5)

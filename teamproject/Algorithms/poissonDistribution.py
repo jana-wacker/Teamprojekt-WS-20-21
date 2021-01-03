@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn
-from scipy.stats import poisson,skellam
+from scipy.stats import poisson, skellam
 # importing the tools required for the Poisson regression model
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
@@ -64,7 +64,7 @@ def goal_model(data):
 '''Predict the scored by the home team
 Variables: new data 
 
-Function: 1. Use the previous Possion distribution model
+Function: 1. Use the previous Poission distribution model
           2. Estimated score based on user input of home team name
 '''
 def HomeTeamWin(data):
@@ -78,7 +78,7 @@ def HomeTeamWin(data):
 '''Predict the scored by the away team
 Variables: new data 
 
-Function: 1. Use the previous Possion distribution model
+Function: 1. Use the previous Poisson distribution model
           2. Estimated score based on user input of away team name
 '''
 def AwayTeamWin(data):
@@ -90,11 +90,11 @@ def AwayTeamWin(data):
 #############################################################################################################
 
 '''Wrap this in a simulate_match function
-Variables: possion_model, homeTeam, awayTeam 
+Variables: poisson_model, homeTeam, awayTeam 
 
-Function: 1. We have two different possion distribution from home team and away team
+Function: 1. We have two different poisson distribution from home team and away team
           2. Use simulate_match to encapsulate these information together
-          3. Use GoalRatio to show the procentage based on these two team score
+          3. Use GoalRatio to show the percentage based on these two team score
 '''
 def simulate_match(foot_model, homeTeam, awayTeam, max_goals=10):
     home_goals_avg = foot_model.predict(pd.DataFrame(data={'team': homeTeam, 'opponent': awayTeam,'home':1},
@@ -115,12 +115,12 @@ def GoalRatio(data):
 '''Predicte the procentage of home team win
 Variables: new data 
 
-Function: 1. Get the procentage based on the simulate_match
-          2. the unten-right procentage is the ration of the home team win
+Function: 1. Get the percentage based on the simulate_match
+          2. the bottom-right percentage is the ration of the home team win
 '''
 def PredictHomeTeamGoal(data):
     Home_sum = simulate_match(goal_model(data), homeName, guestName, max_goals=10)
-    result=np.sum(np.tril(Home_sum,-1))
+    result=np.sum(np.tril(Home_sum, -1))
     return result
 
 #print(PredictHomeTeamGoal(encapsulation(data)))
@@ -130,8 +130,8 @@ def PredictHomeTeamGoal(data):
 '''Predicte the procentage of teams tied
 Variables: new data 
 
-Function: 1. Get the procentage based on the simulate_match
-          2. the diagonale procentage is the ration of teams tied
+Function: 1. Get the percentage based on the simulate_match
+          2. the diagonal percentage is the ration of teams tied
 '''
 def PredictTied(data):
     Home_sum = simulate_match(goal_model(data), homeName, guestName, max_goals=10)
@@ -144,8 +144,8 @@ def PredictTied(data):
 '''Predicte the procentage of away team win
 Variables: new data 
 
-Function: 1. Get the procentage based on the simulate_match
-          2. the oben-left procentage is the ration of the away team win
+Function: 1. Get the percentage based on the simulate_match
+          2. the top-left percentage is the ration of the away team win
 '''
 def PredictAwayTeamGoal(data):
     Home_sum = simulate_match(goal_model(data), homeName, guestName, max_goals=10)
@@ -161,7 +161,7 @@ Variables: new data
 
 Function: 1. Check if there are any matches, if not, tell user 
           2. If there are matches, create an array with all the results 
-          Results: call all the definied methods above with the two variables, store output in array 
+          Results: call all the defined methods above with the two variables, store output in array 
           3. print out the array with results 
 
 Usage: To be called in the GUI button "Activate the AI" 
@@ -178,8 +178,4 @@ def algoPrediction(data):
               'Away team win ratio': PredictAwayTeamGoal(data),
               'Home team score': HomeTeamWin(data),
               'Away team score': AwayTeamWin(data)}
-    print(result)
-
-
-#print(algoPrediction(encapsulation(data)))
-#showinfo("Activation Crawler", result)
+    showinfo("Prediction", result)
