@@ -110,7 +110,7 @@ Usage: To be called in the GUI button "Activate the AI"
 def predict(homeName, guestName, data):
     data = dataSource(homeName, guestName, data)
     if matchNumber(data) == 0:
-        showinfo("Prediction" ,"Sorry, there was no game between these two teams.")
+        showinfo("Prediction", "Sorry, there was no game between these two teams.")
     else:
         result = {'Home Team Name': homeName,
                   'Away Team Name': guestName,
@@ -118,5 +118,5 @@ def predict(homeName, guestName, data):
                   'Home team win ratio': ProHomeWin(data),
                   'Home team loss ratio': ProHomeLoss(data),
                   'Home and away team tie ratio': ProHomeTied(data)}
-        showinfo("Prediction", result)
+        showinfo("Prediction - Minimal", result)
 #predict('VfL Wolfsburg', 'VfB Stuttgart', data)
