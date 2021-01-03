@@ -117,10 +117,10 @@ def main():
     chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
     chooseCrawlerLabel.config(font=("TKCaptionFont", 12))
 
-    # Bsp List for TeamHome
+    # List for TeamHome
     teamsHome = getTeams()
 
-    # Bsp List for TeamGuest
+    # List for TeamGuest
     teamsGuest = getTeams()
 
     '''Setup of the dropdown menus for the teams 
@@ -157,7 +157,6 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    """Jana: Don't know why there's an error"""
     package = Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
@@ -187,7 +186,8 @@ def main():
     buttonOdds.pack(side="left", padx=40, pady=40)
 
     # Buttons to activate the search for the data
-    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler", padx=10, pady=5)
+    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10, pady=5,
+                           command=fetch_all_data)
     buttonCrawler.pack(side="left", padx=5)
 
     # Button to activate the AI Process

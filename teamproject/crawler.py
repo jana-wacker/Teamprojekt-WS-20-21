@@ -6,9 +6,11 @@ it to our internal format.
 import pandas as pd
 import requests
 import json
+from tkinter.messagebox import showinfo
 
+"""Jana: The input is passed on parametrically via the GUI :) """
 
-def fetch_data():
+def fetch_data(year, gameday, UntilYear, UntilGameday):
     """
     Query data from "the internet" and return in our internal format.
     * Year (int): Year the crawler starts to collect the data
@@ -16,9 +18,6 @@ def fetch_data():
     * UntilYear (int): Data is collected until this year
     * UntilGameday (int): Data is collected until this gameday
     """
-    year = input
-    UntilYear = input()
-    UntilGameday = input()
 
     # There's an array for every information we want to save in a separate file
     team1 = []
@@ -31,15 +30,12 @@ def fetch_data():
     # Two while loops to go through the different years and gamedays
     while year < UntilYear:
         year = year + 1
-        gameday = input()
 
         while gameday < UntilGameday:
 
             # The data from the URL is saved in a dictionary
             r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
             r_dict = r.json()
-
-
 
             # The loop goes through all the information in the dictionary and adds the information to the right array
             for i in r_dict:
@@ -57,8 +53,6 @@ def fetch_data():
                 else:
                     continue
 
-
-
             # Creating a dictionary with all the relevant information
             data = {
                 'Location': location,
@@ -67,7 +61,7 @@ def fetch_data():
                 'GoalsTeam1': team1points,
                 'GoalsTeam2': team2points,
                 'Team2': team2
-                }
+            }
 
             # Creating a CSV file to store the information
             df = pd.DataFrame(data)
@@ -76,14 +70,12 @@ def fetch_data():
             gameday = gameday + 1
 
 
-
 def fetch_all_data():
     """
     Query data from "the internet" and return in our internal format.
     * Year (int): Year the crawler starts to collect the data
     """
     year = 2004
-
 
     # There's an array for every information we want to save in a separate file
     team1 = []
@@ -96,8 +88,6 @@ def fetch_all_data():
     while year < 2021:
         r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year))
         r_dict = r.json()
-
-
 
         # The loop goes through all the information in the dictionary and adds the information to the right array
         for i in r_dict:
@@ -129,6 +119,5 @@ def fetch_all_data():
         df = pd.DataFrame(data)
         df.to_csv('Alldata.csv', index=False)
 
-
         year = year + 1
-
+    showinfo("Activate Crawler", "All data fetched.")
