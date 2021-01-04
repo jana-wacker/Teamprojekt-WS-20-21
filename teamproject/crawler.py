@@ -68,6 +68,7 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
             df.to_csv('Crawler.csv', index=False)
 
             gameday = gameday + 1
+    showinfo("Activate Crawler", "Selected data fetched.")
 
 
 def fetch_all_data():

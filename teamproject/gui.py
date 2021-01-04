@@ -6,8 +6,8 @@ the poissonDistribution.py module. After that, all algorithms should work.
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from crawler import fetch_all_data
-from tkcalendar import DateEntry
+from crawler import fetch_data, fetch_all_data
+from tkcalendar import DateEntry, Calendar
 import csv
 import pkgutil
 import Algorithms
@@ -91,8 +91,8 @@ def main():
     rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cornflower blue")
     rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
-    rahmenCalender = Frame(master=rahmenMiddle, bg="cadet blue")
-    rahmenCalender.pack(side="top", padx=15, pady=15)
+    rahmenCalendar = Frame(master=rahmenMiddle, bg="cadet blue")
+    rahmenCalendar.pack(side="top", padx=15, pady=15)
 
     rahmenAlgo = Frame(master=rahmenBelow, bg="lightblue")
     rahmenAlgo.pack(side="left", padx=5, pady=5)
@@ -178,8 +178,7 @@ def main():
         return module
 
     # Button to calculate odds,call function to predict the winner from the other script
-    '''Does not work yet 
-    -the button is all the way up there because otherwise the frames are arranged weirdly... '''
+    '''The button is all the way up there because otherwise the frames are arranged weirdly... '''
     # When clicked, prediction of the chosen model is triggered
     buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
                         command=lambda: syncAlgo().predict(sync1(), sync2(), data))
@@ -190,17 +189,39 @@ def main():
                            command=fetch_all_data)
     buttonCrawler.pack(side="left", padx=5)
 
-    # Button to activate the AI Process
-    buttonAlgo = Button(rahmenCrawler, text="Activate the AI", padx=10, pady=5)
-    buttonAlgo.pack(side="left", padx=5)
+    """Jana: Do we need a button for the AI? I mean, the algorithm is started via the
+    Calculate-Odds-Button. So I replaced that by a button for the data selection of the crawler.
+    But it looks ugly, so I leave that to Hanni :)."""
+    # Button to activate the other Crawler function (date-selected)
+    buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected Data)", padx=30, pady=5,
+                            command=lambda:
+                            fetch_data(int(startYear.get()), int(startDay.get()),
+                                       int(endYear.get()), int(endDay.get())))
+    buttonCrawler2.pack(side="left", padx=5)
 
-    # Setting up a calender to choose the game day
+    # Boxes to choose Dates from
+    chooseStartDay = Label(master=rahmenCrawler, text="Choose first Gameday of Year:")
+    chooseStartDay.pack(side="top", padx=5, pady=5)
+    chooseStartDay.config(font=("TKCaptionFont", 12))
+    startDay = Spinbox(rahmenCrawler, from_=1, to=34)
+    startDay.pack(side="top", padx=5, pady=5)
+    startYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    startYear.pack(side="top", padx=5, pady=5)
+    chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:")
+    chooseEndDay.pack(side="top", padx=5, pady=5)
+    chooseEndDay.config(font=("TKCaptionFont", 12))
+    endDay = Spinbox(rahmenCrawler, from_=1, to=34)
+    endDay.pack(side="top", padx=5, pady=5)
+    endYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    endYear.pack(side="top", padx=5, pady=5)
 
-    chooseDateLable = Label(master=rahmenCalender, text="Choose the day \n of the game")
+    # Setting up a calendar to choose the game day
+
+    chooseDateLable = Label(master=rahmenCalendar, text="Choose the day \n of the game")
     chooseDateLable.pack(side="top", padx=5, pady=5)
     chooseDateLable.config(font=("TKCaptionFont", 12))
 
-    calendar = DateEntry(rahmenCalender, width=12, year=2020, month=11, day=26,
+    calendar = DateEntry(rahmenCalendar, width=12, year=2020, month=11, day=26,
                          background="darkblue", foreground="white", borderwidth=2)
     calendar.pack(side="top", padx=5, pady=5)
 
