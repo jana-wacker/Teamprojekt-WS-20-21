@@ -15,9 +15,7 @@ Function: iterates through the dictionary of data, searches for the two respecti
             
 '''
 
-'''Select the proper data from the original data source and return the new data 
-Variables: original data 
-Function: select the data depending on the homeName and guestName by GUI
+'''
 '''
 
 

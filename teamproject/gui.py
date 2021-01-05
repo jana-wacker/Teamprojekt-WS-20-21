@@ -6,11 +6,11 @@ the poissonDistribution.py module. After that, all algorithms should work.
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from crawler import fetch_data, fetch_all_data
+from teamproject.crawler import fetch_data, fetch_all_data
 from tkcalendar import DateEntry, Calendar
 import csv
 import pkgutil
-import Algorithms
+import teamproject.Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -51,11 +51,11 @@ def main():
     #print(winner)
 
     # Basics für das Window
-    root.geometry("1200x900")
+    root.geometry("1000x1400")
     root.title("Bundesliga Vorhersagen")
     # Variables for the size of the picture
-    x_Picture = 1200
-    y_Picture = 900
+    x_Picture = 1000
+    y_Picture = 1400
 
     '''Trying to set the background picture '''
     background = os.path.join(os.path.dirname(__file__), 'field.jpg')
@@ -127,7 +127,6 @@ def main():
     clicked1 /2 : These is the Team the user selected, at the beginning it is set the FIRST team in the list 
     # Jana: We don't need this method anymore since the created lists do not have keys
     The method *teamsHome.keys() puts all of the keys, from the teamsHome List into the dropdown menu. 
-
     '''
     # Dropdowns f�r Mannschaften1
     firstTeamHome = teamsHome[0]
@@ -157,7 +156,7 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    package = Algorithms
+    package = teamproject.Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',
@@ -226,4 +225,3 @@ def main():
     calendar.pack(side="top", padx=5, pady=5)
 
     root.mainloop()
-

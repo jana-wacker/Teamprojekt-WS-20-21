@@ -31,6 +31,22 @@ def encapsulation(data):
 
 # print(encapsulation(data))
 
+#############################################################################################################
+'''count the total number from encapsulation data to get the count of matches
+
+Variables: encapsulation data 
+Function: count the match 
+'''
+
+def checkMatch(data):
+    checkData = data.loc[(data['HomeTeam'] == homeName) & (data['AwayTeam'] == guestName)]
+    matchNumber=len(checkData)
+    return matchNumber
+
+#print(checkMatch(encapsulation(data)))
+
+#############################################################################################################
+
 
 '''Build a more general Poisson regression model
 Variables: new data 
@@ -67,7 +83,7 @@ Function: 1. Use the previous Poission distribution model
 def HomeTeamWin(homeName, guestName, data):
     PredictionHomeGoals = goal_model(data).predict(
         pd.DataFrame(data={'team': homeName, 'opponent': guestName, 'home': 1}, index=[1]))
-    return PredictionHomeGoals
+    return PredictionHomeGoals.values[0]
 
 
 # print(HomeTeamWin(encapsulation(data)))
@@ -85,7 +101,7 @@ Function: 1. Use the previous Poisson distribution model
 def AwayTeamWin(homeName, guestName, data):
     PredictionAwayGoals = goal_model(data).predict(
         pd.DataFrame(data={'team': guestName, 'opponent': homeName, 'home': 0}, index=[1]))
-    return PredictionAwayGoals
+    return PredictionAwayGoals.values[0]
 
 
 # print(AwayTeamWin(encapsulation(data)))
@@ -189,14 +205,14 @@ Usage: To be called in the GUI button "Activate the AI"
 # Method for the results to be called in the GUI button to predict results
 def predict(homeName, guestName, data):
     data = encapsulation(data)
-    #if matchNumber(data) == 0:
-     #   showinfo("Prediction", "Sorry, there was no game between these two teams.")
-    #else:
-    result = {'Home Team': homeName,
+    if checkMatch(data) == 0:
+        showinfo("Prediction", "Sorry, there was no game between these two teams.")
+    else:
+        result = {'Home Team': homeName,
                   'Away Team': guestName,
                   'Home team win ratio': PredictHomeTeamGoal(homeName, guestName, data),
                   'Home and away team tie ratio': PredictTied(homeName, guestName, data),
                   'Away team win ratio': PredictAwayTeamGoal(homeName, guestName, data),
                   'Home team score': HomeTeamWin(homeName, guestName, data),
                   'Away team score': AwayTeamWin(homeName, guestName, data)}
-    showinfo("Prediction - Poisson Distribution", result)
+        showinfo("Prediction - Poisson Distribution", result)
