@@ -51,11 +51,11 @@ def main():
     #print(winner)
 
     # Basics für das Window
-    root.geometry("1200x900")
+    root.geometry("1800x1000")
     root.title("Bundesliga Vorhersagen")
     # Variables for the size of the picture
-    x_Picture = 1200
-    y_Picture = 900
+    x_Picture = 1800
+    y_Picture = 1000
 
     '''Trying to set the background picture '''
     background = os.path.join(os.path.dirname(__file__), 'field.jpg')
@@ -73,43 +73,43 @@ def main():
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
                     bg="light green")
     myLable.pack(side="top", padx=10)
-    myLable.config(font=("Times", 17))
+    myLable.config(font=("Times", 20))
 
     # Marking where the lables start, depending on the size of the main window
     begin_Labels = x_Picture / 4
 
     '''Setting up all the frames to insert the labels and the buttons into '''
-    rahmenBelow = Frame(master=root, bg="purple")
+    rahmenBelow = Frame(master=root, bg="lightblue1")
     rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=200)
 
-    rahmenMiddle = Frame(master=root, bg="firebrick")
+    rahmenMiddle = Frame(master=root, bg="cadetblue1")
     rahmenMiddle.pack(side="left", padx=begin_Labels, pady=5)
 
-    rahmenTeamHome = Frame(master=rahmenMiddle, bg="forest green")
+    rahmenTeamHome = Frame(master=rahmenMiddle, bg="cadetblue3")
     rahmenTeamHome.pack(side="left", padx=5, pady=5)
 
-    rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cornflower blue")
+    rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cadetblue3")
     rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
-    rahmenCalendar = Frame(master=rahmenMiddle, bg="cadet blue")
-    rahmenCalendar.pack(side="top", padx=15, pady=15)
+    rahmenCalender = Frame(master=rahmenMiddle, bg="cadetblue4")
+    rahmenCalender.pack(side="top", padx=15, pady=15)
 
-    rahmenAlgo = Frame(master=rahmenBelow, bg="lightblue")
+    rahmenAlgo = Frame(master=rahmenBelow, bg="lightsteelblue2")
     rahmenAlgo.pack(side="left", padx=5, pady=5)
 
-    rahmenCrawler = Frame(master=rahmenBelow, bg="lightgreen")
+    rahmenCrawler = Frame(master=rahmenBelow, bg="lightsteelblue3")
     rahmenCrawler.pack(side="left", padx=5, pady=5)
 
     # All of the labels
-    settingsLable = Label(rahmenCrawler, text="Activate the AI or Start the Crawler here:", bg="silver")
+    settingsLable = Label(rahmenCrawler, text="Activate the AI or Start the Crawler here:", bg="lightyellow2")
     settingsLable.pack(side="top", padx=5)
     settingsLable.config(font=("TKCaptionFont", 12))
 
-    dropLable1 = Label(master=rahmenTeamHome, text="Choose the Home Team:", bg="mediumblue", fg="yellow")
+    dropLable1 = Label(master=rahmenTeamHome, text="Choose the Home Team:", bg="royalblue1", fg="lightcyan1")
     dropLable1.pack(side="top", padx=5, pady=5)
     dropLable1.config(font=("TKCaptionFont", 12))
 
-    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
+    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="lightcyan1", fg="royalblue1")
     dropLable2.pack(side="top", padx=5, pady=5)
     dropLable2.config(font=("TKCaptionFont", 12))
 
@@ -187,7 +187,7 @@ def main():
     # Buttons to activate the search for the data
     buttonCrawler = Button(rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10, pady=5,
                            command=fetch_all_data)
-    buttonCrawler.pack(side="left", padx=5)
+    buttonCrawler.pack(side="top", padx=5)
 
     """Jana: Do we need a button for the AI? I mean, the algorithm is started via the
     Calculate-Odds-Button. So I replaced that by a button for the data selection of the crawler.
@@ -197,17 +197,19 @@ def main():
                             command=lambda:
                             fetch_data(int(startYear.get()), int(startDay.get()),
                                        int(endYear.get()), int(endDay.get())))
-    buttonCrawler2.pack(side="left", padx=5)
+    buttonCrawler2.pack(side="top", padx=5)
 
     # Boxes to choose Dates from
-    chooseStartDay = Label(master=rahmenCrawler, text="Choose first Gameday of Year:")
+    chooseStartDay = Label(master=rahmenCrawler, text="Choose first Gameday of Year:", bg="lightyellow1")
     chooseStartDay.pack(side="top", padx=5, pady=5)
     chooseStartDay.config(font=("TKCaptionFont", 12))
+
     startDay = Spinbox(rahmenCrawler, from_=1, to=34)
     startDay.pack(side="top", padx=5, pady=5)
     startYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
     startYear.pack(side="top", padx=5, pady=5)
-    chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:")
+
+    chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:", bg="lightyellow1")
     chooseEndDay.pack(side="top", padx=5, pady=5)
     chooseEndDay.config(font=("TKCaptionFont", 12))
     endDay = Spinbox(rahmenCrawler, from_=1, to=34)
