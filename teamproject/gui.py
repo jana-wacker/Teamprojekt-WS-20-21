@@ -1,19 +1,19 @@
 """
-Jana: The prototype works now :) But I only included one algorithm (the minimal one) so far.
-The choice of algorithm should be automized in the future.
+Jana: The prototype works now :) The algorithm-choice is automatised now, but I am currently reworking
+the poissonDistribution.py module. After that, all algorithms should work.
 """
 
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from teamproject.crawler import fetch_all_data
-from teamproject.Algorithms.MinimalerVorhersageAlgo import predict
-from tkcalendar import DateEntry
+from crawler import fetch_data, fetch_all_data
+from tkcalendar import DateEntry, Calendar
 import csv
 import pkgutil
-import teamproject.Algorithms
+import Algorithms
 import tkinter.font as font
-#import pandas as pd
+import os
+import importlib
 
 
 root = Tk()
@@ -22,9 +22,10 @@ root = Tk()
 # Otherwise the program won't open.
 #fetch_all_data()
 
+alldata = os.path.join(os.path.dirname(__file__), 'Alldata.csv')
 
 def getTeams():
-    with open('Alldata.csv', newline='', encoding="utf8") as all_data_raw:
+    with open(alldata, newline='', encoding="utf8") as all_data_raw:
         Teams = []
         all_data = csv.DictReader(all_data_raw, delimiter=',')
         for row in all_data:
@@ -34,7 +35,7 @@ def getTeams():
 
 
 # Needed by the Vorhersage_Algo
-data = pd.read_csv("Alldata.csv")
+data = pd.read_csv(alldata)
 
 def main():
     """
@@ -57,7 +58,8 @@ def main():
     y_Picture = 900
 
     '''Trying to set the background picture '''
-    image1 = Image.open("field.jpg")
+    background = os.path.join(os.path.dirname(__file__), 'field.jpg')
+    image1 = Image.open(background)
     image1_resized = image1.resize((x_Picture, y_Picture), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
 
@@ -65,7 +67,7 @@ def main():
     lable_background.image = pic_ready
     lable_background.place(x=0, y=0)
 
-    lable_background.config(x_Picture, y_Picture)
+    #lable_background.config(x_Picture, y_Picture)
 
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
@@ -89,8 +91,8 @@ def main():
     rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cornflower blue")
     rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
-    rahmenCalender = Frame(master=rahmenMiddle, bg="cadet blue")
-    rahmenCalender.pack(side="top", padx=15, pady=15)
+    rahmenCalendar = Frame(master=rahmenMiddle, bg="cadet blue")
+    rahmenCalendar.pack(side="top", padx=15, pady=15)
 
     rahmenAlgo = Frame(master=rahmenBelow, bg="lightblue")
     rahmenAlgo.pack(side="left", padx=5, pady=5)
@@ -107,14 +109,6 @@ def main():
     dropLable1.pack(side="top", padx=5, pady=5)
     dropLable1.config(font=("TKCaptionFont", 12))
 
-    # Button to calculate odds,call function to predict the winner from the other script
-    '''Does not work yet 
-    -the button is all the way up there because otherwise the frames are arranged weirdly... '''
-    # startPrediction = partial (predict, syn1(), sync2(), data)
-    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=myFont, bg="orange",
-                        command=lambda: predict(sync1(), sync2(), data))
-    buttonOdds.pack(side="left", padx=40, pady=40)
-
     dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="yellow", fg="mediumblue")
     dropLable2.pack(side="top", padx=5, pady=5)
     dropLable2.config(font=("TKCaptionFont", 12))
@@ -123,10 +117,10 @@ def main():
     chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
     chooseCrawlerLabel.config(font=("TKCaptionFont", 12))
 
-    # Bsp List for TeamHome
+    # List for TeamHome
     teamsHome = getTeams()
 
-    # Bsp List for TeamGuest
+    # List for TeamGuest
     teamsGuest = getTeams()
 
     '''Setup of the dropdown menus for the teams 
@@ -163,8 +157,7 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    """Jana: Don't know why there's an error"""
-    package = teamproject.Algorithms
+    package = Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',
@@ -174,28 +167,61 @@ def main():
 
     selectedAlgo = list(Algos)[0]
     clicked3 = StringVar()
-    clicked3.set(firstAlgo)
+    clicked3.set(selectedAlgo)
     dropDownAlgo = OptionMenu(rahmenAlgo, clicked3, *Algos)
     dropDownAlgo.pack(side="top", padx=5)
     clicked3.set(selectedAlgo)
-    dropDownAlgo = OptionMenu(root, clicked3, *Algos)
-    dropDownAlgo.grid(row=13, column=1)
+
+    # Imports chosen module for prediction
+    def syncAlgo():
+        module = importlib.import_module(clicked3.get())
+        return module
+
+    # Button to calculate odds,call function to predict the winner from the other script
+    '''The button is all the way up there because otherwise the frames are arranged weirdly... '''
+    # When clicked, prediction of the chosen model is triggered
+    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
+                        command=lambda: syncAlgo().predict(sync1(), sync2(), data))
+    buttonOdds.pack(side="left", padx=40, pady=40)
 
     # Buttons to activate the search for the data
-    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler", padx=10, pady=5)
+    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10, pady=5,
+                           command=fetch_all_data)
     buttonCrawler.pack(side="left", padx=5)
 
-    # Button to activate the AI Process
-    buttonAlgo = Button(rahmenCrawler, text="Activate the AI", padx=10, pady=5)
-    buttonAlgo.pack(side="left", padx=5)
+    """Jana: Do we need a button for the AI? I mean, the algorithm is started via the
+    Calculate-Odds-Button. So I replaced that by a button for the data selection of the crawler.
+    But it looks ugly, so I leave that to Hanni :)."""
+    # Button to activate the other Crawler function (date-selected)
+    buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected Data)", padx=30, pady=5,
+                            command=lambda:
+                            fetch_data(int(startYear.get()), int(startDay.get()),
+                                       int(endYear.get()), int(endDay.get())))
+    buttonCrawler2.pack(side="left", padx=5)
 
-    # Setting up a calender to choose the game day
+    # Boxes to choose Dates from
+    chooseStartDay = Label(master=rahmenCrawler, text="Choose first Gameday of Year:")
+    chooseStartDay.pack(side="top", padx=5, pady=5)
+    chooseStartDay.config(font=("TKCaptionFont", 12))
+    startDay = Spinbox(rahmenCrawler, from_=1, to=34)
+    startDay.pack(side="top", padx=5, pady=5)
+    startYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    startYear.pack(side="top", padx=5, pady=5)
+    chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:")
+    chooseEndDay.pack(side="top", padx=5, pady=5)
+    chooseEndDay.config(font=("TKCaptionFont", 12))
+    endDay = Spinbox(rahmenCrawler, from_=1, to=34)
+    endDay.pack(side="top", padx=5, pady=5)
+    endYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    endYear.pack(side="top", padx=5, pady=5)
 
-    chooseDateLable = Label(master=rahmenCalender, text="Choose the day \n of the game")
+    # Setting up a calendar to choose the game day
+
+    chooseDateLable = Label(master=rahmenCalendar, text="Choose the day \n of the game")
     chooseDateLable.pack(side="top", padx=5, pady=5)
     chooseDateLable.config(font=("TKCaptionFont", 12))
 
-    calendar = DateEntry(rahmenCalender, width=12, year=2020, month=11, day=26,
+    calendar = DateEntry(rahmenCalendar, width=12, year=2020, month=11, day=26,
                          background="darkblue", foreground="white", borderwidth=2)
     calendar.pack(side="top", padx=5, pady=5)
 

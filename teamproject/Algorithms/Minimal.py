@@ -3,7 +3,6 @@ method, so that all encounters had the same result.
 I included the dataSource() method in predict(). That seemed to fix it."""
 import pandas as pd
 from tkinter.messagebox import showinfo
-#data = pd.read_csv("../Alldata.csv")
 
 # use for plotting data
 pd.set_option('display.max_columns', 10)
@@ -16,7 +15,7 @@ Function: iterates through the dictionary of data, searches for the two respecti
             
 '''
 
-'''Select the proper data from the orginal data source and return the new data 
+'''Select the proper data from the original data source and return the new data 
 Variables: original data 
 Function: select the data depending on the homeName and guestName by GUI
 '''
@@ -79,7 +78,7 @@ def ProHomeLoss(data):
 #######################################################################################################
 '''Get the procentage, when the teams tie.
 Variables: new data
-Function: get the tie procentage of home team
+Function: get the tie percentage of home team
 '''
 
 
@@ -100,7 +99,7 @@ def ProHomeTied(data):
 Variables: new data 
 Function: 1. Check if there are any matches, if not, tell user 
           2. If there are matches, create an array with all the results 
-          Results: call all the definied methods above with the two variables, store output in array 
+          Results: call all the defined methods above with the two variables, store output in array 
           3. print out the array with results 
           
 Usage: To be called in the GUI button "Activate the AI" 
@@ -111,7 +110,7 @@ Usage: To be called in the GUI button "Activate the AI"
 def predict(homeName, guestName, data):
     data = dataSource(homeName, guestName, data)
     if matchNumber(data) == 0:
-        showinfo("Prediction" ,"Sorry, there was no game between these two teams.")
+        showinfo("Prediction", "Sorry, there was no game between these two teams.")
     else:
         result = {'Home Team Name': homeName,
                   'Away Team Name': guestName,
@@ -119,5 +118,5 @@ def predict(homeName, guestName, data):
                   'Home team win ratio': ProHomeWin(data),
                   'Home team loss ratio': ProHomeLoss(data),
                   'Home and away team tie ratio': ProHomeTied(data)}
-        showinfo("Prediction", result)
+        showinfo("Prediction - Minimal", result)
 #predict('VfL Wolfsburg', 'VfB Stuttgart', data)
