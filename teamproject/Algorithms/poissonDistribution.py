@@ -38,7 +38,7 @@ Variables: encapsulation data
 Function: count the match 
 '''
 
-def checkMatch(data):
+def checkMatch(homeName, guestName, data):
     checkData = data.loc[(data['HomeTeam'] == homeName) & (data['AwayTeam'] == guestName)]
     matchNumber=len(checkData)
     return matchNumber
@@ -205,7 +205,7 @@ Usage: To be called in the GUI button "Activate the AI"
 # Method for the results to be called in the GUI button to predict results
 def predict(homeName, guestName, data):
     data = encapsulation(data)
-    if checkMatch(data) == 0:
+    if checkMatch(homeName, guestName, data) == 0:
         showinfo("Prediction", "Sorry, there was no game between these two teams.")
     else:
         result = {'Home Team': homeName,
