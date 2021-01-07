@@ -1,8 +1,3 @@
-"""
-Jana: The prototype works now :) The algorithm-choice is automatised now, but I am currently reworking
-the poissonDistribution.py module. After that, all algorithms should work.
-"""
-
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
@@ -15,14 +10,14 @@ import tkinter.font as font
 import os
 import importlib
 
-
 root = Tk()
 
 # Jana: This is not fixed yet, we need to fetch the data first when the csv is emtpy.
 # Otherwise the program won't open.
-#fetch_all_data()
+# fetch_all_data()
 
 alldata = os.path.join(os.path.dirname(__file__), 'Alldata.csv')
+
 
 def getTeams():
     with open(alldata, newline='', encoding="utf8") as all_data_raw:
@@ -37,6 +32,7 @@ def getTeams():
 # Needed by the Vorhersage_Algo
 data = pd.read_csv(alldata)
 
+
 def main():
     """
     Creates and shows the main window  .
@@ -45,10 +41,10 @@ def main():
 
     # For demo purposes, this is how you could access methods from other
     # modules:
-    #matchNumber = Vorhersage_Algo.matchNumber()
-    #model = ExperienceAlwaysWins(data)
-    #winner = model.predict_winner('T�bingen', 'Leverkusen')
-    #print(winner)
+    # matchNumber = Vorhersage_Algo.matchNumber()
+    # model = ExperienceAlwaysWins(data)
+    # winner = model.predict_winner('T�bingen', 'Leverkusen')
+    # print(winner)
 
     # Basics für das Window
     root.geometry("1800x1000")
@@ -67,7 +63,7 @@ def main():
     lable_background.image = pic_ready
     lable_background.place(x=0, y=0)
 
-    #lable_background.config(x_Picture, y_Picture)
+    # lable_background.config(x_Picture, y_Picture)
 
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
@@ -91,8 +87,8 @@ def main():
     rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cadetblue3")
     rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
-    rahmenCalender = Frame(master=rahmenMiddle, bg="cadetblue4")
-    rahmenCalender.pack(side="top", padx=15, pady=15)
+    rahmenCalendar = Frame(master=rahmenMiddle, bg="cadetblue4")
+    rahmenCalendar.pack(side="top", padx=15, pady=15)
 
     rahmenAlgo = Frame(master=rahmenBelow, bg="lightsteelblue2")
     rahmenAlgo.pack(side="left", padx=5, pady=5)
@@ -133,8 +129,6 @@ def main():
     clicked1 = StringVar(root)
     clicked1.set(firstTeamHome)
     dropDown1 = OptionMenu(rahmenTeamHome, clicked1, *teamsHome)
-    # This is for the Algo section, to know which team is selected
-    homeTeam = clicked1.get()
     dropDown1.pack(side="top", padx=5, pady=5)
 
     # Dropdowns f�r Mannschaften2
@@ -142,14 +136,12 @@ def main():
     clicked2 = StringVar(root)
     clicked2.set(firstTeamGuest)
     dropDown2 = OptionMenu(rahmenTeamGuest, clicked2, *teamsGuest)
-    # This is for the Algo section, to know which team is selected
-    guestTeam = clicked2.get()
     dropDown2.pack(side="top", padx=5, pady=5)
-
 
     # syncs clicks [ZWISCHENLÖSUNG]
     def sync1():
         return clicked1.get()
+
     def sync2():
         return clicked2.get()
 
@@ -162,7 +154,6 @@ def main():
                                                           prefix=package.__name__ + '.',
                                                           onerror=lambda x: None):
         Algos.append(modname)
-
 
     selectedAlgo = list(Algos)[0]
     clicked3 = StringVar()
