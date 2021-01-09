@@ -43,3 +43,7 @@ htmlcov
 .*~
 .*.swp
 _build
+
+# Virtual Machine
+venv
+.idea
