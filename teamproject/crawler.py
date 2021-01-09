@@ -26,12 +26,12 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
     team2points = []
     location = []
     date = []
+    matchday = []
 
     # Two while loops to go through the different years and gamedays
     while year < UntilYear:
-        year = year + 1
 
-        while gameday < UntilGameday:
+        while gameday <= 34:
 
             # The data from the URL is saved in a dictionary
             r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
@@ -45,6 +45,38 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                     team1points.append(i['MatchResults'][0]['PointsTeam1'])
                     team2points.append(i['MatchResults'][0]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
+                    matchday.append(i['Group']['GroupOrderID'])
+                    if i['Location'] is None:
+                        location.append('Unbekannt')
+                    else:
+                        location.append(i['Location']['LocationCity'])
+
+                else:
+                    continue
+            gameday = gameday + 1
+
+        year = year + 1
+        gameday = 1
+
+    # Condition to see if the year equals UntilYear
+    if year == UntilYear:
+
+        # The loop goes through all the gamedays in UntilYear
+        while gameday <= UntilGameday:
+
+            # The data from the URL is saved in a dictionary
+            r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
+            r_dict = r.json()
+
+            # The loop goes through all the information in the dictionary and adds the information to the right array
+            for i in r_dict:
+                if i['MatchIsFinished']:
+                    team1.append(i['Team1']['TeamName'])
+                    team2.append(i['Team2']['TeamName'])
+                    team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                    team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    date.append(i['MatchDateTimeUTC'])
+                    matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
                         location.append('Unbekannt')
                     else:
@@ -53,21 +85,22 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                 else:
                     continue
 
-            # Creating a dictionary with all the relevant information
-            data = {
-                'Location': location,
-                'Date': date,
-                'Team1': team1,
-                'GoalsTeam1': team1points,
-                'GoalsTeam2': team2points,
-                'Team2': team2
-            }
-
-            # Creating a CSV file to store the information
-            df = pd.DataFrame(data)
-            df.to_csv('Crawler.csv', index=False)
-
             gameday = gameday + 1
+
+    # Creating a dictionary with all the relevant information
+    data = {
+        'Location': location,
+        'Date': date,
+        'Team1': team1,
+        'GoalsTeam1': team1points,
+        'GoalsTeam2': team2points,
+        'Team2': team2
+        }
+
+    # Creating a CSV file to store the information
+    df = pd.DataFrame(data)
+    df.to_csv('Crawler.csv', index=False)
+
     showinfo("Activate Crawler", "Selected data fetched.")
 
 
@@ -85,6 +118,7 @@ def fetch_all_data():
     team2points = []
     location = []
     date = []
+
 
     while year < 2021:
         r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year))

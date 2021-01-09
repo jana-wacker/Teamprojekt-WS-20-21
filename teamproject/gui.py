@@ -1,16 +1,16 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from crawler import fetch_data, fetch_all_data
+from teamproject.crawler import fetch_data, fetch_all_data
 from tkcalendar import DateEntry, Calendar
 import csv
 import pkgutil
-import Algorithms
+import teamproject.Algorithms
 import tkinter.font as font
 import os
 import importlib
 
-root = Tk()
+
 
 # Jana: This is not fixed yet, we need to fetch the data first when the csv is emtpy.
 # Otherwise the program won't open.
@@ -34,6 +34,7 @@ data = pd.read_csv(alldata)
 
 
 def main():
+    root = Tk()
     """
     Creates and shows the main window  .
     """
@@ -49,6 +50,7 @@ def main():
     # Basics für das Window
     root.geometry("1800x1000")
     root.title("Bundesliga Vorhersagen")
+
     # Variables for the size of the picture
     x_Picture = 1800
     y_Picture = 1000
@@ -59,11 +61,11 @@ def main():
     image1_resized = image1.resize((x_Picture, y_Picture), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
 
-    lable_background = Label(image=pic_ready)
+    lable_background = Label(root, image=pic_ready)
     lable_background.image = pic_ready
-    lable_background.place(x=0, y=0)
+    lable_background.place(x=0, y=0, relwidth=1, relheight=1)
 
-    # lable_background.config(x_Picture, y_Picture)
+    #lable_background.config(x_Picture, y_Picture)
 
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
@@ -148,7 +150,7 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    package = Algorithms
+    package = teamproject.Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',
@@ -218,3 +220,6 @@ def main():
     calendar.pack(side="top", padx=5, pady=5)
 
     root.mainloop()
+
+if __name__ == '__main__':
+    main()
