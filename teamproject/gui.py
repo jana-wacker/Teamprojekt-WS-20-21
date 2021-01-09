@@ -1,11 +1,11 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from teamproject.crawler import fetch_data, fetch_all_data
+from crawler import fetch_data, fetch_all_data
 from tkcalendar import DateEntry, Calendar
 import csv
 import pkgutil
-import teamproject.Algorithms
+import Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -48,12 +48,12 @@ def main():
     # print(winner)
 
     # Basics für das Window
-    root.geometry("1800x1000")
+    root.geometry("800x600")
     root.title("Bundesliga Vorhersagen")
 
     # Variables for the size of the picture
-    x_Picture = 1800
-    y_Picture = 1000
+    x_Picture = 800
+    y_Picture = 600
 
     '''Trying to set the background picture '''
     background = os.path.join(os.path.dirname(__file__), 'field.jpg')
@@ -150,7 +150,7 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    package = teamproject.Algorithms
+    package = Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',

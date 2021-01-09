@@ -108,7 +108,8 @@ Usage: To be called in the GUI button "Activate the AI"
 def predict(homeName, guestName, data):
     data = dataSource(homeName, guestName, data)
     if matchNumber(data) == 0:
-        showinfo("Prediction", "Sorry, there was no game between these two teams.")
+        showinfo("Prediction", "Sorry, the data is incomplete and cannot be used for prediction! "
+                               "Please choose other teams or time!")
     else:
         result = {'Home Team Name': homeName,
                   'Away Team Name': guestName,
