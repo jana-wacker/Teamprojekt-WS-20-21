@@ -27,6 +27,7 @@ def getTeams():
         for row in all_data:
             if row['Team1'] not in Teams:
                 Teams.append(row['Team1'])
+    Teams.sort()
     return Teams
 
 
@@ -56,14 +57,16 @@ def main():
     '''Trying to set the background picture '''
     background = os.path.join(os.path.dirname(__file__), 'field.jpg')
     image1 = Image.open(background)
-    image1_resized = image1.resize((x_Picture, y_Picture), Image.ANTIALIAS)
+    image1_resized = image1.resize((1800, 1600), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
+
 
     lable_background = Label(root, image=pic_ready)
     lable_background.image = pic_ready
     lable_background.place(x=0, y=0, relwidth=1, relheight=1)
 
     #lable_background.config(x_Picture, y_Picture)
+
 
     # Lable for the header
     myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
@@ -176,9 +179,6 @@ def main():
                            command=fetch_all_data)
     buttonCrawler.pack(side="top", padx=5)
 
-    """Jana: Do we need a button for the AI? I mean, the algorithm is started via the
-    Calculate-Odds-Button. So I replaced that by a button for the data selection of the crawler.
-    But it looks ugly, so I leave that to Hanni :)."""
     # Button to activate the other Crawler function (date-selected)
     buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected data)", padx=30, pady=5,
                             command=lambda:
@@ -217,8 +217,6 @@ def main():
     # Display of Matchdays
     currentYear = datetime.now().year
     currentDate = datetime.now().date()
-
-
 
     root.mainloop()
 
