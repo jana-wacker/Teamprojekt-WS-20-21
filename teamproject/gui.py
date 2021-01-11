@@ -27,6 +27,7 @@ def getTeams():
         for row in all_data:
             if row['Team1'] not in Teams:
                 Teams.append(row['Team1'])
+    Teams.sort()
     return Teams
 
 

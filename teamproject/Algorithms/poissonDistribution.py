@@ -216,4 +216,16 @@ def predict(homeName, guestName, data):
                   'Away team win ratio': PredictAwayTeamGoal(homeName, guestName, data),
                   'Home team score': HomeTeamWin(homeName, guestName, data),
                   'Away team score': AwayTeamWin(homeName, guestName, data)}
-        showinfo("Prediction - Poisson Distribution", result)
+
+        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+                 'Probability of Home Team winning: ' + \
+                 str(round(result['Home team win ratio']*100)) + ' %' + "\n" + \
+                 'Predicted Goals of Home Team: ' + \
+                 str(round(result['Home team score'])) + "\n" +\
+                 'Probability of Away Team winning: ' + \
+                 str(round(result['Away team win ratio']*100)) + ' %' + "\n" + \
+                 'Predicted Goals of Away Team: ' + \
+                 str(round(result['Away team score'])) + "\n" + \
+                 'Probability of a Draw: ' + \
+                 str(round(result['Home and away team tie ratio']*100)) + ' %'
+        showinfo("Prediction - Poisson Distribution", output)

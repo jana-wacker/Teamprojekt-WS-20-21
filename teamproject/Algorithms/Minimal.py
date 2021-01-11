@@ -117,5 +117,15 @@ def predict(homeName, guestName, data):
                   'Home team win ratio': ProHomeWin(data),
                   'Home team loss ratio': ProHomeLoss(data),
                   'Home and away team tie ratio': ProHomeTied(data)}
-        showinfo("Prediction - Minimal", result)
+
+        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+                 'Number of Matches between the two Teams: ' + \
+                 str(result['Total number of matches']) + "\n" + \
+                 'Probability of Home Team winning: ' + \
+                 str(round(result['Home team win ratio']*100)) + ' %' + "\n" + \
+                 'Probability of Away Team winning: ' + \
+                 str(round(result['Home team loss ratio']*100)) + ' %' + "\n" + \
+                 'Probability of a Draw: ' + \
+                 str(round(result['Home and away team tie ratio']*100)) + ' %'
+        showinfo("Prediction - Minimal", output)
 #predict('VfL Wolfsburg', 'VfB Stuttgart', data)
