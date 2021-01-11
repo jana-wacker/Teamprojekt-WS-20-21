@@ -91,6 +91,7 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
     data = {
         'Location': location,
         'Date': date,
+        'Matchday': matchday,
         'Team1': team1,
         'GoalsTeam1': team1points,
         'GoalsTeam2': team2points,
@@ -118,6 +119,7 @@ def fetch_all_data():
     team2points = []
     location = []
     date = []
+    matchday = []
 
 
     while year < 2021:
@@ -132,6 +134,7 @@ def fetch_all_data():
                 team1points.append(i['MatchResults'][0]['PointsTeam1'])
                 team2points.append(i['MatchResults'][0]['PointsTeam2'])
                 date.append(i['MatchDateTimeUTC'])
+                matchday.append(i['Group']['GroupOrderID'])
                 if i['Location'] is None:
                     location.append('Unbekannt')
                 else:
@@ -144,15 +147,27 @@ def fetch_all_data():
             data = {
                 'Location': location,
                 'Date': date,
+                'Matchday': matchday,
                 'Team1': team1,
                 'GoalsTeam1': team1points,
                 'GoalsTeam2': team2points,
                 'Team2': team2
             }
 
+            gamedates = {
+                'Date': date,
+                'Matchday': matchday
+            }
+
         # Creating a CSV file to store the information
         df = pd.DataFrame(data)
-        df.to_csv('Alldata.csv', index=False)
+        df.to_csv('Crawler.csv', index=False)
+
+        # Creating a CSV file to store the matchdays and the dates
+        df1 = pd.DataFrame(gamedates)
+        df1.to_csv('Gamedates.csv', index=False)
 
         year = year + 1
     showinfo("Activate Crawler", "All data fetched.")
+
+
