@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 import pandas as pd
 from crawler import fetch_data, fetch_all_data
 from tkcalendar import DateEntry, Calendar
+from datetime import datetime
 import csv
 import pkgutil
 import Algorithms
@@ -10,13 +11,13 @@ import tkinter.font as font
 import os
 import importlib
 
-
-
 # Jana: This is not fixed yet, we need to fetch the data first when the csv is emtpy.
 # Otherwise the program won't open.
-# fetch_all_data()
+#fetch_all_data()
 
-alldata = os.path.join(os.path.dirname(__file__), 'Alldata.csv')
+# Needed by the Vorhersage_Algo
+alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
+data = pd.read_csv(alldata)
 
 
 def getTeams():
@@ -28,9 +29,6 @@ def getTeams():
                 Teams.append(row['Team1'])
     return Teams
 
-
-# Needed by the Vorhersage_Algo
-data = pd.read_csv(alldata)
 
 
 def main():
@@ -74,11 +72,11 @@ def main():
     myLable.config(font=("Times", 20))
 
     # Marking where the lables start, depending on the size of the main window
-    begin_Labels = x_Picture / 4
+    begin_Labels = x_Picture / 10
 
     '''Setting up all the frames to insert the labels and the buttons into '''
     rahmenBelow = Frame(master=root, bg="lightblue1")
-    rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=200)
+    rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=10)
 
     rahmenMiddle = Frame(master=root, bg="cadetblue1")
     rahmenMiddle.pack(side="left", padx=begin_Labels, pady=5)
@@ -121,11 +119,7 @@ def main():
     # List for TeamGuest
     teamsGuest = getTeams()
 
-    '''Setup of the dropdown menus for the teams 
-    clicked1 /2 : These is the Team the user selected, at the beginning it is set the FIRST team in the list 
-    # Jana: We don't need this method anymore since the created lists do not have keys
-    The method *teamsHome.keys() puts all of the keys, from the teamsHome List into the dropdown menu. 
-    '''
+    '''Setup of the dropdown menus for the teams'''
     # Dropdowns f�r Mannschaften1
     firstTeamHome = teamsHome[0]
     clicked1 = StringVar(root)
@@ -139,6 +133,7 @@ def main():
     clicked2.set(firstTeamGuest)
     dropDown2 = OptionMenu(rahmenTeamGuest, clicked2, *teamsGuest)
     dropDown2.pack(side="top", padx=5, pady=5)
+
 
     # syncs clicks [ZWISCHENLÖSUNG]
     def sync1():
@@ -185,7 +180,7 @@ def main():
     Calculate-Odds-Button. So I replaced that by a button for the data selection of the crawler.
     But it looks ugly, so I leave that to Hanni :)."""
     # Button to activate the other Crawler function (date-selected)
-    buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected Data)", padx=30, pady=5,
+    buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected data)", padx=30, pady=5,
                             command=lambda:
                             fetch_data(int(startYear.get()), int(startDay.get()),
                                        int(endYear.get()), int(endDay.get())))
@@ -198,7 +193,7 @@ def main():
 
     startDay = Spinbox(rahmenCrawler, from_=1, to=34)
     startDay.pack(side="top", padx=5, pady=5)
-    startYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    startYear = Spinbox(rahmenCrawler, from_=2004, to= datetime.now().year)
     startYear.pack(side="top", padx=5, pady=5)
 
     chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:", bg="lightyellow1")
@@ -206,7 +201,7 @@ def main():
     chooseEndDay.config(font=("TKCaptionFont", 12))
     endDay = Spinbox(rahmenCrawler, from_=1, to=34)
     endDay.pack(side="top", padx=5, pady=5)
-    endYear = Spinbox(rahmenCrawler, from_=2004, to=2021)
+    endYear = Spinbox(rahmenCrawler, from_=2004, to= datetime.now().year)
     endYear.pack(side="top", padx=5, pady=5)
 
     # Setting up a calendar to choose the game day
@@ -218,6 +213,12 @@ def main():
     calendar = DateEntry(rahmenCalendar, width=12, year=2020, month=11, day=26,
                          background="darkblue", foreground="white", borderwidth=2)
     calendar.pack(side="top", padx=5, pady=5)
+
+    # Display of Matchdays
+    currentYear = datetime.now().year
+    currentDate = datetime.now().date()
+
+
 
     root.mainloop()
 

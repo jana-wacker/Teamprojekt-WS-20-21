@@ -7,6 +7,7 @@ import pandas as pd
 import requests
 import json
 from tkinter.messagebox import showinfo
+from datetime import datetime
 
 """Jana: The input is passed on parametrically via the GUI :) """
 
@@ -122,7 +123,7 @@ def fetch_all_data():
     matchday = []
 
 
-    while year < 2021:
+    while year < datetime.now().year:
         r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year))
         r_dict = r.json()
 
