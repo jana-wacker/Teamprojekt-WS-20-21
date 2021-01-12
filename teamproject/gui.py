@@ -11,15 +11,11 @@ import tkinter.font as font
 import os
 import importlib
 
-# Jana: This is not fixed yet, we need to fetch the data first when the csv is emtpy.
-# Otherwise the program won't open.
-#fetch_all_data()
-
 # Needed by the Vorhersage_Algo
 alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
 data = pd.read_csv(alldata)
 
-
+# Creates a dictionary with all teams, using the Crawler.csv as data basis
 def getTeams():
     with open(alldata, newline='', encoding="utf8") as all_data_raw:
         Teams = []
@@ -30,14 +26,13 @@ def getTeams():
     Teams.sort()
     return Teams
 
-
-
 def main():
-    root = Tk()
     """
     Creates and shows the main window  .
     """
-    # Add code here to create and initialize window.
+    root = Tk()
+    '''Needs to be activated before inital start of the program'''
+    #fetch_all_data()
 
     # For demo purposes, this is how you could access methods from other
     # modules:
@@ -46,7 +41,7 @@ def main():
     # winner = model.predict_winner('T�bingen', 'Leverkusen')
     # print(winner)
 
-    # Basics für das Window
+    # Basics for the window
     root.geometry("800x600")
     root.title("Bundesliga Vorhersagen")
 
@@ -54,12 +49,11 @@ def main():
     x_Picture = 800
     y_Picture = 600
 
-    '''Trying to set the background picture '''
+    # Setting the background
     background = os.path.join(os.path.dirname(__file__), 'field.jpg')
     image1 = Image.open(background)
     image1_resized = image1.resize((1800, 1600), Image.ANTIALIAS)
     pic_ready = ImageTk.PhotoImage(image1_resized)
-
 
     lable_background = Label(root, image=pic_ready)
     lable_background.image = pic_ready
@@ -77,7 +71,7 @@ def main():
     # Marking where the lables start, depending on the size of the main window
     begin_Labels = x_Picture / 10
 
-    '''Setting up all the frames to insert the labels and the buttons into '''
+    # Setting up all the frames to insert the labels and the buttons into
     rahmenBelow = Frame(master=root, bg="lightblue1")
     rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=10)
 
@@ -108,7 +102,7 @@ def main():
     dropLable1.pack(side="top", padx=5, pady=5)
     dropLable1.config(font=("TKCaptionFont", 12))
 
-    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Guest Team:", bg="lightcyan1", fg="royalblue1")
+    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Away Team:", bg="lightcyan1", fg="royalblue1")
     dropLable2.pack(side="top", padx=5, pady=5)
     dropLable2.config(font=("TKCaptionFont", 12))
 
@@ -123,14 +117,14 @@ def main():
     teamsGuest = getTeams()
 
     '''Setup of the dropdown menus for the teams'''
-    # Dropdowns f�r Mannschaften1
+    # Dropdowns Home Team
     firstTeamHome = teamsHome[0]
     clicked1 = StringVar(root)
     clicked1.set(firstTeamHome)
     dropDown1 = OptionMenu(rahmenTeamHome, clicked1, *teamsHome)
     dropDown1.pack(side="top", padx=5, pady=5)
 
-    # Dropdowns f�r Mannschaften2
+    # Dropdowns Away Team
     firstTeamGuest = teamsGuest[0]
     clicked2 = StringVar(root)
     clicked2.set(firstTeamGuest)
@@ -145,7 +139,6 @@ def main():
     def sync2():
         return clicked2.get()
 
-    # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
     package = Algorithms
@@ -168,7 +161,6 @@ def main():
         return module
 
     # Button to calculate odds,call function to predict the winner from the other script
-    '''The button is all the way up there because otherwise the frames are arranged weirdly... '''
     # When clicked, prediction of the chosen model is triggered
     buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
                         command=lambda: syncAlgo().predict(sync1(), sync2(), data))
@@ -210,13 +202,15 @@ def main():
     chooseDateLable.pack(side="top", padx=5, pady=5)
     chooseDateLable.config(font=("TKCaptionFont", 12))
 
-    calendar = DateEntry(rahmenCalendar, width=12, year=2020, month=11, day=26,
-                         background="darkblue", foreground="white", borderwidth=2)
+    calendar = DateEntry(rahmenCalendar, width=12, year=datetime.now().year, month=datetime.now().month,
+                         day=datetime.now().day, background="darkblue", foreground="white", borderwidth=2)
     calendar.pack(side="top", padx=5, pady=5)
 
     # Display of Matchdays
     currentYear = datetime.now().year
     currentDate = datetime.now().date()
+
+    print ( datetime.now().month)
 
     root.mainloop()
 
