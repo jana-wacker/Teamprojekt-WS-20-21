@@ -1,4 +1,4 @@
-S ![A soccer ball](Fußball.png) ccer Predictions 
+Soccer Predictions 
 ---------------
 
 
