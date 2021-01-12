@@ -1,9 +1,7 @@
-Teamproject
------------
+# Soccer Predictions 
 
-This serves as a skeleton for setting up new projects.
 
-Usage
+What does it do? 
 =====
 
 To get started, follow these steps:
@@ -16,7 +14,7 @@ To get started, follow these steps:
   project (e.g. author, project and package names)
 
 
-Environment
+How to use it? 
 ===========
 
 We recommend to setup a clean development environment for this project. This
@@ -44,7 +42,7 @@ Other noteworthy tools for managing environments are
 .. _Pipenv:             https://pipenv.kennethreitz.org/
 
 
-Installation
+Pictures
 ============
 
 Once you've activated the environment, install the current package and its
@@ -53,7 +51,7 @@ dependencies with::
     pip install -e .[dev]
 
 
-Usage
+Necessary packages for Python
 =====
 
 After the package and all dependencies are installed, you can execute the code
@@ -67,7 +65,7 @@ short::
     teamproject
 
 
-Directory structure
+The process of development
 ===================
 
 The following is a short overview of how a python project could be structured::
@@ -91,8 +89,7 @@ The following is a short overview of how a python project could be structured::
         ├── ....
         └── test_models.py
 
-
-Development/Tooling
+Contact to the creators 
 ===================
 
 We recommend to use at least  flake8_ for basic syntax and style checks, and
