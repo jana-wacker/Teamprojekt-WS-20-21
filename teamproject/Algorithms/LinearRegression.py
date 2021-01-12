@@ -41,7 +41,7 @@ def homeAndguest(homeName, guestName, data):
     # and a 0 for away games.
     final = data.loc[((data['Team1'] == homeName) & (data['Team2'] == guestName))|
                      ((data['Team1'] == guestName) & (data['Team2'] == homeName))]
-    final['home_or_away'] = np.where(final['Team1'] == homeName, 1, 0)
+    final.loc[:,('home_or_away')] = np.where(final.loc[:,('Team1')] == homeName, 1, 0)
     final=final.filter(['Team1','Team2','GoalsTeam1','GoalsTeam2','home_or_away'])
     final = final.dropna()
     final.head()
@@ -89,7 +89,7 @@ def percentage(homeName, guestName, data):
     final = final.fillna(final.mean())
     final.head()
     df=final[['home_or_away','HomeWinPercentage','2_percentage_avg']]
-    df['home_or_away'] = df['home_or_away'].astype('float64')
+    df.loc[:,('home_or_away')] = df.loc[:,('home_or_away')].astype('float64')
     return df
 #print(percentage(data))
 
@@ -109,8 +109,8 @@ def score(homeName, guestName, data):
     final = final.dropna()
     final.head()
     df = final[['home_or_away','2_score_avg','score']]
-    df['home_or_away']=df['home_or_away'].astype('float64')
-    df['score']=df['score'].astype('float64')
+    df.loc[:,('home_or_away')]=df.loc[:,('home_or_away')].astype('float64')
+    df.loc[:,('score')]=df.loc[:,('score')].astype('float64')
     return df
 
 #print(score(data).info())
@@ -219,6 +219,8 @@ def homePercentage(homeName, guestName, data):
                         * df['2_percentage_avg'].values[-1]
     if homePercentagePre < 0:
         homePre = 0
+    elif homePercentagePre > 1:
+        homePre = 1
     else:
         homePre = homePercentagePre
     return homePre
@@ -231,6 +233,8 @@ def awayPercentage(homeName, guestName, data):
                         percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1]
     if awayPercentagePre < 0:
         awayPre = 0
+    elif awayPercentagePre > 1:
+        awayPre = 1
     else:
         awayPre = awayPercentagePre
     return awayPre
