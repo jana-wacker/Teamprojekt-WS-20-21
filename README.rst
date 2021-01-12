@@ -48,7 +48,7 @@ The process of development
 
 Structure of the git repository 
 ===================
-The following is a short overview of how our project is structured here on git:
+The following is a short overview of how our project is structured here on git::
 
     .
     ├── README.rst                      project front page
