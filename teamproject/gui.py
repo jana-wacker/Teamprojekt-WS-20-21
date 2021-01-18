@@ -12,6 +12,7 @@ import tkinter.font as font
 import os
 import importlib
 
+
 # Open .csv-files
 alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
 data = pd.read_csv(alldata)
@@ -22,7 +23,7 @@ dates = pd.read_csv(gamedates)
 def getTeams():
     """
     Creates a dictionary with all teams, using the Crawler.csv as data basis
-    :returns: all team-names(dictionary
+    :returns: all team-names(dictionary)
     """
     with open(alldata, newline='', encoding="utf8") as all_data_raw:
         Teams = []
@@ -71,14 +72,14 @@ def main():
     root = Tk()
     '''Needs to be activated before initial start of the program'''
     #fetch_all_data()
-    #fetch_matchday()
+    fetch_matchday()
 
     # Basics for the window
     root.geometry("1000x600")
     root.title("Bundesliga Vorhersagen")
 
     # Variables for the size of the picture
-    x_Picture = 800
+    x_Picture = 1000
     y_Picture = 600
 
     # Setting the background
