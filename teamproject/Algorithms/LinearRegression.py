@@ -241,7 +241,7 @@ def tiedPrecentage(homeName, guestName, data):
 
 def predict(homeName, guestName, data):
     final=homeAndguest(homeName, guestName, data)
-    if(matchCount(homeName, guestName, final))<2:
+    if(matchCount(homeName, guestName, final)<2):
         showinfo("Prediction - Poisson Distribution",
                  "Sorry, the data is incomplete and cannot be used for prediction! "
                  "Please choose other teams or time!")
