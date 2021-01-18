@@ -21,8 +21,8 @@ class gui:
     global y_Picture
 
     def __init__(self, master):
-        fetch_all_data()
-        fetch_matchday()
+        #fetch_all_data()
+        #fetch_matchday()
         self.master = master
 
         # Basics for the window
@@ -92,16 +92,18 @@ class gui:
         self.dropLable1.pack(side="top", padx=5, pady=5)
         self.dropLable1.config(font=(self.font, 12))
 
-        self.dropLable2 = tk.Label(master=self.rahmenTeamGuest, text="Choose the Away Team:", bg="lightcyan1",
-                                   fg="royalblue1")
+        self.dropLable2 = tk.Label(master=self.rahmenTeamGuest, text="Choose the Away Team:", bg="royalblue1",
+                                   fg="lightcyan1")
         self.dropLable2.pack(side="top", padx=5, pady=5)
         self.dropLable2.config(font=(self.font, 12))
 
-        self.chooseCrawlerLabel = tk.Label(master=self.rahmenAlgo, text="Choose an Algorithm for calculation:")
+        self.chooseCrawlerLabel = tk.Label(master=self.rahmenAlgo, text="Choose an Algorithm for calculation:",
+                                           bg="lightyellow1")
         self.chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
         self.chooseCrawlerLabel.config(font=(self.font, 12))
 
-        self.chooseDateLable = tk.Label(master=self.rahmenCalendar, text="Choose the day \n of the game")
+        self.chooseDateLable = tk.Label(master=self.rahmenCalendar, text="Choose the day \n of the game",
+                                        bg="lightyellow1")
         self.chooseDateLable.pack(side="top", padx=5, pady=5)
         self.chooseDateLable.config(font=(self.font, 12))
 
@@ -109,16 +111,14 @@ class gui:
         self.matchdaysLabel.pack(side="top", padx=5, pady=5)
         self.matchdaysLabel.config(font=(self.font, 12))
 
-        # List for TeamHome
+        # List for Teams
         teams = self.getTeams()
 
-        '''Setup of the dropdown menus for the teams'''
         # Dropdowns Home Team
-
         self.clicked1 = tk.StringVar()
         self.clicked1.set(teams[0])
-        dropDown1 = tk.OptionMenu(self.rahmenTeamHome, self.clicked1, *teams)
-        dropDown1.pack(side="top", padx=5, pady=5)
+        self.dropDown1 = tk.OptionMenu(self.rahmenTeamHome, self.clicked1, *teams)
+        self.dropDown1.pack(side="top", padx=5, pady=5)
 
         # Dropdowns Away Team
         self.clicked2 = tk.StringVar(self.rahmenTeamGuest)
