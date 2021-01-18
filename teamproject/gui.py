@@ -1,12 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import pandas as pd
-from teamproject.crawler import fetch_data, fetch_all_data
+from crawler import fetch_data, fetch_all_data
 from tkcalendar import DateEntry, Calendar
 from datetime import datetime
 import csv
 import pkgutil
-import teamproject.Algorithms
+import Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -146,7 +146,7 @@ def main():
     # [ZWISCHENLÖSUNG]
     # The choice of an algorithm
     # Import from package "Algorithms"
-    package = teamproject.Algorithms
+    package = Algorithms
     Algos = []
     for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                           prefix=package.__name__ + '.',

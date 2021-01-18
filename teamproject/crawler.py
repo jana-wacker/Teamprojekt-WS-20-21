@@ -2,14 +2,43 @@
 This module contains code to fetch required data from the internet and convert
 it to our internal format.
 """
-
 import pandas as pd
 import requests
 import json
 from tkinter.messagebox import showinfo
 from datetime import datetime
 
-"""Jana: The input is passed on parametrically via the GUI :) """
+def fetch_matchday():
+    """Query data of the next match day and return in our internal format."""
+    gameday = 1
+    team1 = []
+    team2 = []
+    nextMatches = []
+    match_nr = []
+
+    while gameday <= 34:
+        r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + (str(datetime.now().year-1)) + '/' + str(gameday))
+        r_dict = r.json()
+
+        for i in r_dict:
+            if (i['MatchIsFinished'] == False):
+                team1.append(i['Team1']['TeamName'])
+                team2.append(i['Team2']['TeamName'])
+                nextMatches.append(i['MatchDateTimeUTC'])
+                match_nr.append(i['Group']['GroupName'])
+
+        gameday = gameday +1
+
+    data = {
+        'Matchday': nextMatches,
+        'Team1': team1,
+        'Team2': team2,
+        'MatchNr': match_nr
+    }
+
+    # Creating a CSV file to store the information
+    df = pd.DataFrame(data)
+    df.to_csv('Matchdays.csv', index=False)
 
 def fetch_data(year, gameday, UntilYear, UntilGameday):
     """
@@ -163,6 +192,8 @@ def fetch_all_data():
         # Creating a CSV file to store the information
         df = pd.DataFrame(data)
         df.to_csv('Crawler.csv', index=False)
+
+        """Jana: das könnte dann quasi weg, falls wir's nicht mehr brauchen :)"""
 
         # Creating a CSV file to store the matchdays and the dates
         df1 = pd.DataFrame(gamedates)
