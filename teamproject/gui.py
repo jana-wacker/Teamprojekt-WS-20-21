@@ -1,4 +1,5 @@
-from tkinter import *
+"""This module imports the crawler and the algorithms and serves as an overall interface for the program."""
+import tkinter as tk
 from PIL import Image, ImageTk
 import pandas as pd
 from crawler import fetch_data, fetch_all_data, fetch_matchday
@@ -13,264 +14,257 @@ import os
 import importlib
 
 
-# Open .csv-files
-alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
-data = pd.read_csv(alldata)
+class gui:
+    global framecolour
+    global font
+    global x_Picture
+    global y_Picture
 
-gamedates = os.path.join(os.path.dirname(__file__), 'Matchdays.csv')
-dates = pd.read_csv(gamedates)
+    def __init__(self, master):
+        fetch_all_data()
+        fetch_matchday()
+        self.master = master
 
-def getTeams():
-    """
-    Creates a dictionary with all teams, using the Crawler.csv as data basis
-    :returns: all team-names(dictionary)
-    """
-    with open(alldata, newline='', encoding="utf8") as all_data_raw:
-        Teams = []
-        all_data = csv.DictReader(all_data_raw, delimiter=',')
-        for row in all_data:
-            if row['Team1'] not in Teams:
-                Teams.append(row['Team1'])
-    Teams.sort()
-    return Teams
+        # Basics for the window
+        master.geometry("1000x600")
+        master.title("Bundesliga Vorhersagen")
+        self.font = "TKCaptionFont"
+        self.framecolour = "cadetblue1"
 
-def getMatchDays():
-    """
-    Creates a dictionary with upcoming match day, using the Matchdays.csv as data basis
-    :returns: upcoming match days (dictionary)
-    """
-    with open(gamedates, newline='', encoding="utf8") as dates_raw:
-        game_dates = csv.DictReader(dates_raw, delimiter=',')
-        matches = []
-        gameday = []
+        # Variables for the size of the picture
+        self.x_Picture = 1000
+        self.y_Picture = 600
 
-        # getting the next match day and adding it to 'matches'
-        for row in game_dates:
-            gameday.append(row['MatchNr'])
-            match_name = ((str(row['Matchday'])) +
-                          ': ' + (str(row['Team1'])) +
-                          ' vs. ' + (str(row['Team2'])))
-            matches.append(match_name)
-            break
+        # Setting the background
+        self.background = os.path.join(os.path.dirname(__file__), 'field.jpg')
+        image1 = Image.open(self.background)
+        image1_resized = image1.resize((1800, 1600), Image.ANTIALIAS)
+        pic_ready = ImageTk.PhotoImage(image1_resized)
 
-        # 'next' is upcoming match day
-        global next
-        next = gameday[0]
+        self.lable_background = tk.Label(self.master, image=pic_ready)
+        self.lable_background.image = pic_ready
+        self.lable_background.place(x=0, y=0, relwidth=1, relheight=1)
 
-        for row in game_dates:
-            if (row['MatchNr'] == next):
-                match_name = ((str(row['Matchday'])) +
-                              ': ' + (str(row['Team1'])) +
-                              ' vs. ' + (str(row['Team2'])))
-                matches.append(match_name)
-    return matches
+        # Lable for the header
+        self.header = tk.Label(self.master, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!",
+                               justify=tk.CENTER,
+                               bg="light green")
+        self.header.pack(side="top", padx=10)
+        self.header.config(font=(self.font, 20))
 
-def main():
-    """
-    Creates and shows the main window
-    """
-    root = Tk()
-    '''Needs to be activated before initial start of the program'''
-    #fetch_all_data()
-    fetch_matchday()
+        # Marking where the lables start, depending on the size of the main window
+        self.begin_Labels = self.x_Picture / 100
+        self.end_Labels = self.y_Picture / 10
 
-    # Basics for the window
-    root.geometry("1000x600")
-    root.title("Bundesliga Vorhersagen")
+        # Setting up all the frames to insert the labels and the buttons into
+        self.frameLeft = tk.Frame(master=self.master, bg="red")
+        self.frameLeft.pack(side="left", padx=self.begin_Labels, pady=10)
 
-    # Variables for the size of the picture
-    x_Picture = 1000
-    y_Picture = 600
+        self.rahmenMiddle = tk.Frame(master=self.master, bg=self.framecolour)
+        self.rahmenMiddle.pack(side="top", padx=self.begin_Labels, pady=20)
 
-    # Setting the background
-    background = os.path.join(os.path.dirname(__file__), 'field.jpg')
-    image1 = Image.open(background)
-    image1_resized = image1.resize((1800, 1600), Image.ANTIALIAS)
-    pic_ready = ImageTk.PhotoImage(image1_resized)
+        self.rahmenBelow = tk.Frame(master=self.master, bg=self.framecolour)
+        self.rahmenBelow.pack(side="bottom", padx=self.begin_Labels, pady=20)
 
-    lable_background = Label(root, image=pic_ready)
-    lable_background.image = pic_ready
-    lable_background.place(x=0, y=0, relwidth=1, relheight=1)
+        self.rahmenTeamHome = tk.Frame(master=self.rahmenMiddle, bg=self.framecolour)
+        self.rahmenTeamHome.pack(side="left", padx=5, pady=5)
 
-    # Lable for the header
-    myLable = Label(root, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!", justify=CENTER,
-                    bg="light green")
-    myLable.pack(side="top", padx=10)
-    myLable.config(font=("Times", 20))
+        self.rahmenTeamGuest = tk.Frame(master=self.rahmenMiddle, bg=self.framecolour)
+        self.rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
-    # Marking where the lables start, depending on the size of the main window
-    begin_Labels = x_Picture / 100
-    end_Labels = y_Picture / 10
+        self.rahmenCalendar = tk.Frame(master=self.rahmenMiddle, bg=self.framecolour)
+        self.rahmenCalendar.pack(side="top", padx=15, pady=5)
 
-    # Setting up all the frames to insert the labels and the buttons into
-    frameLeft = Frame(master=root, bg="red")
-    frameLeft.pack(side="left", padx=begin_Labels, pady=10)
+        self.rahmenAlgo = tk.Frame(master=self.rahmenBelow, bg=self.framecolour)
+        self.rahmenAlgo.pack(side="left", padx=5, pady=5)
 
-    rahmenMiddle = Frame(master=root, bg="cadetblue1")
-    rahmenMiddle.pack(side="top", padx=begin_Labels, pady=20)
+        self.rahmenCrawler = tk.Frame(master=self.rahmenBelow, bg=self.framecolour)
+        self.rahmenCrawler.pack(side="left", padx=5, pady=5)
 
-    rahmenBelow = Frame(master=root, bg="lightblue1")
-    rahmenBelow.pack(side="bottom", padx=begin_Labels, pady=20)
+        # All of the labels
+        self.settingsLable = tk.Label(self.rahmenCrawler, text="Activate the AI or Start the Crawler here:",
+                                      bg="lightyellow2")
+        self.settingsLable.pack(side="top", padx=5)
+        self.settingsLable.config(font=(self.font, 12))
 
-    rahmenTeamHome = Frame(master=rahmenMiddle, bg="cadetblue3")
-    rahmenTeamHome.pack(side="left", padx=5, pady=5)
+        self.dropLable1 = tk.Label(master=self.rahmenTeamHome, text="Choose the Home Team:", bg="royalblue1",
+                                   fg="lightcyan1")
+        self.dropLable1.pack(side="top", padx=5, pady=5)
+        self.dropLable1.config(font=(self.font, 12))
 
-    rahmenTeamGuest = Frame(master=rahmenMiddle, bg="cadetblue3")
-    rahmenTeamGuest.pack(side="right", padx=5, pady=5)
+        self.dropLable2 = tk.Label(master=self.rahmenTeamGuest, text="Choose the Away Team:", bg="lightcyan1",
+                                   fg="royalblue1")
+        self.dropLable2.pack(side="top", padx=5, pady=5)
+        self.dropLable2.config(font=(self.font, 12))
 
-    rahmenCalendar = Frame(master=rahmenMiddle, bg="cadetblue4")
-    rahmenCalendar.pack(side="top", padx=15, pady=5)
+        self.chooseCrawlerLabel = tk.Label(master=self.rahmenAlgo, text="Choose an Algorithm for calculation:")
+        self.chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
+        self.chooseCrawlerLabel.config(font=(self.font, 12))
 
-    rahmenAlgo = Frame(master=rahmenBelow, bg="lightsteelblue2")
-    rahmenAlgo.pack(side="left", padx=5, pady=5)
+        self.chooseDateLable = tk.Label(master=self.rahmenCalendar, text="Choose the day \n of the game")
+        self.chooseDateLable.pack(side="top", padx=5, pady=5)
+        self.chooseDateLable.config(font=(self.font, 12))
 
-    rahmenCrawler = Frame(master=rahmenBelow, bg="lightsteelblue3")
-    rahmenCrawler.pack(side="left", padx=5, pady=5)
+        self.matchdaysLabel = tk.Label(master=self.frameLeft, text="Next Match Days:", bg="IndianRed1")
+        self.matchdaysLabel.pack(side="top", padx=5, pady=5)
+        self.matchdaysLabel.config(font=(self.font, 12))
 
-    # All of the labels
-    settingsLable = Label(rahmenCrawler, text="Activate the AI or Start the Crawler here:", bg="lightyellow2")
-    settingsLable.pack(side="top", padx=5)
-    settingsLable.config(font=("TKCaptionFont", 12))
+        # List for TeamHome
+        teams = self.getTeams()
 
-    dropLable1 = Label(master=rahmenTeamHome, text="Choose the Home Team:", bg="royalblue1", fg="lightcyan1")
-    dropLable1.pack(side="top", padx=5, pady=5)
-    dropLable1.config(font=("TKCaptionFont", 12))
+        '''Setup of the dropdown menus for the teams'''
+        # Dropdowns Home Team
 
-    dropLable2 = Label(master=rahmenTeamGuest, text="Choose the Away Team:", bg="lightcyan1", fg="royalblue1")
-    dropLable2.pack(side="top", padx=5, pady=5)
-    dropLable2.config(font=("TKCaptionFont", 12))
+        self.clicked1 = tk.StringVar()
+        self.clicked1.set(teams[0])
+        dropDown1 = tk.OptionMenu(self.rahmenTeamHome, self.clicked1, *teams)
+        dropDown1.pack(side="top", padx=5, pady=5)
 
-    chooseCrawlerLabel = Label(master=rahmenAlgo, text="Choose an Algorithm for calculation:")
-    chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
-    chooseCrawlerLabel.config(font=("TKCaptionFont", 12))
+        # Dropdowns Away Team
+        self.clicked2 = tk.StringVar(self.rahmenTeamGuest)
+        self.clicked2.set(teams[0])
+        self.dropDown2 = tk.OptionMenu(self.rahmenTeamGuest, self.clicked2, *teams)
+        self.dropDown2.pack(side="top", padx=5, pady=5)
 
-    chooseDateLable = Label(master=rahmenCalendar, text="Choose the day \n of the game")
-    chooseDateLable.pack(side="top", padx=5, pady=5)
-    chooseDateLable.config(font=("TKCaptionFont", 12))
+        # Algorithm choice, import from package "Algorithms"
+        package = Algorithms
+        Algos = []
+        for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
+                                                              prefix=package.__name__ + '.',
+                                                              onerror=lambda x: None):
+            Algos.append(modname)
 
-    matchdaysLabel = Label(master=frameLeft, text="Next Match Days:", bg="IndianRed1")
-    matchdaysLabel.pack(side="top", padx=5, pady=5)
-    matchdaysLabel.config(font=("TKCaptionFont", 12))
+        self.selectedAlgo = list(Algos)[0]
+        self.clicked3 = tk.StringVar()
+        self.dropDownAlgo = tk.OptionMenu(self.rahmenAlgo, self.clicked3, *Algos)
+        self.dropDownAlgo.pack(side="top", padx=5)
+        self.clicked3.set(self.selectedAlgo)
 
-    # List for TeamHome
-    teamsHome = getTeams()
+        # Button to calculate odds,call function to predict the winner from the other script
+        # When clicked, prediction of the chosen model is triggered
+        self.buttonOdds = tk.Button(master=self.rahmenMiddle, text="Calculate Odds", font=(self.font, 17), bg="orange",
+                                    command=lambda: self.syncAlgo().predict(
+                                        self.clicked1.get(), self.clicked2.get(), self.data))
+        self.buttonOdds.pack(side="left", padx=20, pady=20)
 
-    # List for TeamGuest
-    teamsGuest = getTeams()
+        # Buttons to activate the search for the data
+        self.buttonCrawler = tk.Button(self.rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10,
+                                       pady=5,
+                                       command=fetch_all_data)
+        self.buttonCrawler.pack(side="top", padx=5)
 
-    '''Setup of the dropdown menus for the teams'''
-    # Dropdowns Home Team
-    firstTeamHome = teamsHome[0]
-    clicked1 = StringVar(root)
-    clicked1.set(firstTeamHome)
-    dropDown1 = OptionMenu(rahmenTeamHome, clicked1, *teamsHome)
-    dropDown1.pack(side="top", padx=5, pady=5)
+        # Button to activate the other Crawler function (date-selected)
+        self.buttonCrawler2 = tk.Button(self.rahmenCrawler, text="Activate Crawler (selected data)", padx=30, pady=5,
+                                        command=lambda:
+                                        self.check_fetch(int(self.startYear.get()), int(self.startDay.get()),
+                                                         int(self.endYear.get()), int(self.endDay.get())))
+        self.buttonCrawler2.pack(side="top", padx=5)
 
-    # Dropdowns Away Team
-    firstTeamGuest = teamsGuest[0]
-    clicked2 = StringVar(root)
-    clicked2.set(firstTeamGuest)
-    dropDown2 = OptionMenu(rahmenTeamGuest, clicked2, *teamsGuest)
-    dropDown2.pack(side="top", padx=5, pady=5)
+        # Boxes to choose Dates from
+        self.chooseStartDay = tk.Label(master=self.rahmenCrawler, text="Choose first Gameday of Year:",
+                                       bg="lightyellow1")
+        self.chooseStartDay.pack(side="top", padx=5, pady=5)
+        self.chooseStartDay.config(font=(self.font, 12))
 
+        self.startDay = tk.Spinbox(self.rahmenCrawler, from_=1, to=34)
+        self.startDay.pack(side="top", padx=5, pady=5)
+        self.startYear = tk.Spinbox(self.rahmenCrawler, from_=2004, to=datetime.now().year)
+        self.startYear.pack(side="top", padx=5, pady=5)
 
-    # syncs clicks [ZWISCHENLÖSUNG]
-    def sync1():
-        """syncs clicks of clicked1"""
-        return clicked1.get()
+        self.chooseEndDay = tk.Label(master=self.rahmenCrawler, text="Choose last Gameday of Year:", bg="lightyellow1")
+        self.chooseEndDay.pack(side="top", padx=5, pady=5)
+        self.chooseEndDay.config(font=(self.font, 12))
+        self.endDay = tk.Spinbox(self.rahmenCrawler, from_=1, to=34)
+        self.endDay.pack(side="top", padx=5, pady=5)
+        self.endYear = tk.Spinbox(self.rahmenCrawler, from_=2004, to=datetime.now().year)
+        self.endYear.pack(side="top", padx=5, pady=5)
 
-    def sync2():
-        """syncs clicks of clicked2"""
-        return clicked2.get()
+        # Setting up a calendar to choose the game day
+        self.currentYear = datetime.now().year
+        self.currentDate = datetime.now().date()
 
-    # Algorithm choice, import from package "Algorithms"
-    package = Algorithms
-    Algos = []
-    for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
-                                                          prefix=package.__name__ + '.',
-                                                          onerror=lambda x: None):
-        Algos.append(modname)
+        self.calendar = DateEntry(self.rahmenCalendar, width=12, year=self.currentYear, month=datetime.now().month,
+                                  day=datetime.now().day, background="darkblue", foreground="white", borderwidth=2)
+        self.calendar.pack(side="top", padx=5, pady=5)
 
-    selectedAlgo = list(Algos)[0]
-    clicked3 = StringVar()
-    clicked3.set(selectedAlgo)
-    dropDownAlgo = OptionMenu(rahmenAlgo, clicked3, *Algos)
-    dropDownAlgo.pack(side="top", padx=5)
-    clicked3.set(selectedAlgo)
+        self.displayMatchdays()
+        self.nextLabel = tk.Label(master=self.frameLeft, text=(str(self.next)), bg="IndianRed1")
+        self.nextLabel.pack(side="bottom", padx=5, pady=5)
+        self.nextLabel.config(font=(self.font, 12))
 
-    def syncAlgo():
-        """Imports chosen module for prediction"""
-        module = importlib.import_module(clicked3.get())
+    def syncAlgo(self):
+        """Wrapper: Imports chosen module for prediction"""
+        global data
+        alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
+        self.data = pd.read_csv(alldata)
+        module = importlib.import_module(self.clicked3.get())
         return module
 
-    # Button to calculate odds,call function to predict the winner from the other script
-    # When clicked, prediction of the chosen model is triggered
-    buttonOdds = Button(master=rahmenMiddle, text="Calculate Odds", font=("Times", 17), bg="orange",
-                        command=lambda: syncAlgo().predict(sync1(), sync2(), data))
-    buttonOdds.pack(side="left", padx=20, pady=20)
-
-    # Buttons to activate the search for the data
-    buttonCrawler = Button(rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10, pady=5,
-                           command=fetch_all_data)
-    buttonCrawler.pack(side="top", padx=5)
-
-    # Button to activate the other Crawler function (date-selected)
-    buttonCrawler2 = Button(rahmenCrawler, text="Activate Crawler (selected data)", padx=30, pady=5,
-                            command=lambda:
-                            check_fetch(int(startYear.get()), int(startDay.get()),
-                                       int(endYear.get()), int(endDay.get())))
-    buttonCrawler2.pack(side="top", padx=5)
-
-    # Boxes to choose Dates from
-    chooseStartDay = Label(master=rahmenCrawler, text="Choose first Gameday of Year:", bg="lightyellow1")
-    chooseStartDay.pack(side="top", padx=5, pady=5)
-    chooseStartDay.config(font=("TKCaptionFont", 12))
-
-    startDay = Spinbox(rahmenCrawler, from_=1, to=34)
-    startDay.pack(side="top", padx=5, pady=5)
-    startYear = Spinbox(rahmenCrawler, from_=2004, to=datetime.now().year)
-    startYear.pack(side="top", padx=5, pady=5)
-
-    def check_fetch(startYear,startDay,endYear,endDay):
+    def check_fetch(self, startYear, startDay, endYear, endDay):
+        """Checks whether input was correct and if so, fetch chosen data"""
         if startYear > endYear:
             showinfo("Activate Crawler", "Incorrect Input: The first Gameday must be before the last Gameday.")
         else:
             fetch_data(startYear, startDay, endYear, endDay)
 
-    chooseEndDay = Label(master=rahmenCrawler, text="Choose last Gameday of Year:", bg="lightyellow1")
-    chooseEndDay.pack(side="top", padx=5, pady=5)
-    chooseEndDay.config(font=("TKCaptionFont", 12))
-    endDay = Spinbox(rahmenCrawler, from_=1, to=34)
-    endDay.pack(side="top", padx=5, pady=5)
-    endYear = Spinbox(rahmenCrawler, from_=2004, to= datetime.now().year)
-    endYear.pack(side="top", padx=5, pady=5)
-
-    # Setting up a calendar to choose the game day
-
-
-    currentYear = datetime.now().year
-    currentDate = datetime.now().date()
-
-    calendar = DateEntry(rahmenCalendar, width=12, year=currentYear, month=datetime.now().month,
-                         day=datetime.now().day, background="darkblue", foreground="white", borderwidth=2)
-    calendar.pack(side="top", padx=5, pady=5)
-
-    # Display of Matchdays
-    def displayMatchdays():
-        """Displays all Matchdays of a Season"""
-        Days = getMatchDays()
+    def displayMatchdays(self):
+        """Displays all matchdays of a season"""
+        Days = self.getMatchDays()
         for date in Days:
-            dateLabel = Label(master=frameLeft, text=(str(date)), bg="red")
-            dateLabel.pack(side="top", padx=5, pady=5)
-            dateLabel.config(font=("TKCaptionFont", 8))
+            self.dateLabel = tk.Label(master=self.frameLeft, text=(str(date)), bg="red")
+            self.dateLabel.pack(side="top", padx=5, pady=5)
+            self.dateLabel.config(font=(self.font, 8))
 
-    displayMatchdays()
-    nextLabel = Label(master=frameLeft, text=(str(next)), bg="IndianRed1")
-    nextLabel.pack(side="bottom", padx=5, pady=5)
-    nextLabel.config(font=("TKCaptionFont", 12))
+    def getTeams(self):
+        """
+        Creates a dictionary with all teams, using the Crawler.csv as data basis
+        :returns: all team-names(dictionary)
+        """
+        alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
+        with open(alldata, newline='', encoding="utf8") as all_data_raw:
+            Teams = []
+            all_data = csv.DictReader(all_data_raw, delimiter=',')
+            for row in all_data:
+                if row['Team1'] not in Teams:
+                    Teams.append(row['Team1'])
+        Teams.sort()
+        return Teams
+
+    def getMatchDays(self):
+        """
+        Creates a dictionary with upcoming match day, using the Matchdays.csv as data basis
+        :returns: upcoming match days (dictionary)
+        """
+        gamedates = os.path.join(os.path.dirname(__file__), 'Matchdays.csv')
+        with open(gamedates, newline='', encoding="utf8") as dates_raw:
+            game_dates = csv.DictReader(dates_raw, delimiter=',')
+            self.matches = []
+            self.gameday = []
+
+            # getting the next match day and adding it to 'matches'
+            for row in game_dates:
+                self.gameday.append(row['MatchNr'])
+                self.match_name = ((str(row['Matchday'])) +
+                                   ': ' + (str(row['Team1'])) +
+                                   ' vs. ' + (str(row['Team2'])))
+                self.matches.append(self.match_name)
+                break
+
+            # 'next' is upcoming match day
+            global next
+            self.next = self.gameday[0]
+
+            for row in game_dates:
+                if (row['MatchNr'] == self.next):
+                    self.match_name = ((str(row['Matchday'])) +
+                                       ': ' + (str(row['Team1'])) +
+                                       ' vs. ' + (str(row['Team2'])))
+                    self.matches.append(self.match_name)
+        return self.matches
 
 
+def main():
+    """Creates main window."""
+    root = tk.Tk()
+    gui(root)
     root.mainloop()
-
-if __name__ == '__main__':
-    main()

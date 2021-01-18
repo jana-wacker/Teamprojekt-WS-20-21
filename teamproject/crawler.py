@@ -2,7 +2,6 @@
 This module contains code to fetch required data from the internet and convert
 it to our internal format.
 """
-
 import pandas as pd
 import requests
 import json
