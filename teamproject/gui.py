@@ -2,13 +2,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import pandas as pd
-from crawler import fetch_data, fetch_all_data, fetch_matchday
+from teamproject.crawler import fetch_data, fetch_all_data, fetch_matchday
 from tkcalendar import DateEntry, Calendar
 from datetime import datetime
 from tkinter.messagebox import showinfo
 import csv
 import pkgutil
-import Algorithms
+import teamproject.Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -127,7 +127,7 @@ class gui:
         self.dropDown2.pack(side="top", padx=5, pady=5)
 
         # Algorithm choice, import from package "Algorithms"
-        package = Algorithms
+        package = teamproject.Algorithms
         Algos = []
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                               prefix=package.__name__ + '.',
