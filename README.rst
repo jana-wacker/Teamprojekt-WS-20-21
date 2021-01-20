@@ -1,6 +1,6 @@
 Krake Paul Predictions 
 
-![alt Krake](Krake_LOGO.jpg)
+![alt Krake](Krake.jpg)
 ---------------
 
 
