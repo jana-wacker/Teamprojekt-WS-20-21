@@ -1,4 +1,6 @@
-Soccer Predictions 
+Krake Paul Predictions 
+
+![alt Krake](Krake_LOGO.jpg)
 ---------------
 
 
