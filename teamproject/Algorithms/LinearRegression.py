@@ -3,17 +3,15 @@ It returns the probability of home team and away team winning, the probability o
 goals each team will most likely score."""
 # use for plotting data
 import pandas as pd
-
 pd.set_option('display.max_columns', 10)
 import matplotlib.pyplot as plt
-# %matplotlib inline
+#%matplotlib inline
 import numpy as np
 # Used for Regression Modelling
 from sklearn.linear_model import LinearRegression
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
 from tkinter.messagebox import showinfo
-
 
 #################################################################################################
 
@@ -36,7 +34,6 @@ def homeAndguest(homeName, guestName, data):
     final = final.dropna()
     final.head()
     return final
-
 
 #################################################################################################
 
@@ -84,11 +81,11 @@ def percentage(homeName, guestName, data):
     df.loc[:, ('home_or_away')] = df.loc[:, ('home_or_away')].astype('float64')
     return df
 
-
 ###############################################################################################
 
 def score(homeName, guestName, data):
-    """Variables: data from homeAndguest
+    """
+    Variables: data from homeAndguest
 
     Function: 1.Find the corresponding score
               2.Calculate the average of 2 times the scores.
@@ -111,7 +108,8 @@ def score(homeName, guestName, data):
 ###############################################################################################
 
 def predicateScore(homeName, guestName, data):
-    """Variables: data from score
+    """
+    Variables: data from score
 
     Function: 1.Composition of linear programming templates. Impact factors include 'home_or_away' and '2_score_avg',
                 the result is 'score'.
@@ -134,13 +132,27 @@ def predicateScore(homeName, guestName, data):
 
 
 def scoreIntercept(homeName, guestName, data):
-    intercept = predicateScore(homeName, guestName, data).intercept_
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicateScore) to derive intercepts.
+
+    Usage: Obtain the intercept for calculating the score.
+    """
+    intercept=predicateScore(homeName, guestName, data).intercept_
     return intercept[0]
 
 
 # print(scoreIntercept(data))
 
 def scoreCoefhomeoraway(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicateScore) to derive coefficient of home_or_away.
+
+    Usage: Obtain the coefficient for calculating the score.
+    """
     coef_home_or_away = predicateScore(homeName, guestName, data).coef_[0][0]
     return coef_home_or_away
 
@@ -148,40 +160,60 @@ def scoreCoefhomeoraway(homeName, guestName, data):
 # print(scoreCoefhomeoraway(data))
 
 def scoreCoefavg(homeName, guestName, data):
-    coef_2_score_avg = predicateScore(homeName, guestName, data).coef_[0][1]
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicateScore) to derive coefficient of average of last two scores.
+
+    Usage: Obtain the coefficient for calculating the score.
+    """
+    coef_2_score_avg=predicateScore(homeName, guestName, data).coef_[0][1]
     return coef_2_score_avg
-
-
-# print(scoreCoefavg(data))
+#print(scoreCoefavg(data))
 
 def homeScore(homeName, guestName, data):
-    df = score(homeName, guestName, data)
-    homeScorePre = scoreIntercept(homeName, guestName, data) + \
-                   scoreCoefhomeoraway(homeName, guestName, data) * \
-                   1 + scoreCoefavg(homeName, guestName, data) * df['2_score_avg'].values[-1]
-    if homeScorePre < 0:
-        homeScorePre = 0
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.The final linear equation is obtained by intercept and slope.
+                score = intercept + coefficient1 * 1 + coefficient2 * average score of last 2 matches
+              2.If the score is negative, then take zero.
+
+    Usage: Get the final score of the home team.
+    """
+    df=score(homeName, guestName, data)
+    homeScorePre=scoreIntercept(homeName, guestName, data)+\
+                 scoreCoefhomeoraway(homeName, guestName, data)*\
+                 1+scoreCoefavg(homeName, guestName, data)*df['2_score_avg'].values[-1]
+    if homeScorePre<0:
+        homeScorePre=0
     return homeScorePre
-
-
-# print(homeScore(data))
+#print(homeScore(data))
 
 def awayScore(homeName, guestName, data):
-    df = score(homeName, guestName, data)
-    awayScorePre = \
-        scoreIntercept(homeName, guestName, data) + scoreCoefhomeoraway(homeName, guestName, data) \
-        * 0 + scoreCoefavg(homeName, guestName, data) * df['2_score_avg'].values[-1]
-    if awayScorePre < 0:
-        awayScorePre = 0
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.The final linear equation is obtained by intercept and slope.
+                    score = intercept + coefficient1 * 0 + coefficient2 * average score of last 2 matches
+                  2.If the score is negative, then take zero.
+
+    Usage: Get the final score of away team.
+    """
+    df=score(homeName, guestName, data)
+    awayScorePre=\
+        scoreIntercept(homeName, guestName, data)+scoreCoefhomeoraway(homeName, guestName, data)\
+        *0+scoreCoefavg(homeName, guestName, data)*df['2_score_avg'].values[-1]
+    if awayScorePre<0:
+        awayScorePre=0
     return awayScorePre
-
-
-# print(awayScore(data))
+#print(awayScore(data))
 
 ###############################################################################################
 
 def predicatePercentage(homeName, guestName, data):
-    """Variables: data from percentage
+    """
+    Variables: data from percentage
 
     Function: 1.Composition of linear programming templates. Impact factors include 'home_or_away'and'2_percentage_avg',
             the result is 'HomeWinPercentage'.
@@ -204,8 +236,14 @@ def predicatePercentage(homeName, guestName, data):
     # Make prediction on the testing data
     return lin_reg_mod
 
-
 def percentageIntercept(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicatePercentage) to derive intercepts.
+
+    Usage: Obtain the intercept for calculating the percentage.
+    """
     intercept = predicatePercentage(homeName, guestName, data).intercept_
     return intercept[0]
 
@@ -213,20 +251,44 @@ def percentageIntercept(homeName, guestName, data):
 # print(percentageIntercept(data))
 
 def percentageCoefhomeoraway(homeName, guestName, data):
-    coef_home_or_away = predicatePercentage(homeName, guestName, data).coef_[0][0]
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicatePercentage) to derive coefficient of home_or_away.
+
+    Usage: Obtain the coefficient for calculating the percentage.
+    """
+    coef_home_or_away = predicatePercentage(homeName, guestName,data).coef_[0][0]
     return coef_home_or_away
 
 
 # print(percentageCoefhomeoraway(data))
 
 def percentageCoefavg(homeName, guestName, data):
-    coef_2_percentage_avg = predicatePercentage(homeName, guestName, data).coef_[0][1]
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicatePercentage) to derive coefficient of average of last two scores.
+
+    Usage: Obtain the coefficient for calculating the percentage.
+    """
+    coef_2_percentage_avg = predicatePercentage(homeName, guestName,data).coef_[0][1]
     return coef_2_percentage_avg
 
 
 # print(percentageCoefavg(data))
 
 def homePercentage(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.The final linear equation is obtained by intercept and slope.
+                percentage = intercept + coefficient1 * 1 + coefficient2 * average percentage of last 2 matches
+              2.If the percentage is negative, then take zero.
+              3.If the percentage is more than 1, then take 1.
+
+    Usage: Get the final percentage of the home team.
+    """
     df = percentage(homeName, guestName, data)
     homePercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 1 \
@@ -244,6 +306,16 @@ def homePercentage(homeName, guestName, data):
 # print(homePercentage(data))
 
 def awayPercentage(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.The final linear equation is obtained by intercept and slope.
+                percentage = intercept + coefficient1 * 0 + coefficient2 * average percentage of last 2 matches
+              2.If the percentage is negative, then take zero.
+              3.If the percentage is more than 1, then take 1.
+
+    Usage: Get the final percentage of the away team.
+    """
     df = percentage(homeName, guestName, data)
     awayPercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 0 + \
@@ -260,7 +332,15 @@ def awayPercentage(homeName, guestName, data):
 # print(awayPercentage(data))
 
 def tiedPrecentage(homeName, guestName, data):
-    if (homeScore(homeName, guestName, data) == awayScore(homeName, guestName, data)):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.If the score of home and away team is identical, then tied percentage is 1.
+              2.Otherwise, 1-(the difference of percentage between home and away team).
+
+    Usage: Get the tied percentage.
+    """
+    if(homeScore(homeName,guestName,data)==awayScore(homeName,guestName,data)):
         tiedPre = 1
     else:
         tiedPre = 1 - abs(homePercentage(homeName, guestName, data) - awayPercentage(homeName, guestName, data))
@@ -271,9 +351,21 @@ def tiedPrecentage(homeName, guestName, data):
 ###############################################################################################
 
 def predict(homeName, guestName, data):
-    final = homeAndguest(homeName, guestName, data)
-    if (matchCount(homeName, guestName, final) <= 2):
-        showinfo("Prediction - Poisson Distribution",
+    """
+    Variables: data from homeAndguest， homeName, guestName
+
+    Function: 1.Pre-processed data using the homeAndguest method.
+              2.Check the count of matches, if the matches is less than 2, show the infomation:
+                "Prediction - Linear Regression",
+                "Sorry, the data is incomplete and cannot be used for prediction! "
+                "Please choose other teams or time!"
+              3.Otherwise, output the score and percentage using linear Regression.
+
+    Usage: Output the results.
+    """
+    final=homeAndguest(homeName, guestName, data)
+    if(matchCount(homeName, guestName, final)<2):
+        showinfo("Prediction - Linear Regression",
                  "Sorry, the data is incomplete and cannot be used for prediction! "
                  "Please choose other teams or time!")
     else:
