@@ -65,7 +65,9 @@ def percentage(homeName, guestName, data):
                  otherwise output the corresponding result.
               2.Calculate the percentage of home team wins (home team score divided by total score).
               3.Calculate the average of 2 times the percentage.
-              4.Construct a new dataFrame, including 'home_or_away','HomeWinPercentage' and '2_percentage_avg'.
+              4.The tiedPercentage is 1, where the GoalsTeam1 is equal to GoalsTeam2, otherwise 0.
+              5.Construct a new dataFrame, including 'home_or_away','HomeWinPercentage',
+                '2_percentage_avg' and 'tiedPercentage'.
 
     Usage: Data processing to find the data for calculating percentages"
     """
@@ -73,9 +75,10 @@ def percentage(homeName, guestName, data):
     final['total']= np.where(final['GoalsTeam1']+final['GoalsTeam2']==0, 1, final['GoalsTeam1']+final['GoalsTeam2'])
     final['HomeWinPercentage']=final['GoalsTeam1']/final['total']
     final['2_percentage_avg']=final.HomeWinPercentage.rolling(window=2).mean()
+    final['tiedPercentage'] = np.where(final['GoalsTeam1'] == final['GoalsTeam2'], 1, 0)
     final = final.fillna(final.mean())
     final.head()
-    df=final[['home_or_away','HomeWinPercentage','2_percentage_avg']]
+    df=final[['home_or_away','HomeWinPercentage','2_percentage_avg','tiedPercentage']]
     df.loc[:,('home_or_away')] = df.loc[:,('home_or_away')].astype('float64')
     return df
 
@@ -216,7 +219,7 @@ def predicatePercentage(homeName, guestName, data):
     Usage: Calculate the percentage of home and away team wins respectively.
     """
     df=percentage(homeName, guestName, data)
-    X = pd.DataFrame(df, columns=['home_or_away','2_percentage_avg'])
+    X = pd.DataFrame(df, columns=['home_or_away','2_percentage_avg','tiedPercentage'])
     Y = pd.DataFrame(df, columns=['HomeWinPercentage'])
     # WITH a random_state parameter:
     # (Same split every time! Note you can change the random state to any integer.)
@@ -264,12 +267,27 @@ def percentageCoefavg(homeName, guestName, data):
     return coef_2_percentage_avg
 #print(percentageCoefavg(data))
 
+def percentageCoeftied(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Using linear regression model (from predicatePercentage) to derive coefficient of draw.
+
+    Usage: Obtain the coefficient for calculating the percentage.
+    """
+    coef_2_percentage_tied = predicatePercentage(homeName, guestName,data).coef_[0][2]
+    return coef_2_percentage_tied
+
+
+
 def homePercentage(homeName, guestName, data):
     """
     Variables: data， homeName, guestName
 
     Function: 1.The final linear equation is obtained by intercept and slope.
-                percentage = intercept + coefficient1 * 1 + coefficient2 * average percentage of last 2 matches
+                percentage = intercept + coefficient1 * 1
+                             + coefficient2 * average percentage of last 2 matches
+                             + coefficient3 * 0
               2.If the percentage is negative, then take zero.
               3.If the percentage is more than 1, then take 1.
 
@@ -279,7 +297,8 @@ def homePercentage(homeName, guestName, data):
     homePercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 1 \
                         + percentageCoefavg(homeName, guestName, data) \
-                        * df['2_percentage_avg'].values[-1]
+                        * df['2_percentage_avg'].values[-1] \
+                        + percentageCoeftied(homeName, guestName,data) * 0
     if homePercentagePre < 0:
         homePre = 0
     elif homePercentagePre > 1:
@@ -294,7 +313,9 @@ def awayPercentage(homeName, guestName, data):
     Variables: data， homeName, guestName
 
     Function: 1.The final linear equation is obtained by intercept and slope.
-                percentage = intercept + coefficient1 * 0 + coefficient2 * average percentage of last 2 matches
+                percentage = intercept + coefficient1 * 0
+                             + coefficient2 * average percentage of last 2 matches
+                             + coefficient3 * 0
               2.If the percentage is negative, then take zero.
               3.If the percentage is more than 1, then take 1.
 
@@ -303,7 +324,8 @@ def awayPercentage(homeName, guestName, data):
     df = percentage(homeName, guestName, data)
     awayPercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 0 + \
-                        percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1]
+                        percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1]\
+                        + percentageCoeftied(homeName,guestName,data) * 0
     if awayPercentagePre < 0:
         awayPre = 0
     elif awayPercentagePre > 1:
@@ -317,17 +339,70 @@ def tiedPrecentage(homeName, guestName, data):
     """
     Variables: data， homeName, guestName
 
-    Function: 1.If the score of home and away team is identical, then tied percentage is 1.
-              2.Otherwise, 1-(the difference of percentage between home and away team).
+    Function: 1.The final linear equation is obtained by intercept and slope.
+                percentage = intercept + coefficient1 * 0
+                             + coefficient2 * average percentage of last 2 matches
+                             + coefficient3 * 1
+              2.If the percentage is negative, then take zero.
+              3.If the percentage is more than 1, then take 1.
 
-    Usage: Get the tied percentage.
+    Usage: Get the final percentage of draw.
     """
-    if(homeScore(homeName,guestName,data)==awayScore(homeName,guestName,data)):
+    df = percentage(homeName, guestName, data)
+    tiedPre = percentageIntercept(homeName, guestName, data) \
+              + percentageCoefhomeoraway(homeName, guestName, data) * 0 \
+              + percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1] \
+              + percentageCoeftied(homeName, guestName, data) * 1
+    if tiedPre < 0:
+        tiedPre = 0
+    elif tiedPre > 1:
         tiedPre = 1
     else:
-        tiedPre=1-abs(homePercentage(homeName, guestName, data)-awayPercentage(homeName, guestName, data))
+        tiedPre = tiedPre
     return tiedPre
 #print(tiedPrecentage(data))
+
+def ratioHomeWin(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Calculate the home team win ratio.
+
+    Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
+    """
+    homeWinRatio=homePercentage(homeName, guestName, data)\
+                 /(homePercentage(homeName, guestName, data)
+                   +awayPercentage(homeName, guestName, data)
+                   +tiedPrecentage(homeName, guestName, data))
+    return homeWinRatio
+
+def ratioAwayWin(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Calculate the away team win ratio.
+
+    Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
+    """
+    awayWinRatio=awayPercentage(data)\
+                 /(homePercentage(homeName, guestName, data)
+                   +awayPercentage(homeName, guestName, data)
+                   +tiedPrecentage(homeName, guestName, data))
+    return awayWinRatio
+
+def ratioTied(homeName, guestName, data):
+    """
+    Variables: data， homeName, guestName
+
+    Function: 1.Calculate the tied ratio.
+
+    Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
+    """
+    tiedRatio=tiedPrecentage(data)\
+              /(homePercentage(homeName, guestName, data)
+                +awayPercentage(homeName, guestName, data)
+                +tiedPrecentage(homeName, guestName, data))
+    return tiedRatio
 ###############################################################################################
 
 def predict(homeName, guestName, data):
@@ -344,16 +419,16 @@ def predict(homeName, guestName, data):
     Usage: Output the results.
     """
     final=homeAndguest(homeName, guestName, data)
-    if(matchCount(homeName, guestName, final)<2):
+    if(matchCount(homeName, guestName, final) <= 2):
         showinfo("Prediction - Linear Regression",
                  "Sorry, the data is incomplete and cannot be used for prediction! "
                  "Please choose other teams or time!")
     else:
         result = {'Home Team': homeName,
                   'Away Team': guestName,
-                  'Home team win ratio': homePercentage(homeName, guestName, final),
-                  'Home and away team tie ratio': tiedPrecentage(homeName, guestName, final),
-                  'Away team win ratio': awayPercentage(homeName, guestName, final),
+                  'Home team win ratio': ratioHomeWin(homeName, guestName, data),
+                  'Home and away team tie ratio': ratioTied(homeName, guestName, data),
+                  'Away team win ratio': ratioAwayWin(homeName, guestName, data),
                   'Home team score': homeScore(homeName, guestName, final),
                   'Away team score': awayScore(homeName, guestName, final)}
         output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
