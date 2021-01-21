@@ -1,6 +1,13 @@
 Krake Paul Predictions 
 
-![alt Krake](Krake.jpg)
+.. Jana: das --> ![alt Krake](Krake.jpg) ist Markdown Skript, wir benutzen aber restructered text (.rst) :)
+--------------
+
+.. image:: Krake.jpg
+    :width: 100px
+    :align: center
+    :height: 100px
+    :alt: alternate text
 ---------------
 
 
@@ -53,23 +60,33 @@ Structure of the git repository
 The following is a short overview of how our project is structured here on git::
 
     .
-    ├── README.rst                      project front page
-    ├── setup.py                        packaging script
-    ├── setup.cfg                       package metadata and tool config
-    ├── MANIFEST.in                     lists data files to be included
-    ├── .gitignore                      lists files to be ignored by git
+    ├── README.rst                          project front page
+    ├── setup.py                            packaging script
+    ├── setup.cfg                           package metadata and tool config
+    ├── MANIFEST.in                         lists data files to be included
+    ├── .gitignore                          lists files to be ignored by git
     │
     ├── teamproject
-    │   ├── __init__.py                 toplevel package variables
-    │   ├── __main__.py                 invoked on `python -m teamproject`
-    │   ├── crawler.py                  web-crawler / queries
-    │   ├── gui.py                      defines the gui code
-    │   └── models.py                   ML code for predictions
+    │   ├── __init__.py                     toplevel package variables
+    │   ├── __main__.py                     invoked on `python -m teamproject`
+    │   ├── crawler.py                      web-crawler / queries
+    │   ├── gui.py                          defines the gui code
+        ├── Analysing.py                    contains code to analyse teams
+        ├── field.jpg                       background picture
+        ├── Matchdays.csv                   stores all upcoming matchdays
+        ├── Crawler.csv                     stores all information provided by the crawler
+    │   └── Algorithms
+    │       ├── LinearRegression.py         predicts based on linear regression
+    │       ├── Minimal.py                  predicts based on who won more often
+    │       └── poissonDistribution.py      predicts based on poisson distribution
+    │   
     │
-    └── tests
-        ├── test_crawler.py             tests grouped by functionality
-        ├── ....
-        └── test_models.py
+    └── tests                               tests grouped by functionality
+        ├── test_crawler.py             
+        ├── test_poissonDistributionAlgo.py
+        ├── test_LinearRegression.py
+        ├── test_MinimalAlgo.py
+        └── test_gui.py.py
 
 
 Contact to the creators 
