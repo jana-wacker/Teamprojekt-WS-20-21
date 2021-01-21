@@ -3,10 +3,10 @@ Krake Paul Predictions
 .. Jana: das --> ![alt Krake](Krake.jpg) ist Markdown Skript, wir benutzen aber restructered text (.rst) :)
 --------------
 
-.. image:: Krake.jpg
-    :width: 100px
+.. image:: Krake_WO.jpeg
+    :width: 80px
     :align: center
-    :height: 100px
+    :height: 80px
     :alt: alternate text
 ---------------
 
