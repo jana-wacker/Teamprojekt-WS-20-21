@@ -58,9 +58,12 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
     date = []
     matchday = []
 
-    # Two while loops to go through the different years and gamedays
-    while year < UntilYear:
+    basicyear = year
 
+    # Check if year equals Untilyear and is basicyear as well
+    if (year == basicyear) & (year == UntilYear):
+
+        # Loop to go through all the gamedays
         while gameday <= 34:
 
             # The data from the URL is saved in a dictionary
@@ -72,8 +75,48 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                 if i['MatchIsFinished']:
                     team1.append(i['Team1']['TeamName'])
                     team2.append(i['Team2']['TeamName'])
-                    team1points.append(i['MatchResults'][0]['PointsTeam1'])
-                    team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    if i['MatchResults'][0]['ResultDescription'] == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                    else:
+                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                    if i['MatchResults'][0]['ResultDescription'] == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    else:
+                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                    date.append(i['MatchDateTimeUTC'])
+                    matchday.append(i['Group']['GroupOrderID'])
+                    if i['Location'] is None:
+                        location.append('Unbekannt')
+                    else:
+                        location.append(i['Location']['LocationCity'])
+
+                else:
+                    continue
+            gameday = gameday + 1
+
+    # Check to see if year is smaller than UntilYear
+    if (year < UntilYear) & (basicyear == year):
+
+        # Loop to go through all the gamedays
+        while gameday <= 34:
+
+            # The data from the URL is saved in a dictionary
+            r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
+            r_dict = r.json()
+
+            # The loop goes through all the information in the dictionary and adds the information to the right array
+            for i in r_dict:
+                if i['MatchIsFinished']:
+                    team1.append(i['Team1']['TeamName'])
+                    team2.append(i['Team2']['TeamName'])
+                    if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                    else:
+                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                    if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    else:
+                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -86,13 +129,47 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
             gameday = gameday + 1
 
         year = year + 1
-        gameday = 1
+
+    # Check to see if year is smaller than UntilYear
+    if year < UntilYear:
+
+        # Loop to collect all data from a while season
+        while year < UntilYear:
+            # The data from the URL is saved in a dictionary
+            r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year))
+            r_dict = r.json()
+
+            # The loop goes through all the information in the dictionary and adds the information to the right array
+            for i in r_dict:
+                if i['MatchIsFinished']:
+                    team1.append(i['Team1']['TeamName'])
+                    team2.append(i['Team2']['TeamName'])
+                    if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                    else:
+                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                    if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    else:
+                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                    date.append(i['MatchDateTimeUTC'])
+                    matchday.append(i['Group']['GroupOrderID'])
+                    if i['Location'] is None:
+                        location.append('Unbekannt')
+                    else:
+                        location.append(i['Location']['LocationCity'])
+
+                else:
+                    continue
+
+            year = year + 1
 
     # Condition to see if the year equals UntilYear
     if year == UntilYear:
 
         # The loop goes through all the gamedays in UntilYear
         while gameday <= UntilGameday:
+            gameday = 1
 
             # The data from the URL is saved in a dictionary
             r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year) + '/' + str(gameday))
@@ -103,8 +180,14 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                 if i['MatchIsFinished']:
                     team1.append(i['Team1']['TeamName'])
                     team2.append(i['Team2']['TeamName'])
-                    team1points.append(i['MatchResults'][0]['PointsTeam1'])
-                    team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                    else:
+                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                    if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                        team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                    else:
+                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -161,8 +244,14 @@ def fetch_all_data():
             if i['MatchIsFinished']:
                 team1.append(i['Team1']['TeamName'])
                 team2.append(i['Team2']['TeamName'])
-                team1points.append(i['MatchResults'][0]['PointsTeam1'])
-                team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                    team1points.append(i['MatchResults'][0]['PointsTeam1'])
+                else:
+                    team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
+                    team2points.append(i['MatchResults'][0]['PointsTeam2'])
+                else:
+                    team2points.append(i['MatchResults'][1]['PointsTeam2'])
                 date.append(i['MatchDateTimeUTC'])
                 matchday.append(i['Group']['GroupOrderID'])
                 if i['Location'] is None:
