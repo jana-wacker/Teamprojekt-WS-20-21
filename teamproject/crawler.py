@@ -234,7 +234,7 @@ def fetch_all_data():
     date = []
     matchday = []
 
-
+    # Loop to collect all data until the current year
     while year < datetime.now().year:
         r = requests.get('https://www.openligadb.de/api/getmatchdata/bl1/' + str(year))
         r_dict = r.json()
@@ -247,11 +247,17 @@ def fetch_all_data():
                 if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                     team1points.append(i['MatchResults'][0]['PointsTeam1'])
                 else:
-                    team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                    if IndexError:
+                        team1points.append('Unbekannt')
+                    else:
+                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
                 if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                     team2points.append(i['MatchResults'][0]['PointsTeam2'])
                 else:
-                    team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                    if IndexError:
+                        team2points.append('Unbekannt')
+                    else:
+                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
                 date.append(i['MatchDateTimeUTC'])
                 matchday.append(i['Group']['GroupOrderID'])
                 if i['Location'] is None:
@@ -262,20 +268,20 @@ def fetch_all_data():
             else:
                 continue
 
-            # Creating a dictionary with all the relevant information
-            data = {
-                'Location': location,
-                'Date': date,
-                'Matchday': matchday,
-                'Team1': team1,
-                'GoalsTeam1': team1points,
-                'GoalsTeam2': team2points,
-                'Team2': team2
-            }
+        # Creating a dictionary with all the relevant information
+        data = {
+            'Location': location,
+            'Date': date,
+            'Matchday': matchday,
+            'Team1': team1,
+            'GoalsTeam1': team1points,
+            'GoalsTeam2': team2points,
+            'Team2': team2
+        }
 
-            gamedates = {
-                'Date': date,
-                'Matchday': matchday
+        gamedates = {
+            'Date': date,
+            'Matchday': matchday
             }
 
         # Creating a CSV file to store the information
@@ -284,7 +290,7 @@ def fetch_all_data():
 
         """Jana: das könnte dann quasi weg, falls wir's nicht mehr brauchen :)"""
 
-        # Creating a CSV file to store the matchdays and the dates
+        #Creating a CSV file to store the matchdays and the dates
         df1 = pd.DataFrame(gamedates)
         df1.to_csv('Gamedates.csv', index=False)
 

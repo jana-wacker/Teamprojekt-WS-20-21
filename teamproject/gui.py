@@ -2,13 +2,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import pandas as pd
-from crawler import fetch_data, fetch_all_data, fetch_matchday
+from teamproject.crawler import fetch_data, fetch_all_data, fetch_matchday
 from tkcalendar import DateEntry, Calendar
 from datetime import datetime
 from tkinter.messagebox import showinfo
 import csv
 import pkgutil
-import Algorithms
+import teamproject.Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -21,8 +21,8 @@ class gui:
     global y_Picture
 
     def __init__(self, master):
-        #fetch_all_data()
-        #fetch_matchday()
+        fetch_all_data()
+        fetch_matchday()
         self.master = master
 
         # Basics for the window
@@ -127,7 +127,7 @@ class gui:
         self.dropDown2.pack(side="top", padx=5, pady=5)
 
         # Algorithm choice, import from package "Algorithms"
-        package = Algorithms
+        package = teamproject.Algorithms
         Algos = []
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                               prefix=package.__name__ + '.',
@@ -202,7 +202,7 @@ class gui:
 
     def check_fetch(self, startYear, startDay, endYear, endDay):
         """Checks whether input was correct and if so, fetch chosen data"""
-        if startYear > endYear:
+        if startYear > endYear or startDay > endDay:
             showinfo("Activate Crawler", "Incorrect Input: The first Gameday must be before the last Gameday.")
         else:
             fetch_data(startYear, startDay, endYear, endDay)
@@ -268,3 +268,6 @@ def main():
     root = tk.Tk()
     gui(root)
     root.mainloop()
+
+if __name__ == '__main__':
+    main()
