@@ -26,13 +26,13 @@ class gui:
         self.master = master
 
         # Basics for the window
-        master.geometry("1000x600")
-        master.title("Bundesliga Vorhersagen")
+        master.geometry("1200x600")
+        master.title("Krake Paul: Bundesliga Vorhersagen")
         self.font = "TKCaptionFont"
         self.framecolour = "cadetblue1"
 
         # Variables for the size of the picture
-        self.x_Picture = 1000
+        self.x_Picture = 1200
         self.y_Picture = 600
 
         # Setting the background
@@ -45,11 +45,17 @@ class gui:
         self.lable_background.image = pic_ready
         self.lable_background.place(x=0, y=0, relwidth=1, relheight=1)
 
+        # import paul.png for calculate odds button
+        self.paul_raw = os.path.join(os.path.dirname(__file__), 'paul2.png')
+        self.paul1 = Image.open(self.paul_raw)
+        self.paul2 = self.paul1.resize((80, 80), Image.ANTIALIAS)
+        self.paul = ImageTk.PhotoImage(self.paul2)
+
         # Lable for the header
         self.header = tk.Label(self.master, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!",
                                justify=tk.CENTER,
                                bg="light green")
-        self.header.pack(side="top", padx=10)
+        self.header.pack(side="top", padx=5)
         self.header.config(font=(self.font, 20))
 
         # Marking where the lables start, depending on the size of the main window
@@ -58,13 +64,13 @@ class gui:
 
         # Setting up all the frames to insert the labels and the buttons into
         self.frameLeft = tk.Frame(master=self.master, bg="red")
-        self.frameLeft.pack(side="left", padx=self.begin_Labels, pady=10)
+        self.frameLeft.pack(side="left", padx=self.begin_Labels, pady=5)
 
         self.rahmenMiddle = tk.Frame(master=self.master, bg=self.framecolour)
-        self.rahmenMiddle.pack(side="top", padx=self.begin_Labels, pady=20)
+        self.rahmenMiddle.pack(side="top", padx=self.begin_Labels, pady=10)
 
         self.rahmenBelow = tk.Frame(master=self.master, bg=self.framecolour)
-        self.rahmenBelow.pack(side="bottom", padx=self.begin_Labels, pady=20)
+        self.rahmenBelow.pack(side="bottom", padx=self.begin_Labels, pady=10)
 
         self.rahmenTeamHome = tk.Frame(master=self.rahmenMiddle, bg=self.framecolour)
         self.rahmenTeamHome.pack(side="left", padx=5, pady=5)
@@ -73,13 +79,17 @@ class gui:
         self.rahmenTeamGuest.pack(side="right", padx=5, pady=5)
 
         self.rahmenCalendar = tk.Frame(master=self.rahmenMiddle, bg=self.framecolour)
-        self.rahmenCalendar.pack(side="top", padx=15, pady=5)
+        self.rahmenCalendar.pack(side="top", padx=10, pady=0)
 
         self.rahmenAlgo = tk.Frame(master=self.rahmenBelow, bg=self.framecolour)
         self.rahmenAlgo.pack(side="left", padx=5, pady=5)
 
         self.rahmenCrawler = tk.Frame(master=self.rahmenBelow, bg=self.framecolour)
         self.rahmenCrawler.pack(side="left", padx=5, pady=5)
+
+        # Jana: Maybe I need that later for the output
+        #self.frameOutput = tk.Frame(master=self.master, bg="red")
+        #self.frameOutput.pack(side="top", padx=5, pady=5)
 
         # All of the labels
         self.settingsLable = tk.Label(self.rahmenCrawler, text="Activate the AI or Start the Crawler here:",
@@ -97,6 +107,9 @@ class gui:
         self.dropLable2.pack(side="top", padx=5, pady=5)
         self.dropLable2.config(font=(self.font, 12))
 
+        self.oddsLable = tk.Label(master=self.rahmenMiddle, text="Calculate Odds!", bg=self.framecolour, font=self.font)
+        self.oddsLable.pack(side="bottom", padx=1, pady=1)
+
         self.chooseCrawlerLabel = tk.Label(master=self.rahmenAlgo, text="Choose an Algorithm for calculation:",
                                            bg="lightyellow1")
         self.chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
@@ -110,6 +123,10 @@ class gui:
         self.matchdaysLabel = tk.Label(master=self.frameLeft, text="Next Match Days:", bg="IndianRed1")
         self.matchdaysLabel.pack(side="top", padx=5, pady=5)
         self.matchdaysLabel.config(font=(self.font, 12))
+
+        # Jana: Maybe I need that later for the output
+        #self.outputLabel = tk.Label(master=self.frameOutput, text="", font=self.font)
+        #self.outputLabel.pack(side="top", padx=5, pady=5)
 
         # List for Teams
         teams = self.getTeams()
@@ -142,10 +159,11 @@ class gui:
 
         # Button to calculate odds,call function to predict the winner from the other script
         # When clicked, prediction of the chosen model is triggered
-        self.buttonOdds = tk.Button(master=self.rahmenMiddle, text="Calculate Odds", font=(self.font, 17), bg="orange",
+        self.buttonOdds = tk.Button(master=self.rahmenMiddle, image=self.paul,
+                          borderwidth=0, bg=self.framecolour,
                                     command=lambda: self.syncAlgo().predict(
                                         self.clicked1.get(), self.clicked2.get(), self.data))
-        self.buttonOdds.pack(side="left", padx=20, pady=20)
+        self.buttonOdds.pack(side="bottom", padx=20, pady=20)
 
         # Buttons to activate the search for the data
         self.buttonCrawler = tk.Button(self.rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10,
