@@ -82,7 +82,10 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                     if i['MatchResults'][0]['ResultDescription'] == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team2points.append(i['MatchResults'][0]['PointsTeam2'])
                     else:
-                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                        if IndexError:
+                            team2points.append('-')
+                        else:
+                            team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -112,11 +115,17 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                     if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team1points.append(i['MatchResults'][0]['PointsTeam1'])
                     else:
-                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                        if IndexError:
+                            team1points.append('-')
+                        else:
+                            team1points.append(i['MatchResults'][1]['PointsTeam1'])
                     if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team2points.append(i['MatchResults'][0]['PointsTeam2'])
                     else:
-                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                        if IndexError:
+                            team2points.append('-')
+                        else:
+                            team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -147,11 +156,17 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                     if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team1points.append(i['MatchResults'][0]['PointsTeam1'])
                     else:
-                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                        if IndexError:
+                            team1points.append('-')
+                        else:
+                            team1points.append(i['MatchResults'][1]['PointsTeam1'])
                     if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team2points.append(i['MatchResults'][0]['PointsTeam2'])
                     else:
-                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                        if IndexError:
+                            team2points.append('-')
+                        else:
+                            team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -183,11 +198,17 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
                     if (i['MatchResults'][0]['PointsTeam1']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team1points.append(i['MatchResults'][0]['PointsTeam1'])
                     else:
-                        team1points.append(i['MatchResults'][1]['PointsTeam1'])
+                        if IndexError:
+                            team1points.append('-')
+                        else:
+                            team1points.append(i['MatchResults'][1]['PointsTeam1'])
                     if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                         team2points.append(i['MatchResults'][0]['PointsTeam2'])
                     else:
-                        team2points.append(i['MatchResults'][1]['PointsTeam2'])
+                        if IndexError:
+                            team2points.append('-')
+                        else:
+                            team2points.append(i['MatchResults'][1]['PointsTeam2'])
                     date.append(i['MatchDateTimeUTC'])
                     matchday.append(i['Group']['GroupOrderID'])
                     if i['Location'] is None:
@@ -248,14 +269,14 @@ def fetch_all_data():
                     team1points.append(i['MatchResults'][0]['PointsTeam1'])
                 else:
                     if IndexError:
-                        team1points.append('Unbekannt')
+                        team1points.append('-')
                     else:
                         team1points.append(i['MatchResults'][1]['PointsTeam1'])
                 if (i['MatchResults'][0]['PointsTeam2']) == str('Ergebnis nach Ende der offiziellen Spielzeit'):
                     team2points.append(i['MatchResults'][0]['PointsTeam2'])
                 else:
                     if IndexError:
-                        team2points.append('Unbekannt')
+                        team2points.append('-')
                     else:
                         team2points.append(i['MatchResults'][1]['PointsTeam2'])
                 date.append(i['MatchDateTimeUTC'])
