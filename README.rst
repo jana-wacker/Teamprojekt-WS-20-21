@@ -1,5 +1,4 @@
 .. image:: logo.png
---------------
 
 What does it do? 
 =====
