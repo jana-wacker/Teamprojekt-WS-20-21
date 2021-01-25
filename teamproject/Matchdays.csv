@@ -1,13 +1,4 @@
 Matchday,Team1,Team2,MatchNr
-2021-01-22T19:30:00Z,Borussia Mönchengladbach,BV Borussia Dortmund 09,18. Spieltag
-2021-01-23T14:30:00Z,Arminia Bielefeld,Eintracht Frankfurt,18. Spieltag
-2021-01-23T14:30:00Z,FC Augsburg,1. FC Union Berlin,18. Spieltag
-2021-01-23T14:30:00Z,Bayer Leverkusen,VfL Wolfsburg,18. Spieltag
-2021-01-23T14:30:00Z,SC Freiburg,VfB Stuttgart,18. Spieltag
-2021-01-23T14:30:00Z,1. FSV Mainz 05,RB Leipzig,18. Spieltag
-2021-01-23T17:30:00Z,Hertha BSC,Werder Bremen,18. Spieltag
-2021-01-24T14:30:00Z,FC Schalke 04,FC Bayern München,18. Spieltag
-2021-01-24T17:30:00Z,TSG 1899 Hoffenheim,1. FC Köln,18. Spieltag
 2021-01-29T19:30:00Z,VfB Stuttgart,1. FSV Mainz 05,19. Spieltag
 2021-01-30T14:30:00Z,FC Bayern München,TSG 1899 Hoffenheim,19. Spieltag
 2021-01-30T14:30:00Z,BV Borussia Dortmund 09,FC Augsburg,19. Spieltag
@@ -16,7 +7,7 @@ Matchday,Team1,Team2,MatchNr
 2021-01-30T14:30:00Z,Werder Bremen,FC Schalke 04,19. Spieltag
 2021-01-30T17:30:00Z,RB Leipzig,Bayer Leverkusen,19. Spieltag
 2021-01-31T14:30:00Z,1. FC Köln,Arminia Bielefeld,19. Spieltag
-2021-01-31T17:30:00Z,VfL Wolfsburg,SC Freiburg,19. Spieltag
+2021-01-31T17:00:00Z,VfL Wolfsburg,SC Freiburg,19. Spieltag
 2021-02-05T19:30:00Z,Hertha BSC,FC Bayern München,20. Spieltag
 2021-02-06T14:30:00Z,FC Augsburg,VfL Wolfsburg,20. Spieltag
 2021-02-06T14:30:00Z,Bayer Leverkusen,VfB Stuttgart,20. Spieltag
@@ -25,7 +16,7 @@ Matchday,Team1,Team2,MatchNr
 2021-02-06T14:30:00Z,FC Schalke 04,RB Leipzig,20. Spieltag
 2021-02-06T17:30:00Z,Borussia Mönchengladbach,1. FC Köln,20. Spieltag
 2021-02-07T14:30:00Z,TSG 1899 Hoffenheim,Eintracht Frankfurt,20. Spieltag
-2021-02-07T17:30:00Z,Arminia Bielefeld,Werder Bremen,20. Spieltag
+2021-02-07T17:00:00Z,Arminia Bielefeld,Werder Bremen,20. Spieltag
 2021-02-12T19:30:00Z,RB Leipzig,FC Augsburg,21. Spieltag
 2021-02-13T14:30:00Z,Bayer Leverkusen,1. FSV Mainz 05,21. Spieltag
 2021-02-13T14:30:00Z,BV Borussia Dortmund 09,TSG 1899 Hoffenheim,21. Spieltag
@@ -33,7 +24,7 @@ Matchday,Team1,Team2,MatchNr
 2021-02-13T14:30:00Z,Werder Bremen,SC Freiburg,21. Spieltag
 2021-02-13T17:30:00Z,1. FC Union Berlin,FC Schalke 04,21. Spieltag
 2021-02-14T14:30:00Z,Eintracht Frankfurt,1. FC Köln,21. Spieltag
-2021-02-14T17:30:00Z,VfL Wolfsburg,Borussia Mönchengladbach,21. Spieltag
+2021-02-14T17:00:00Z,VfL Wolfsburg,Borussia Mönchengladbach,21. Spieltag
 2021-02-15T19:30:00Z,FC Bayern München,Arminia Bielefeld,21. Spieltag
 2021-02-19T19:30:00Z,Arminia Bielefeld,VfL Wolfsburg,22. Spieltag
 2021-02-20T14:30:00Z,Borussia Mönchengladbach,1. FSV Mainz 05,22. Spieltag

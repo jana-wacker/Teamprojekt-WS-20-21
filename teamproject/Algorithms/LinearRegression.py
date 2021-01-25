@@ -349,7 +349,7 @@ def awayPercentage(homeName, guestName, data):
     df = percentage(homeName, guestName, data)
     awayPercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 0 + \
-                        percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1]\
+                        percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1] \
                         + percentageCoeftied(homeName,guestName,data) * 0
     if awayPercentagePre < 0:
         awayPre = 0
@@ -397,7 +397,7 @@ def ratioHomeWin(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    homeWinRatio=homePercentage(homeName, guestName, data)\
+    homeWinRatio=homePercentage(homeName, guestName, data) \
                  /(homePercentage(homeName, guestName, data)
                    +awayPercentage(homeName, guestName, data)
                    +tiedPrecentage(homeName, guestName, data))
@@ -411,7 +411,7 @@ def ratioAwayWin(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    awayWinRatio=awayPercentage(data)\
+    awayWinRatio=awayPercentage(data) \
                  /(homePercentage(homeName, guestName, data)
                    +awayPercentage(homeName, guestName, data)
                    +tiedPrecentage(homeName, guestName, data))
@@ -425,7 +425,7 @@ def ratioTied(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    tiedRatio=tiedPrecentage(data)\
+    tiedRatio=tiedPrecentage(data) \
               /(homePercentage(homeName, guestName, data)
                 +awayPercentage(homeName, guestName, data)
                 +tiedPrecentage(homeName, guestName, data))

@@ -2,13 +2,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import pandas as pd
-from teamproject.crawler import fetch_data, fetch_all_data, fetch_matchday
+from crawler import fetch_data, fetch_all_data, fetch_matchday
 from tkcalendar import DateEntry, Calendar
 from datetime import datetime
 from tkinter.messagebox import showinfo
 import csv
 import pkgutil
-import teamproject.Algorithms
+import Algorithms
 import tkinter.font as font
 import os
 import importlib
@@ -16,6 +16,10 @@ import importlib
 
 class gui:
     global framecolour
+    global labelcolour
+    global matchcolour
+    global matchlabelcolour
+    global menucolour
     global font
     global x_Picture
     global y_Picture
@@ -29,7 +33,11 @@ class gui:
         master.geometry("1200x600")
         master.title("Krake Paul: Bundesliga Vorhersagen")
         self.font = "TKCaptionFont"
-        self.framecolour = "cadetblue1"
+        self.framecolour = "steel blue"
+        self.lablecolour = "LightBlue1"
+        self.matchcolour = "yellow green"
+        self.matchlabelcolour = "OliveDrab1"
+        self.menucolour = "light blue"
 
         # Variables for the size of the picture
         self.x_Picture = 1200
@@ -46,15 +54,15 @@ class gui:
         self.lable_background.place(x=0, y=0, relwidth=1, relheight=1)
 
         # import paul.png for calculate odds button
-        self.paul_raw = os.path.join(os.path.dirname(__file__), 'paul2.png')
+        self.paul_raw = os.path.join(os.path.dirname(__file__), 'paul.png')
         self.paul1 = Image.open(self.paul_raw)
-        self.paul2 = self.paul1.resize((80, 80), Image.ANTIALIAS)
+        self.paul2 = self.paul1.resize((100, 80), Image.ANTIALIAS)
         self.paul = ImageTk.PhotoImage(self.paul2)
 
         # Lable for the header
         self.header = tk.Label(self.master, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!",
                                justify=tk.CENTER,
-                               bg="light green")
+                               bg=self.lablecolour)
         self.header.pack(side="top", padx=5)
         self.header.config(font=(self.font, 20))
 
@@ -63,7 +71,7 @@ class gui:
         self.end_Labels = self.y_Picture / 10
 
         # Setting up all the frames to insert the labels and the buttons into
-        self.frameLeft = tk.Frame(master=self.master, bg="red")
+        self.frameLeft = tk.Frame(master=self.master, bg=self.matchcolour)
         self.frameLeft.pack(side="left", padx=self.begin_Labels, pady=5)
 
         self.rahmenMiddle = tk.Frame(master=self.master, bg=self.framecolour)
@@ -93,16 +101,16 @@ class gui:
 
         # All of the labels
         self.settingsLable = tk.Label(self.rahmenCrawler, text="Activate the AI or Start the Crawler here:",
-                                      bg="lightyellow2")
+                                      bg=self.lablecolour)
         self.settingsLable.pack(side="top", padx=5)
         self.settingsLable.config(font=(self.font, 12))
 
-        self.dropLable1 = tk.Label(master=self.rahmenTeamHome, text="Choose the Home Team:", bg="royalblue1",
+        self.dropLable1 = tk.Label(master=self.rahmenTeamHome, text="Choose the Home Team:", bg=self.framecolour,
                                    fg="lightcyan1")
         self.dropLable1.pack(side="top", padx=5, pady=5)
         self.dropLable1.config(font=(self.font, 12))
 
-        self.dropLable2 = tk.Label(master=self.rahmenTeamGuest, text="Choose the Away Team:", bg="royalblue1",
+        self.dropLable2 = tk.Label(master=self.rahmenTeamGuest, text="Choose the Away Team:", bg=self.framecolour,
                                    fg="lightcyan1")
         self.dropLable2.pack(side="top", padx=5, pady=5)
         self.dropLable2.config(font=(self.font, 12))
@@ -111,16 +119,17 @@ class gui:
         self.oddsLable.pack(side="bottom", padx=1, pady=1)
 
         self.chooseCrawlerLabel = tk.Label(master=self.rahmenAlgo, text="Choose an Algorithm for calculation:",
-                                           bg="lightyellow1")
+                                           bg=self.lablecolour)
         self.chooseCrawlerLabel.pack(side="top", padx=5, pady=5)
         self.chooseCrawlerLabel.config(font=(self.font, 12))
 
-        self.chooseDateLable = tk.Label(master=self.rahmenCalendar, text="Choose the day \n of the game",
-                                        bg="lightyellow1")
+        # Jana: May be renamed when it has a function
+        self.chooseDateLable = tk.Label(master=self.rahmenCalendar, text="Today's day",
+                                        bg=self.lablecolour)
         self.chooseDateLable.pack(side="top", padx=5, pady=5)
         self.chooseDateLable.config(font=(self.font, 12))
 
-        self.matchdaysLabel = tk.Label(master=self.frameLeft, text="Next Match Days:", bg="IndianRed1")
+        self.matchdaysLabel = tk.Label(master=self.frameLeft, text="Next Match Days:", bg=self.matchlabelcolour)
         self.matchdaysLabel.pack(side="top", padx=5, pady=5)
         self.matchdaysLabel.config(font=(self.font, 12))
 
@@ -135,16 +144,20 @@ class gui:
         self.clicked1 = tk.StringVar()
         self.clicked1.set(teams[0])
         self.dropDown1 = tk.OptionMenu(self.rahmenTeamHome, self.clicked1, *teams)
+        self.dropDown1.config(bg=self.menucolour)
+        self.dropDown1["menu"].config(bg=self.menucolour)
         self.dropDown1.pack(side="top", padx=5, pady=5)
 
         # Dropdowns Away Team
         self.clicked2 = tk.StringVar(self.rahmenTeamGuest)
         self.clicked2.set(teams[0])
         self.dropDown2 = tk.OptionMenu(self.rahmenTeamGuest, self.clicked2, *teams)
+        self.dropDown2.config(bg=self.menucolour)
+        self.dropDown2["menu"].config(bg=self.menucolour)
         self.dropDown2.pack(side="top", padx=5, pady=5)
 
         # Algorithm choice, import from package "Algorithms"
-        package = teamproject.Algorithms
+        package = Algorithms
         Algos = []
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
                                                               prefix=package.__name__ + '.',
@@ -154,6 +167,8 @@ class gui:
         self.selectedAlgo = list(Algos)[0]
         self.clicked3 = tk.StringVar()
         self.dropDownAlgo = tk.OptionMenu(self.rahmenAlgo, self.clicked3, *Algos)
+        self.dropDownAlgo.config(bg=self.menucolour)
+        self.dropDownAlgo["menu"].config(bg=self.menucolour)
         self.dropDownAlgo.pack(side="top", padx=5)
         self.clicked3.set(self.selectedAlgo)
 
@@ -163,16 +178,17 @@ class gui:
                           borderwidth=0, bg=self.framecolour,
                                     command=lambda: self.syncAlgo().predict(
                                         self.clicked1.get(), self.clicked2.get(), self.data))
-        self.buttonOdds.pack(side="bottom", padx=20, pady=20)
+        self.buttonOdds.pack(side="bottom", padx=5, pady=5)
 
         # Buttons to activate the search for the data
         self.buttonCrawler = tk.Button(self.rahmenCrawler, text="Activate Crawler (all data since 2004)", padx=10,
-                                       pady=5,
+                                       pady=5, bg=self.menucolour,
                                        command=fetch_all_data)
         self.buttonCrawler.pack(side="top", padx=5)
 
         # Button to activate the other Crawler function (date-selected)
         self.buttonCrawler2 = tk.Button(self.rahmenCrawler, text="Activate Crawler (selected data)", padx=30, pady=5,
+                                        bg=self.menucolour,
                                         command=lambda:
                                         self.check_fetch(int(self.startYear.get()), int(self.startDay.get()),
                                                          int(self.endYear.get()), int(self.endDay.get())))
@@ -180,7 +196,7 @@ class gui:
 
         # Boxes to choose Dates from
         self.chooseStartDay = tk.Label(master=self.rahmenCrawler, text="Choose first Gameday of Year:",
-                                       bg="lightyellow1")
+                                       bg=self.lablecolour)
         self.chooseStartDay.pack(side="top", padx=5, pady=5)
         self.chooseStartDay.config(font=(self.font, 12))
 
@@ -189,7 +205,8 @@ class gui:
         self.startYear = tk.Spinbox(self.rahmenCrawler, from_=2004, to=datetime.now().year)
         self.startYear.pack(side="top", padx=5, pady=5)
 
-        self.chooseEndDay = tk.Label(master=self.rahmenCrawler, text="Choose last Gameday of Year:", bg="lightyellow1")
+        self.chooseEndDay = tk.Label(master=self.rahmenCrawler, text="Choose last Gameday of Year:",
+                                     bg=self.lablecolour)
         self.chooseEndDay.pack(side="top", padx=5, pady=5)
         self.chooseEndDay.config(font=(self.font, 12))
         self.endDay = tk.Spinbox(self.rahmenCrawler, from_=1, to=34)
@@ -202,11 +219,11 @@ class gui:
         self.currentDate = datetime.now().date()
 
         self.calendar = DateEntry(self.rahmenCalendar, width=12, year=self.currentYear, month=datetime.now().month,
-                                  day=datetime.now().day, background="darkblue", foreground="white", borderwidth=2)
+                                  day=datetime.now().day, background=self.menucolour, foreground="white", borderwidth=2)
         self.calendar.pack(side="top", padx=5, pady=5)
 
         self.displayMatchdays()
-        self.nextLabel = tk.Label(master=self.frameLeft, text=(str(self.next)), bg="IndianRed1")
+        self.nextLabel = tk.Label(master=self.frameLeft, text=(str(self.next)), bg=self.matchlabelcolour)
         self.nextLabel.pack(side="bottom", padx=5, pady=5)
         self.nextLabel.config(font=(self.font, 12))
 
@@ -229,7 +246,7 @@ class gui:
         """Displays all matchdays of a season"""
         Days = self.getMatchDays()
         for date in Days:
-            self.dateLabel = tk.Label(master=self.frameLeft, text=(str(date)), bg="red")
+            self.dateLabel = tk.Label(master=self.frameLeft, text=(str(date)), bg=self.matchcolour)
             self.dateLabel.pack(side="top", padx=5, pady=5)
             self.dateLabel.config(font=(self.font, 8))
 
