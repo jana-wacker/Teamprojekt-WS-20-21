@@ -4,6 +4,8 @@ goals each team will most likely score."""
 # use for plotting data
 import pandas as pd
 pd.set_option('display.max_columns', 10)
+# default='warn'
+pd.options.mode.chained_assignment = None
 import matplotlib.pyplot as plt
 # %matplotlib inline
 import numpy as np
@@ -411,7 +413,7 @@ def ratioAwayWin(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    awayWinRatio=awayPercentage(data) \
+    awayWinRatio=awayPercentage(homeName, guestName,data) \
                  /(homePercentage(homeName, guestName, data)
                    +awayPercentage(homeName, guestName, data)
                    +tiedPrecentage(homeName, guestName, data))
@@ -425,7 +427,7 @@ def ratioTied(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    tiedRatio=tiedPrecentage(data) \
+    tiedRatio=tiedPrecentage(homeName, guestName, data) \
               /(homePercentage(homeName, guestName, data)
                 +awayPercentage(homeName, guestName, data)
                 +tiedPrecentage(homeName, guestName, data))

@@ -31,7 +31,7 @@ class gui:
 
         # Basics for the window
         master.geometry("1200x600")
-        master.title("Krake Paul: Bundesliga Vorhersagen")
+        master.title("Krake Paul: Bundesliga Predictions")
         self.font = "TKCaptionFont"
         self.framecolour = "steel blue"
         self.lablecolour = "LightBlue1"
@@ -60,7 +60,7 @@ class gui:
         self.paul = ImageTk.PhotoImage(self.paul2)
 
         # Lable for the header
-        self.header = tk.Label(self.master, text="Erstelle hier Vorhersagen zu anstehenden Bundesliga Spielen!",
+        self.header = tk.Label(self.master, text="Predict upcoming Bundesliga matches!",
                                justify=tk.CENTER,
                                bg=self.lablecolour)
         self.header.pack(side="top", padx=5)
