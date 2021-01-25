@@ -1,17 +1,5 @@
-Krake Paul Predictions 
+.. image:: logo.png
 --------------
-
-.. Jana: das --> ![alt Krake](Krake.jpg) ist Markdown Skript, wir benutzen aber restructered text (.rst) :)
-
-
-.. image:: Krake_WO.jpeg
-    :width: 10px
-    :align: right
-    :height: 10px
-    :scale: 10 %
-    :alt: Krake Picture 
----------------
-
 
 What does it do? 
 =====
@@ -37,25 +25,21 @@ This software is super simple to use, and here is how step by step:
 All done! 
 
 
-Pictures
+Demo
 ============
-
-INSERT PICTURES 
-
+.. image:: demo.PNG
 
 Necessary packages for Python
 =====
 
 The following packages are necessary to have the software run smooth: 
--tkinter 
--pillow
--
--
 
-
-The process of development
-===================
-
+- tkinter 
+- pillow
+- pandas
+- tkcalendar
+- requests
+- pyreconstruct
 
 Structure of the git repository 
 ===================
@@ -75,6 +59,7 @@ The following is a short overview of how our project is structured here on git::
     │   ├── gui.py                          defines the gui code
         ├── Analysing.py                    contains code to analyse teams
         ├── field.jpg                       background picture
+        ├── paul.png                        paul picture
         ├── Matchdays.csv                   stores all upcoming matchdays
         ├── Crawler.csv                     stores all information provided by the crawler
     │   └── Algorithms
