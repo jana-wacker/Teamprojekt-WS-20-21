@@ -26,7 +26,7 @@ def fetch_matchday():
             if (i['MatchIsFinished'] == False):
                 team1.append(i['Team1']['TeamName'])
                 team2.append(i['Team2']['TeamName'])
-                nextMatches.append(i['MatchDateTimeUTC'])
+                nextMatches.append(i['MatchDateTime'])
                 match_nr.append(i['Group']['GroupName'])
 
         gameday = gameday +1

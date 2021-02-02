@@ -6,6 +6,7 @@ from tkinter.messagebox import showinfo
 # use for plotting data
 pd.set_option('display.max_columns', 10)
 
+__name__ = '__Minimal Algorithm__'
 
 # Find the home and away teams and form them into a new pandas.
 def dataSource(homeName, guestName, data):
@@ -102,7 +103,8 @@ def predict(homeName, guestName, data):
                   'Home team loss ratio': ProHomeLoss(data),
                   'Home and away team tie ratio': ProHomeTied(data)}
 
-        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+        output = 'Minimal Algorithm:' + "\n" + "\n" + \
+                 homeName + "\n" + ' vs. ' + "\n" + guestName + "\n" + "\n" + \
                  'Number of Matches between the two Teams: ' + \
                  str(result['Total number of matches']) + "\n" + \
                  'Probability of Home Team winning: ' + \
@@ -111,5 +113,6 @@ def predict(homeName, guestName, data):
                  str(round(result['Home team loss ratio']*100)) + ' %' + "\n" + \
                  'Probability of a Draw: ' + \
                  str(round(result['Home and away team tie ratio']*100)) + ' %'
-        showinfo("Prediction - Minimal", output)
+        #showinfo("Prediction - Minimal", output)
+        return output
 #predict('VfL Wolfsburg', 'VfB Stuttgart', data)

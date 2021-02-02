@@ -3,6 +3,7 @@ It returns the probability of home team and away team winning, the probability o
 goals each team will most likely score."""
 # use for plotting data
 import pandas as pd
+
 pd.set_option('display.max_columns', 10)
 # default='warn'
 pd.options.mode.chained_assignment = None
@@ -77,14 +78,15 @@ def percentage(homeName, guestName, data):
     Usage: Data processing to find the data for calculating percentages"
     """
     final = homeAndguest(homeName, guestName, data)
-    final['total']= np.where(final['GoalsTeam1']+final['GoalsTeam2']==0, 1, final['GoalsTeam1']+final['GoalsTeam2'])
-    final['HomeWinPercentage']=final['GoalsTeam1']/final['total']
-    final['2_percentage_avg']=final.HomeWinPercentage.rolling(window=2).mean()
+    final['total'] = np.where(final['GoalsTeam1'] + final['GoalsTeam2'] == 0, 1,
+                              final['GoalsTeam1'] + final['GoalsTeam2'])
+    final['HomeWinPercentage'] = final['GoalsTeam1'] / final['total']
+    final['2_percentage_avg'] = final.HomeWinPercentage.rolling(window=2).mean()
     final['tiedPercentage'] = np.where(final['GoalsTeam1'] == final['GoalsTeam2'], 1, 0)
     final = final.fillna(final.mean())
     final.head()
-    df=final[['home_or_away','HomeWinPercentage','2_percentage_avg','tiedPercentage']]
-    df.loc[:,('home_or_away')] = df.loc[:,('home_or_away')].astype('float64')
+    df = final[['home_or_away', 'HomeWinPercentage', '2_percentage_avg', 'tiedPercentage']]
+    df.loc[:, ('home_or_away')] = df.loc[:, ('home_or_away')].astype('float64')
     return df
 
 
@@ -236,8 +238,8 @@ def predicatePercentage(homeName, guestName, data):
 
     Usage: Calculate the percentage of home and away team wins respectively.
     """
-    df=percentage(homeName, guestName, data)
-    X = pd.DataFrame(df, columns=['home_or_away','2_percentage_avg','tiedPercentage'])
+    df = percentage(homeName, guestName, data)
+    X = pd.DataFrame(df, columns=['home_or_away', '2_percentage_avg', 'tiedPercentage'])
     Y = pd.DataFrame(df, columns=['HomeWinPercentage'])
     # WITH a random_state parameter:
     # (Same split every time! Note you can change the random state to any integer.)
@@ -300,9 +302,8 @@ def percentageCoeftied(homeName, guestName, data):
 
     Usage: Obtain the coefficient for calculating the percentage.
     """
-    coef_2_percentage_tied = predicatePercentage(homeName, guestName,data).coef_[0][2]
+    coef_2_percentage_tied = predicatePercentage(homeName, guestName, data).coef_[0][2]
     return coef_2_percentage_tied
-
 
 
 def homePercentage(homeName, guestName, data):
@@ -323,7 +324,7 @@ def homePercentage(homeName, guestName, data):
                         percentageCoefhomeoraway(homeName, guestName, data) * 1 \
                         + percentageCoefavg(homeName, guestName, data) \
                         * df['2_percentage_avg'].values[-1] \
-                        + percentageCoeftied(homeName, guestName,data) * 0
+                        + percentageCoeftied(homeName, guestName, data) * 0
     if homePercentagePre < 0:
         homePre = 0
     elif homePercentagePre > 1:
@@ -352,7 +353,7 @@ def awayPercentage(homeName, guestName, data):
     awayPercentagePre = percentageIntercept(homeName, guestName, data) + \
                         percentageCoefhomeoraway(homeName, guestName, data) * 0 + \
                         percentageCoefavg(homeName, guestName, data) * df['2_percentage_avg'].values[-1] \
-                        + percentageCoeftied(homeName,guestName,data) * 0
+                        + percentageCoeftied(homeName, guestName, data) * 0
     if awayPercentagePre < 0:
         awayPre = 0
     elif awayPercentagePre > 1:
@@ -389,7 +390,9 @@ def tiedPrecentage(homeName, guestName, data):
     else:
         tiedPre = tiedPre
     return tiedPre
-#print(tiedPrecentage(data))
+
+
+# print(tiedPrecentage(data))
 
 def ratioHomeWin(homeName, guestName, data):
     """
@@ -399,11 +402,12 @@ def ratioHomeWin(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    homeWinRatio=homePercentage(homeName, guestName, data) \
-                 /(homePercentage(homeName, guestName, data)
-                   +awayPercentage(homeName, guestName, data)
-                   +tiedPrecentage(homeName, guestName, data))
+    homeWinRatio = homePercentage(homeName, guestName, data) \
+                   / (homePercentage(homeName, guestName, data)
+                      + awayPercentage(homeName, guestName, data)
+                      + tiedPrecentage(homeName, guestName, data))
     return homeWinRatio
+
 
 def ratioAwayWin(homeName, guestName, data):
     """
@@ -413,11 +417,12 @@ def ratioAwayWin(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    awayWinRatio=awayPercentage(homeName, guestName,data) \
-                 /(homePercentage(homeName, guestName, data)
-                   +awayPercentage(homeName, guestName, data)
-                   +tiedPrecentage(homeName, guestName, data))
+    awayWinRatio = awayPercentage(homeName, guestName, data) \
+                   / (homePercentage(homeName, guestName, data)
+                      + awayPercentage(homeName, guestName, data)
+                      + tiedPrecentage(homeName, guestName, data))
     return awayWinRatio
+
 
 def ratioTied(homeName, guestName, data):
     """
@@ -427,11 +432,13 @@ def ratioTied(homeName, guestName, data):
 
     Usage: Make sure the sum of home team win ratio, away team win ratio and draw ratio is 1.
     """
-    tiedRatio=tiedPrecentage(homeName, guestName, data) \
-              /(homePercentage(homeName, guestName, data)
-                +awayPercentage(homeName, guestName, data)
-                +tiedPrecentage(homeName, guestName, data))
+    tiedRatio = tiedPrecentage(homeName, guestName, data) \
+                / (homePercentage(homeName, guestName, data)
+                   + awayPercentage(homeName, guestName, data)
+                   + tiedPrecentage(homeName, guestName, data))
     return tiedRatio
+
+
 ###############################################################################################
 
 def predict(homeName, guestName, data):
@@ -447,8 +454,8 @@ def predict(homeName, guestName, data):
 
     Usage: Output the results.
     """
-    final=homeAndguest(homeName, guestName, data)
-    if(matchCount(homeName, guestName, final) <= 2):
+    final = homeAndguest(homeName, guestName, data)
+    if (matchCount(homeName, guestName, final) <= 2):
         showinfo("Prediction - Linear Regression",
                  "Sorry, the data is incomplete and cannot be used for prediction! "
                  "Please choose other teams or time!")
@@ -460,7 +467,9 @@ def predict(homeName, guestName, data):
                   'Away team win ratio': ratioAwayWin(homeName, guestName, data),
                   'Home team score': homeScore(homeName, guestName, final),
                   'Away team score': awayScore(homeName, guestName, final)}
-        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+
+        output = 'Linear Regression:' + "\n" + "\n" + \
+                 homeName + "\n" + ' vs. ' + "\n" + guestName + "\n" + "\n" + \
                  'Probability of Home Team winning: ' + \
                  str(round(result['Home team win ratio'] * 100)) + ' %' + "\n" + \
                  'Predicted Goals of Home Team: ' + \
@@ -472,4 +481,5 @@ def predict(homeName, guestName, data):
                  'Probability of a Draw: ' + \
                  str(round(result['Home and away team tie ratio'] * 100)) + ' %'
 
-        showinfo("Prediction - Linear Regression", output)
+        # showinfo("Prediction - Linear Regression", output)
+        return output
