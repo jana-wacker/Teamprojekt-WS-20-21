@@ -108,74 +108,66 @@ plt.title('Average Goals')
 plt.show()
 
 # Analysing for one club (in this example 'VfB Stuttgart')
-totalgames = 0
-homevictory = 0
-homedefeat = 0
-homedraw = 0
-awayvictory = 0
-awaydefeat = 0
-awaydraw = 0
+def analysisoneclub(team):
+    totalgames = 0
+    homevictory = 0
+    homedefeat = 0
+    homedraw = 0
+    awayvictory = 0
+    awaydefeat = 0
+    awaydraw = 0
 
-# Choose the periode of time you want to analyse
-crawler.fetch_data(1, 2006, 2006, 34)
-crawlerdata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
-with open ("Crawler.csv", mode='r') as csv_file:
-    csv_reader = csv.DictReader(csv_file)
+    # Choose the periode of time you want to analyse
+    crawler.fetch_all_data()
+    crawlerdata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
+    with open ("Crawler.csv", mode='r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
 
-    for row in csv_reader:
-        # Club plays at home
-        if str(row['Team1']) == "VfB Stuttgart":
-            # Club wins at home
-            if row['GoalsTeam1'] > row['GoalsTeam2']:
-                homevictory  = homevictory + 1
-                totalgames = totalgames + 1
-            else:
-                # Club loses at home
-                if row['GoalsTeam1'] < row['GoalsTeam2']:
-                    homedefeat = homedefeat + 1
-                    totalgames = totalgames + 1
-                else:
-                    # Club plays draw at home
-                    homedraw = homedraw + 1
-                    totalgames = totalgames + 1
-        # Club plays away
-        elif str(row['Team2']) == "VfB Stuttgart":
-            # Club wins away
-            if row['GoalsTeam1'] < row['GoalsTeam2']:
-                awayvictory = awayvictory + 1
-                totalgames = totalgames + 1
-            else:
-                # Club loses away
+        for row in csv_reader:
+            # Club plays at home
+            if str(row['Team1']) == team:
+                # Club wins at home
                 if row['GoalsTeam1'] > row['GoalsTeam2']:
-                    awaydefeat = awaydefeat + 1
+                    homevictory  = homevictory + 1
                     totalgames = totalgames + 1
-                # Club plays draw away
                 else:
-                    awaydraw = awaydraw + 1
+                    # Club loses at home
+                    if row['GoalsTeam1'] < row['GoalsTeam2']:
+                        homedefeat = homedefeat + 1
+                        totalgames = totalgames + 1
+                    else:
+                        # Club plays draw at home
+                        homedraw = homedraw + 1
+                        totalgames = totalgames + 1
+            # Club plays away
+            elif str(row['Team2']) == team:
+                # Club wins away
+                if row['GoalsTeam1'] < row['GoalsTeam2']:
+                    awayvictory = awayvictory + 1
                     totalgames = totalgames + 1
-        else:
-            continue
+                else:
+                    # Club loses away
+                    if row['GoalsTeam1'] > row['GoalsTeam2']:
+                        awaydefeat = awaydefeat + 1
+                        totalgames = totalgames + 1
+                    # Club plays draw away
+                    else:
+                        awaydraw = awaydraw + 1
+                        totalgames = totalgames + 1
+            else:
+                continue
 
 
-homevictoryratio = (100 / totalgames) * homevictory
-homedefeatratio = (100 / totalgames) * homedefeat
-homedrawratio = (100/ totalgames) * homedraw
-awayvictoryratio = (100 / totalgames) * awayvictory
-awaydefeatratio = (100 / totalgames) * awaydefeat
-awaydrawratio = (100 / totalgames) * awaydraw
+    homevictoryratio = (100 / totalgames) * homevictory
+    homedefeatratio = (100 / totalgames) * homedefeat
+    homedrawratio = (100/ totalgames) * homedraw
+    awayvictoryratio = (100 / totalgames) * awayvictory
+    awaydefeatratio = (100 / totalgames) * awaydefeat
+    awaydrawratio = (100 / totalgames) * awaydraw
 
-print('-----------------------')
-print(totalgames)
-print(homewinratio)
-print(homedefeatratio)
-print(homedrawratio)
-print(awayvictoryratio)
-print(awaydefeatratio)
-print(awaydrawratio)
-
-ynumbers = [homewinratio, homedefeatratio, homedrawratio, awayvictoryratio, awaydefeatratio, awaydrawratio]
-xnumbers = ['Homewin', 'Homedefeat','Homedraw', 'Awayvictory', 'Awaydefeat', 'Awaydraw']
-plt.bar(xnumbers, ynumbers)
-plt.ylabel('Ratio in %')
-plt.title('Statistics VfB Stuttgart')
-plt.show()
+    ynumbers = [homevictoryratio, homedefeatratio, homedrawratio, awayvictoryratio, awaydefeatratio, awaydrawratio]
+    xnumbers = ['Homewin', 'Homedefeat','Homedraw', 'Awayvictory', 'Awaydefeat', 'Awaydraw']
+    plt.bar(xnumbers, ynumbers)
+    plt.ylabel('Ratio in %')
+    plt.title('Statistics VfB Stuttgart')
+    plt.show()
