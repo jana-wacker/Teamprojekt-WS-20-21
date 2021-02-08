@@ -2,7 +2,7 @@
 This module contains code to analyse the past bundesliga seasons
 """
 
-from teamproject import crawler
+import crawler
 import csv
 import matplotlib.pyplot as plt
 import os
@@ -17,8 +17,7 @@ import os
     Goalsaway(int): Total number of goals when the guestteam won
 """
 
-
-
+"""
 homewin = 0
 draw = 0
 awaywin = 0
@@ -30,7 +29,7 @@ goalsaway = 0
 crawler.fetch_all_data()
 
 # opening the Alldata file
-alldata = os.path.join(os.path.dirname(__file__), 'Alldata.csv')
+alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
 with open(alldata, mode='r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
 
@@ -58,13 +57,15 @@ with open(alldata, mode='r') as csv_file:
             linecount += 1
 
 
-""""
+"""
+"""
     Calculation of the ratios with the results from before
     Homewinratio(int): Probability that the hometeam wins
     Awaywinratio(int): Probability that the guestteam wins
     Drawratio(int): Probability that the game ends in a draw
     Averagegoalshomewin(int): Average goals for the hometeam
     Averagegoalsawaywin(int): Average goals for the guestteam
+"""
 """
 
 homewinratio = (100 / linecount) * homewin
@@ -106,6 +107,8 @@ plt.bar(xwerte2, ywerte2)
 plt.ylabel('Average Goals')
 plt.title('Average Goals')
 plt.show()
+"""
+
 
 # Analysing for one club (in this example 'VfB Stuttgart')
 def analysisoneclub(team):
@@ -118,9 +121,9 @@ def analysisoneclub(team):
     awaydraw = 0
 
     # Choose the periode of time you want to analyse
-    crawler.fetch_all_data()
+    #crawler.fetch_all_data()
     crawlerdata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
-    with open ("Crawler.csv", mode='r') as csv_file:
+    with open(crawlerdata, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
 
         for row in csv_reader:
@@ -128,7 +131,7 @@ def analysisoneclub(team):
             if str(row['Team1']) == team:
                 # Club wins at home
                 if row['GoalsTeam1'] > row['GoalsTeam2']:
-                    homevictory  = homevictory + 1
+                    homevictory = homevictory + 1
                     totalgames = totalgames + 1
                 else:
                     # Club loses at home
@@ -157,17 +160,23 @@ def analysisoneclub(team):
             else:
                 continue
 
-
     homevictoryratio = (100 / totalgames) * homevictory
     homedefeatratio = (100 / totalgames) * homedefeat
-    homedrawratio = (100/ totalgames) * homedraw
+    homedrawratio = (100 / totalgames) * homedraw
     awayvictoryratio = (100 / totalgames) * awayvictory
     awaydefeatratio = (100 / totalgames) * awaydefeat
     awaydrawratio = (100 / totalgames) * awaydraw
 
     ynumbers = [homevictoryratio, homedefeatratio, homedrawratio, awayvictoryratio, awaydefeatratio, awaydrawratio]
-    xnumbers = ['Homewin', 'Homedefeat','Homedraw', 'Awayvictory', 'Awaydefeat', 'Awaydraw']
-    plt.bar(xnumbers, ynumbers)
-    plt.ylabel('Ratio in %')
-    plt.title('Statistics VfB Stuttgart')
+    xnumbers = ['Home' + '\n' + 'Win', 'Home' + '\n' + 'Defeat',
+                'Home' + '\n' + 'Draw', 'Away' + '\n' + 'Victory',
+                'Away' + '\n' + 'Defeat', 'Away' + '\n' + 'Draw']
+    font = {'fontname': 'Bahnschrift'}
+    plt.figure(num='Statistics ' + team, figsize=(5, 4), frameon=False)
+    plt.bar(xnumbers, ynumbers, color=(0.2, 0.4, 0.6, 0.6))
+    plt.ylabel('Ratio in %', **font)
+    plt.title('Statistics ' + team, **font)
     plt.show()
+
+
+#analysisoneclub('VfB Stuttgart')

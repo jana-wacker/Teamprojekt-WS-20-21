@@ -3,8 +3,9 @@ It returns the probability of home team and away team winning, the probability o
 goals each team will most likely score."""
 # use for plotting data
 import pandas as pd
-
 pd.set_option('display.max_columns', 10)
+# default='warn'
+pd.options.mode.chained_assignment = None
 import matplotlib.pyplot as plt
 # %matplotlib inline
 import numpy as np
@@ -308,7 +309,7 @@ def predict(homeName, guestName, data):
     Usage: Output the results.
     """
     final = homeAndguest(homeName, guestName, data)
-    if ((matchCount(homeName, guestName, final) <= 2) | (sumofPercentage(homeName, guestName, data)==0)):
+    if (matchCount(homeName, guestName, final) <= 2) or (sumofPercentage(homeName, guestName, data) == 0):
         showinfo("Prediction - Linear Regression",
                  "Sorry, the data is incomplete and cannot be used for prediction! "
                  "Please choose other teams or time!")
@@ -318,13 +319,14 @@ def predict(homeName, guestName, data):
                   'Home team win ratio': ratioHomeWin(homeName, guestName, data),
                   'Home and away team tie ratio': ratioTied(homeName, guestName, data),
                   'Away team win ratio': ratioAwayWin(homeName, guestName, data)}
-        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+
+        output = 'Linear Regression:' + "\n" + "\n" + \
+                 homeName + "\n" + ' vs. ' + "\n" + guestName + "\n" + "\n" + \
                  'Probability of Home Team winning: ' + \
                  str(round(result['Home team win ratio'] * 100)) + ' %' + "\n" + \
                  'Probability of Away Team winning: ' + \
                  str(round(result['Away team win ratio'] * 100)) + ' %' + "\n" + \
-                 'Predicted Goals of Away Team: ' + \
                  'Probability of a Draw: ' + \
                  str(round(result['Home and away team tie ratio'] * 100)) + ' %'
 
-        showinfo("Prediction - Linear Regression", output)
+        return output

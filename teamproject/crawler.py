@@ -217,7 +217,7 @@ def fetch_data(year, gameday, UntilYear, UntilGameday):
     df = pd.DataFrame(data)
     df.to_csv('Crawler.csv', index=False)
 
-    showinfo("Activate Crawler", "Selected data fetched.")
+    return "Selected data fetched."
 
 
 def fetch_all_data():
@@ -275,22 +275,11 @@ def fetch_all_data():
             'Team2': team2
         }
 
-        gamedates = {
-            'Date': date,
-            'Matchday': matchday
-            }
-
         # Creating a CSV file to store the information
         df = pd.DataFrame(data)
         df.to_csv('Crawler.csv', index=False)
 
-        """Jana: das könnte dann quasi weg, falls wir's nicht mehr brauchen :)"""
-
-        #Creating a CSV file to store the matchdays and the dates
-        df1 = pd.DataFrame(gamedates)
-        df1.to_csv('Gamedates.csv', index=False)
-
         year = year + 1
-    showinfo("Activate Crawler", "All data fetched.")
+    return "All data fetched."
 
 
