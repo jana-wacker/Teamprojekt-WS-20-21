@@ -1,0 +1,145 @@
+Matchday,Team1,Team2,MatchNr
+2021-01-29T19:30:00Z,VfB Stuttgart,1. FSV Mainz 05,19. Spieltag
+2021-01-30T14:30:00Z,FC Bayern München,TSG 1899 Hoffenheim,19. Spieltag
+2021-01-30T14:30:00Z,BV Borussia Dortmund 09,FC Augsburg,19. Spieltag
+2021-01-30T14:30:00Z,Eintracht Frankfurt,Hertha BSC,19. Spieltag
+2021-01-30T14:30:00Z,1. FC Union Berlin,Borussia Mönchengladbach,19. Spieltag
+2021-01-30T14:30:00Z,Werder Bremen,FC Schalke 04,19. Spieltag
+2021-01-30T17:30:00Z,RB Leipzig,Bayer Leverkusen,19. Spieltag
+2021-01-31T14:30:00Z,1. FC Köln,Arminia Bielefeld,19. Spieltag
+2021-01-31T17:00:00Z,VfL Wolfsburg,SC Freiburg,19. Spieltag
+2021-02-05T19:30:00Z,Hertha BSC,FC Bayern München,20. Spieltag
+2021-02-06T14:30:00Z,FC Augsburg,VfL Wolfsburg,20. Spieltag
+2021-02-06T14:30:00Z,Bayer Leverkusen,VfB Stuttgart,20. Spieltag
+2021-02-06T14:30:00Z,SC Freiburg,BV Borussia Dortmund 09,20. Spieltag
+2021-02-06T14:30:00Z,1. FSV Mainz 05,1. FC Union Berlin,20. Spieltag
+2021-02-06T14:30:00Z,FC Schalke 04,RB Leipzig,20. Spieltag
+2021-02-06T17:30:00Z,Borussia Mönchengladbach,1. FC Köln,20. Spieltag
+2021-02-07T14:30:00Z,TSG 1899 Hoffenheim,Eintracht Frankfurt,20. Spieltag
+2021-02-07T17:00:00Z,Arminia Bielefeld,Werder Bremen,20. Spieltag
+2021-02-12T19:30:00Z,RB Leipzig,FC Augsburg,21. Spieltag
+2021-02-13T14:30:00Z,Bayer Leverkusen,1. FSV Mainz 05,21. Spieltag
+2021-02-13T14:30:00Z,BV Borussia Dortmund 09,TSG 1899 Hoffenheim,21. Spieltag
+2021-02-13T14:30:00Z,VfB Stuttgart,Hertha BSC,21. Spieltag
+2021-02-13T14:30:00Z,Werder Bremen,SC Freiburg,21. Spieltag
+2021-02-13T17:30:00Z,1. FC Union Berlin,FC Schalke 04,21. Spieltag
+2021-02-14T14:30:00Z,Eintracht Frankfurt,1. FC Köln,21. Spieltag
+2021-02-14T17:00:00Z,VfL Wolfsburg,Borussia Mönchengladbach,21. Spieltag
+2021-02-15T19:30:00Z,FC Bayern München,Arminia Bielefeld,21. Spieltag
+2021-02-19T19:30:00Z,Arminia Bielefeld,VfL Wolfsburg,22. Spieltag
+2021-02-20T14:30:00Z,Borussia Mönchengladbach,1. FSV Mainz 05,22. Spieltag
+2021-02-20T14:30:00Z,Eintracht Frankfurt,FC Bayern München,22. Spieltag
+2021-02-20T14:30:00Z,SC Freiburg,1. FC Union Berlin,22. Spieltag
+2021-02-20T14:30:00Z,1. FC Köln,VfB Stuttgart,22. Spieltag
+2021-02-20T17:30:00Z,FC Schalke 04,BV Borussia Dortmund 09,22. Spieltag
+2021-02-21T12:30:00Z,FC Augsburg,Bayer Leverkusen,22. Spieltag
+2021-02-21T14:30:00Z,Hertha BSC,RB Leipzig,22. Spieltag
+2021-02-21T17:00:00Z,TSG 1899 Hoffenheim,Werder Bremen,22. Spieltag
+2021-02-26T19:30:00Z,Werder Bremen,Eintracht Frankfurt,23. Spieltag
+2021-02-27T14:30:00Z,FC Bayern München,1. FC Köln,23. Spieltag
+2021-02-27T14:30:00Z,BV Borussia Dortmund 09,Arminia Bielefeld,23. Spieltag
+2021-02-27T14:30:00Z,VfB Stuttgart,FC Schalke 04,23. Spieltag
+2021-02-27T14:30:00Z,VfL Wolfsburg,Hertha BSC,23. Spieltag
+2021-02-27T17:30:00Z,RB Leipzig,Borussia Mönchengladbach,23. Spieltag
+2021-02-28T12:30:00Z,1. FC Union Berlin,TSG 1899 Hoffenheim,23. Spieltag
+2021-02-28T14:30:00Z,1. FSV Mainz 05,FC Augsburg,23. Spieltag
+2021-02-28T17:00:00Z,Bayer Leverkusen,SC Freiburg,23. Spieltag
+2021-03-06T14:30:00Z,Arminia Bielefeld,1. FC Union Berlin,24. Spieltag
+2021-03-06T14:30:00Z,FC Bayern München,BV Borussia Dortmund 09,24. Spieltag
+2021-03-06T14:30:00Z,Borussia Mönchengladbach,Bayer Leverkusen,24. Spieltag
+2021-03-06T14:30:00Z,Eintracht Frankfurt,VfB Stuttgart,24. Spieltag
+2021-03-06T14:30:00Z,SC Freiburg,RB Leipzig,24. Spieltag
+2021-03-06T14:30:00Z,Hertha BSC,FC Augsburg,24. Spieltag
+2021-03-06T14:30:00Z,TSG 1899 Hoffenheim,VfL Wolfsburg,24. Spieltag
+2021-03-06T14:30:00Z,1. FC Köln,Werder Bremen,24. Spieltag
+2021-03-06T14:30:00Z,FC Schalke 04,1. FSV Mainz 05,24. Spieltag
+2021-03-13T14:30:00Z,FC Augsburg,Borussia Mönchengladbach,25. Spieltag
+2021-03-13T14:30:00Z,Bayer Leverkusen,Arminia Bielefeld,25. Spieltag
+2021-03-13T14:30:00Z,BV Borussia Dortmund 09,Hertha BSC,25. Spieltag
+2021-03-13T14:30:00Z,1. FSV Mainz 05,SC Freiburg,25. Spieltag
+2021-03-13T14:30:00Z,RB Leipzig,Eintracht Frankfurt,25. Spieltag
+2021-03-13T14:30:00Z,VfB Stuttgart,TSG 1899 Hoffenheim,25. Spieltag
+2021-03-13T14:30:00Z,1. FC Union Berlin,1. FC Köln,25. Spieltag
+2021-03-13T14:30:00Z,Werder Bremen,FC Bayern München,25. Spieltag
+2021-03-13T14:30:00Z,VfL Wolfsburg,FC Schalke 04,25. Spieltag
+2021-03-20T14:30:00Z,Arminia Bielefeld,RB Leipzig,26. Spieltag
+2021-03-20T14:30:00Z,FC Bayern München,VfB Stuttgart,26. Spieltag
+2021-03-20T14:30:00Z,Eintracht Frankfurt,1. FC Union Berlin,26. Spieltag
+2021-03-20T14:30:00Z,SC Freiburg,FC Augsburg,26. Spieltag
+2021-03-20T14:30:00Z,Hertha BSC,Bayer Leverkusen,26. Spieltag
+2021-03-20T14:30:00Z,TSG 1899 Hoffenheim,1. FSV Mainz 05,26. Spieltag
+2021-03-20T14:30:00Z,1. FC Köln,BV Borussia Dortmund 09,26. Spieltag
+2021-03-20T14:30:00Z,FC Schalke 04,Borussia Mönchengladbach,26. Spieltag
+2021-03-20T14:30:00Z,Werder Bremen,VfL Wolfsburg,26. Spieltag
+2021-04-03T13:30:00Z,FC Augsburg,TSG 1899 Hoffenheim,27. Spieltag
+2021-04-03T13:30:00Z,Bayer Leverkusen,FC Schalke 04,27. Spieltag
+2021-04-03T13:30:00Z,BV Borussia Dortmund 09,Eintracht Frankfurt,27. Spieltag
+2021-04-03T13:30:00Z,Borussia Mönchengladbach,SC Freiburg,27. Spieltag
+2021-04-03T13:30:00Z,1. FSV Mainz 05,Arminia Bielefeld,27. Spieltag
+2021-04-03T13:30:00Z,RB Leipzig,FC Bayern München,27. Spieltag
+2021-04-03T13:30:00Z,VfB Stuttgart,Werder Bremen,27. Spieltag
+2021-04-03T13:30:00Z,1. FC Union Berlin,Hertha BSC,27. Spieltag
+2021-04-03T13:30:00Z,VfL Wolfsburg,1. FC Köln,27. Spieltag
+2021-04-10T13:30:00Z,Arminia Bielefeld,SC Freiburg,28. Spieltag
+2021-04-10T13:30:00Z,FC Bayern München,1. FC Union Berlin,28. Spieltag
+2021-04-10T13:30:00Z,Eintracht Frankfurt,VfL Wolfsburg,28. Spieltag
+2021-04-10T13:30:00Z,Hertha BSC,Borussia Mönchengladbach,28. Spieltag
+2021-04-10T13:30:00Z,TSG 1899 Hoffenheim,Bayer Leverkusen,28. Spieltag
+2021-04-10T13:30:00Z,1. FC Köln,1. FSV Mainz 05,28. Spieltag
+2021-04-10T13:30:00Z,FC Schalke 04,FC Augsburg,28. Spieltag
+2021-04-10T13:30:00Z,VfB Stuttgart,BV Borussia Dortmund 09,28. Spieltag
+2021-04-10T13:30:00Z,Werder Bremen,RB Leipzig,28. Spieltag
+2021-04-17T13:30:00Z,FC Augsburg,Arminia Bielefeld,29. Spieltag
+2021-04-17T13:30:00Z,Bayer Leverkusen,1. FC Köln,29. Spieltag
+2021-04-17T13:30:00Z,BV Borussia Dortmund 09,Werder Bremen,29. Spieltag
+2021-04-17T13:30:00Z,Borussia Mönchengladbach,Eintracht Frankfurt,29. Spieltag
+2021-04-17T13:30:00Z,SC Freiburg,FC Schalke 04,29. Spieltag
+2021-04-17T13:30:00Z,1. FSV Mainz 05,Hertha BSC,29. Spieltag
+2021-04-17T13:30:00Z,RB Leipzig,TSG 1899 Hoffenheim,29. Spieltag
+2021-04-17T13:30:00Z,1. FC Union Berlin,VfB Stuttgart,29. Spieltag
+2021-04-17T13:30:00Z,VfL Wolfsburg,FC Bayern München,29. Spieltag
+2021-04-21T18:00:00Z,Arminia Bielefeld,FC Schalke 04,30. Spieltag
+2021-04-21T18:00:00Z,FC Bayern München,Bayer Leverkusen,30. Spieltag
+2021-04-21T18:00:00Z,BV Borussia Dortmund 09,1. FC Union Berlin,30. Spieltag
+2021-04-21T18:00:00Z,Eintracht Frankfurt,FC Augsburg,30. Spieltag
+2021-04-21T18:00:00Z,Hertha BSC,SC Freiburg,30. Spieltag
+2021-04-21T18:00:00Z,TSG 1899 Hoffenheim,Borussia Mönchengladbach,30. Spieltag
+2021-04-21T18:00:00Z,1. FC Köln,RB Leipzig,30. Spieltag
+2021-04-21T18:00:00Z,VfB Stuttgart,VfL Wolfsburg,30. Spieltag
+2021-04-21T18:00:00Z,Werder Bremen,1. FSV Mainz 05,30. Spieltag
+2021-04-24T13:30:00Z,FC Augsburg,1. FC Köln,31. Spieltag
+2021-04-24T13:30:00Z,Bayer Leverkusen,Eintracht Frankfurt,31. Spieltag
+2021-04-24T13:30:00Z,Borussia Mönchengladbach,Arminia Bielefeld,31. Spieltag
+2021-04-24T13:30:00Z,SC Freiburg,TSG 1899 Hoffenheim,31. Spieltag
+2021-04-24T13:30:00Z,1. FSV Mainz 05,FC Bayern München,31. Spieltag
+2021-04-24T13:30:00Z,RB Leipzig,VfB Stuttgart,31. Spieltag
+2021-04-24T13:30:00Z,FC Schalke 04,Hertha BSC,31. Spieltag
+2021-04-24T13:30:00Z,1. FC Union Berlin,Werder Bremen,31. Spieltag
+2021-04-24T13:30:00Z,VfL Wolfsburg,BV Borussia Dortmund 09,31. Spieltag
+2021-05-08T13:30:00Z,FC Bayern München,Borussia Mönchengladbach,32. Spieltag
+2021-05-08T13:30:00Z,BV Borussia Dortmund 09,RB Leipzig,32. Spieltag
+2021-05-08T13:30:00Z,Eintracht Frankfurt,1. FSV Mainz 05,32. Spieltag
+2021-05-08T13:30:00Z,Hertha BSC,Arminia Bielefeld,32. Spieltag
+2021-05-08T13:30:00Z,TSG 1899 Hoffenheim,FC Schalke 04,32. Spieltag
+2021-05-08T13:30:00Z,1. FC Köln,SC Freiburg,32. Spieltag
+2021-05-08T13:30:00Z,VfB Stuttgart,FC Augsburg,32. Spieltag
+2021-05-08T13:30:00Z,Werder Bremen,Bayer Leverkusen,32. Spieltag
+2021-05-08T13:30:00Z,VfL Wolfsburg,1. FC Union Berlin,32. Spieltag
+2021-05-15T13:30:00Z,Arminia Bielefeld,TSG 1899 Hoffenheim,33. Spieltag
+2021-05-15T13:30:00Z,FC Augsburg,Werder Bremen,33. Spieltag
+2021-05-15T13:30:00Z,Bayer Leverkusen,1. FC Union Berlin,33. Spieltag
+2021-05-15T13:30:00Z,Borussia Mönchengladbach,VfB Stuttgart,33. Spieltag
+2021-05-15T13:30:00Z,SC Freiburg,FC Bayern München,33. Spieltag
+2021-05-15T13:30:00Z,Hertha BSC,1. FC Köln,33. Spieltag
+2021-05-15T13:30:00Z,1. FSV Mainz 05,BV Borussia Dortmund 09,33. Spieltag
+2021-05-15T13:30:00Z,RB Leipzig,VfL Wolfsburg,33. Spieltag
+2021-05-15T13:30:00Z,FC Schalke 04,Eintracht Frankfurt,33. Spieltag
+2021-05-21T13:30:00Z,FC Bayern München,FC Augsburg,34. Spieltag
+2021-05-21T13:30:00Z,BV Borussia Dortmund 09,Bayer Leverkusen,34. Spieltag
+2021-05-21T13:30:00Z,Eintracht Frankfurt,SC Freiburg,34. Spieltag
+2021-05-21T13:30:00Z,TSG 1899 Hoffenheim,Hertha BSC,34. Spieltag
+2021-05-21T13:30:00Z,1. FC Köln,FC Schalke 04,34. Spieltag
+2021-05-21T13:30:00Z,VfB Stuttgart,Arminia Bielefeld,34. Spieltag
+2021-05-21T13:30:00Z,1. FC Union Berlin,RB Leipzig,34. Spieltag
+2021-05-21T13:30:00Z,Werder Bremen,Borussia Mönchengladbach,34. Spieltag
+2021-05-21T13:30:00Z,VfL Wolfsburg,1. FSV Mainz 05,34. Spieltag

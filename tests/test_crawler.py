@@ -1,6 +1,6 @@
 # Use this file to test your crawler.
 
-from teamproject import crawler
+import crawler
 import pandas as pd
 import csv
 import datetime
@@ -59,7 +59,7 @@ def test_year():
 
 def test_fetch_all_data():
     crawler.fetch_all_data()
-    with open('Crawler.csv', mode='r') as csv_file:
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
 
         for row in csv_file:
@@ -72,6 +72,24 @@ def test_fetch_all_data():
             # Test to see if the number of goals is realistic
             assert (int(row['GoalsTeam1']) >= 0 & int(row['GoalsTeam1'] <= 15))
             assert (int(row['GoalsTeam2']) >= 0 & int(row['GoalsTeam2'] <= 15))
+
+def test_fetch_matchday():
+    """Jana: Fehler ist #TypeError: string indices must be integers#"""
+    data = crawler.fetch_matchday()
+    #assert isinstance(data, pd.DataFrame)
+    with open('../teamproject/Matchdays.csv', mode='r') as csv_file:
+
+        for row in csv_file:
+            # Test to see if Matchday is a string
+            assert type(row['Matchday']) == str
+            # Test to see if Team1 is a string
+            assert type(row['Team1']) == str
+            # Test to see if Team2 is a string
+            assert type(row['Team2']) == str
+            # Test to see if Team1 is not the same as Team2
+            assert row(['Team1']) != row(['Team1'])
+            # Test to see if MatchNr is an int
+            assert type(row['Team2']) == 'int64'
 
 def test_fetch_all_data1():
     data = crawler.fetch_all_data()
@@ -117,5 +135,3 @@ def test_all_year():
     data = crawler.fetch_all_data()
     assert isinstance(data, pd.DataFrame)
     assert (data.year >= 2004 & data.year <= 2021).all()
-
-
