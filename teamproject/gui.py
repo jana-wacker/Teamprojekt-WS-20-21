@@ -4,18 +4,14 @@ from PIL import Image, ImageTk
 import pandas as pd
 from crawler import fetch_data, fetch_all_data, fetch_matchday
 from statistics import analysisoneclub
-from tkcalendar import DateEntry, Calendar
+from tkcalendar import DateEntry
 from datetime import datetime
 from tkinter.messagebox import showinfo
 import csv
 import pkgutil
 import Algorithms
-import tkinter.font as font
 import os
-import io
 import importlib
-
-import urllib.request
 
 
 class gui:

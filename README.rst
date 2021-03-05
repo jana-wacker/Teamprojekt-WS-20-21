@@ -1,7 +1,7 @@
-.. image:: logo.png
+.. image:: teamproject/logo.png
 
 What does it do? 
-=====
+================
 
 Soccer is the national sport of many countries, e.g. in Germany, society holds its breath every time the german team plays. 
 This implies that a majority of people are wrecking their brains before a game wondering who will win. 
@@ -12,7 +12,7 @@ All you need to do is select some details and you are ready to shine at the next
 
 
 How to use it? 
-===========
+==============
 
 This software is super simple to use, and here is how step by step: 
 
@@ -29,7 +29,7 @@ Demo
 .. image:: demo.PNG
 
 Necessary packages for Python
-=====
+=============================
 
 The following packages are necessary to have the software run smooth: 
 
@@ -41,7 +41,7 @@ The following packages are necessary to have the software run smooth:
 - pyreconstruct
 
 Structure of the git repository 
-===================
+================================
 The following is a short overview of how our project is structured here on git::
 
     .
@@ -56,15 +56,15 @@ The following is a short overview of how our project is structured here on git::
     │   ├── __main__.py                     invoked on `python -m teamproject`
     │   ├── crawler.py                      web-crawler / queries
     │   ├── gui.py                          defines the gui code
-        ├── Analysing.py                    contains code to analyse teams
+        ├── statistics.py                   contains code to analyse teams
         ├── field.jpg                       background picture
         ├── paul.png                        paul picture
         ├── Matchdays.csv                   stores all upcoming matchdays
         ├── Crawler.csv                     stores all information provided by the crawler
     │   └── Algorithms
-    │       ├── LinearRegression.py         predicts based on linear regression
-    │       ├── Minimal.py                  predicts based on who won more often
-    │       └── poissonDistribution.py      predicts based on poisson distribution
+    │       ├── Linear Regression.py        predicts based on linear regression
+    │       ├── Minimal Prediction.py       predicts based on who won more often
+    │       └── Poisson Distribution.py     predicts based on poisson distribution
     │   
     │
     └── tests                               tests grouped by functionality
@@ -72,11 +72,11 @@ The following is a short overview of how our project is structured here on git::
         ├── test_poissonDistributionAlgo.py
         ├── test_LinearRegression.py
         ├── test_MinimalAlgo.py
-        └── test_gui.py.py
+        └── test_gui.py
 
 
 Contact to the creators 
-===================
+=======================
 If any issues may occur while using our software or you would like to help us further improve out application, feel free to reach out to us: 
 
 Jana Wacker - 
