@@ -1,121 +1,85 @@
-Teamproject
------------
+.. image:: logo.png
 
-This serves as a skeleton for setting up new projects.
-
-Usage
+What does it do? 
 =====
 
-To get started, follow these steps:
+Soccer is the national sport of many countries, e.g. in Germany, society holds its breath every time the german team plays. 
+This implies that a majority of people are wrecking their brains before a game wondering who will win. 
 
-- Fork this repository to your project on github.
-- Invite your team members and us as collaborators in the settings tab
-- clone the repository to your machine: ``git clone git@github.com:<USERNAME>/swp-teamproject``
-- Look through the repository and try to understand its contents
-- remove what you don't need, adapt what needs to be changed in your
-  project (e.g. author, project and package names)
+For that, we have a fast, easy-to-use solution! 
+Our software gives you a fast prediciton using **three algorithms** on how your favorite team is going to hold up in the next game. 
+All you need to do is select some details and you are ready to shine at the next beting event! 
 
 
-Environment
+How to use it? 
 ===========
 
-We recommend to setup a clean development environment for this project. This
-has several benefits such as preventing version conflicts with packages
-required by other projects and to make it easier to keep track of
-dependencies (type ``pip list`` to get a list of installed packages).
+This software is super simple to use, and here is how step by step: 
 
-A good choice for managing environments is to use *conda* (specifically, we
-recommend miniconda_). After installation, you can create and activate python
-environments as follows::
+0. Make sure a Python version >3 is installed on your device. 
+1. Select the two teams you want a prediction for 
+2. Select one of the algorithms you want to use for this prediction 
+3. Select the time frame for the data, the calculation is based on 
 
-    conda create -n myproject python=3.8
-
-    conda activate myproject
-
-Other noteworthy tools for managing environments are
-
-- virtualenvwrapper_ (more low-level, can only create environments for
-  installed python versions)
-- and Pipenv_ a more functional approach to package dependency management,
-  specifically for applications, but with its own set of drawbacks
-
-.. _miniconda:          https://docs.conda.io/en/latest/miniconda.html
-.. _virtualenvwrapper:  https://virtualenvwrapper.readthedocs.io/
-.. _Pipenv:             https://pipenv.kennethreitz.org/
+All done! 
 
 
-Installation
+Demo
 ============
+.. image:: demo.PNG
 
-Once you've activated the environment, install the current package and its
-dependencies with::
-
-    pip install -e .[dev]
-
-
-Usage
+Necessary packages for Python
 =====
 
-After the package and all dependencies are installed, you can execute the code
-that's contained in the ``teamproject/__main__.py`` by typing::
+The following packages are necessary to have the software run smooth: 
 
-    python -m teamproject
+- tkinter 
+- pillow
+- pandas
+- tkcalendar
+- requests
+- pyreconstruct
 
-If you have executed the ``pip install`` line above, you can also type for
-short::
-
-    teamproject
-
-
-Directory structure
+Structure of the git repository 
 ===================
-
-The following is a short overview of how a python project could be structured::
+The following is a short overview of how our project is structured here on git::
 
     .
-    ├── README.rst                      project front page
-    ├── setup.py                        packaging script
-    ├── setup.cfg                       package metadata and tool config
-    ├── MANIFEST.in                     lists data files to be included
-    ├── .gitignore                      lists files to be ignored by git
+    ├── README.rst                          project front page
+    ├── setup.py                            packaging script
+    ├── setup.cfg                           package metadata and tool config
+    ├── MANIFEST.in                         lists data files to be included
+    ├── .gitignore                          lists files to be ignored by git
     │
     ├── teamproject
-    │   ├── __init__.py                 toplevel package variables
-    │   ├── __main__.py                 invoked on `python -m teamproject`
-    │   ├── crawler.py                  web-crawler / queries
-    │   ├── gui.py                      defines the gui code
-    │   └── models.py                   ML code for predictions
+    │   ├── __init__.py                     toplevel package variables
+    │   ├── __main__.py                     invoked on `python -m teamproject`
+    │   ├── crawler.py                      web-crawler / queries
+    │   ├── gui.py                          defines the gui code
+        ├── Analysing.py                    contains code to analyse teams
+        ├── field.jpg                       background picture
+        ├── paul.png                        paul picture
+        ├── Matchdays.csv                   stores all upcoming matchdays
+        ├── Crawler.csv                     stores all information provided by the crawler
+    │   └── Algorithms
+    │       ├── LinearRegression.py         predicts based on linear regression
+    │       ├── Minimal.py                  predicts based on who won more often
+    │       └── poissonDistribution.py      predicts based on poisson distribution
+    │   
     │
-    └── tests
-        ├── test_crawler.py             tests grouped by functionality
-        ├── ....
-        └── test_models.py
+    └── tests                               tests grouped by functionality
+        ├── test_crawler.py             
+        ├── test_poissonDistributionAlgo.py
+        ├── test_LinearRegression.py
+        ├── test_MinimalAlgo.py
+        └── test_gui.py.py
 
 
-Development/Tooling
+Contact to the creators 
 ===================
+If any issues may occur while using our software or you would like to help us further improve out application, feel free to reach out to us: 
 
-We recommend to use at least  flake8_ for basic syntax and style checks, and
-twine_ for checking the created distributions.
-
-Unit and integration tests are in the ``test/`` subdirectory and can be
-executed via pytest_.
-
-It is possible to automatically run certain actions such as tests or publish
-releases when pushing to github. This is called continuous integration or
-continuous deployment (CI/CD). Popular CI services are for example:
-
-- `GitHub Actions`_ for linux/mac/windows testing
-- travis-ci.com_ for linux/mac testing
-- appveyor.com_ for windows testing
-- coveralls.io_ for coverage reports
-- readthedocs.org_ for documentation
-
-.. _flake8:             https://flake8.pycqa.org/
-.. _twine:              https://twine.readthedocs.io/
-.. _pytest:             https://pytest.org/
-.. _GitHub Actions:     https://github.com/features/actions
-.. _travis-ci.com:      https://travis-ci.com
-.. _appveyor.com:       https://appveyor.com
-.. _coveralls.io:       https://coveralls.io
-.. _readthedocs.org:    https://readthedocs.org/
+Jana Wacker - 
+Hanni Hille - 
+Nora Siegel - 
+Yupei Yang - 
