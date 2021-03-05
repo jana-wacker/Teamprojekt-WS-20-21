@@ -9,9 +9,7 @@ from scipy.stats import poisson, skellam
 # importing the tools required for the Poisson regression model
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
-from tkinter.messagebox import showinfo
 
-###########################################################################################################
 
 def encapsulation(data):
     """Take the input csv and process it.
@@ -29,7 +27,6 @@ def encapsulation(data):
     final.head()
     return final
 
-#############################################################################################################
 
 def checkMatch(homeName, guestName, data):
     """count the total number from encapsulation data to get the count of matches
@@ -37,10 +34,9 @@ def checkMatch(homeName, guestName, data):
     Function: count the match
     """
     checkData = data.loc[(data['HomeTeam'] == homeName) & (data['AwayTeam'] == guestName)]
-    matchNumber=len(checkData)
+    matchNumber = len(checkData)
     return matchNumber
 
-#############################################################################################################
 
 def goal_model(data):
     """Build a more general Poisson regression model
@@ -61,7 +57,6 @@ def goal_model(data):
                             family=sm.families.Poisson()).fit()
     return poisson_model
 
-#############################################################################################################
 
 def HomeTeamWin(homeName, guestName, data):
     """Predict the scored by the home team
@@ -74,7 +69,6 @@ def HomeTeamWin(homeName, guestName, data):
         pd.DataFrame(data={'team': homeName, 'opponent': guestName, 'home': 1}, index=[1]))
     return PredictionHomeGoals.values[0]
 
-#############################################################################################################
 
 def AwayTeamWin(homeName, guestName, data):
     """Predict the scored by the away team
@@ -87,7 +81,6 @@ def AwayTeamWin(homeName, guestName, data):
         pd.DataFrame(data={'team': guestName, 'opponent': homeName, 'home': 0}, index=[1]))
     return PredictionAwayGoals.values[0]
 
-#############################################################################################################
 
 def simulate_match(foot_model, homeTeam, awayTeam, max_goals=10):
     """Wrap this in a simulate_match function
@@ -105,12 +98,12 @@ def simulate_match(foot_model, homeTeam, awayTeam, max_goals=10):
                  [home_goals_avg, away_goals_avg]]
     return (np.outer(np.array(team_pred[0]), np.array(team_pred[1])))
 
+
 def GoalRatio(homeName, guestName, data):
     """Calls simulate_match"""
     result = simulate_match(goal_model(data), homeName, guestName, max_goals=3)
     return result
 
-#############################################################################################################
 
 def PredictHomeTeamGoal(homeName, guestName, data):
     """Predict the percentage of home team win
@@ -123,7 +116,6 @@ def PredictHomeTeamGoal(homeName, guestName, data):
     result = np.sum(np.tril(Home_sum, -1))
     return result
 
-#############################################################################################################
 
 def PredictTied(homeName, guestName, data):
     """Predict the percentage of teams tied
@@ -136,7 +128,6 @@ def PredictTied(homeName, guestName, data):
     result = np.sum(np.diag(Home_sum))
     return result
 
-#############################################################################################################
 
 def PredictAwayTeamGoal(homeName, guestName, data):
     """Predict the percentage of away team win
@@ -149,9 +140,7 @@ def PredictAwayTeamGoal(homeName, guestName, data):
     result = np.sum(np.triu(Home_sum, 1))
     return result
 
-#############################################################################################################
 
-# Method for the results to be called in the GUI button to predict results
 def predict(homeName, guestName, data):
     """The final method to print out the results
     Variables: new data
@@ -165,8 +154,9 @@ def predict(homeName, guestName, data):
     """
     data = encapsulation(data)
     if checkMatch(homeName, guestName, data) == 0:
-        showinfo("Prediction", "Sorry, the data is incomplete and cannot be used for prediction! "
-                               "Please choose other teams or time!")
+        showinfo("Prediction - Poisson Distribution",
+                 "Sorry, the data set is incomplete and cannot be used for prediction! "
+                 "Please choose other teams or data frame!")
     else:
         result = {'Home Team': homeName,
                   'Away Team': guestName,
@@ -179,14 +169,13 @@ def predict(homeName, guestName, data):
         output = 'Poisson Distribution:' + "\n" + "\n" + \
                  homeName + "\n" + ' vs. ' + "\n" + guestName + "\n" + "\n" + \
                  'Probability of Home Team winning: ' + \
-                 str(round(result['Home team win ratio']*100)) + ' %' + "\n" + \
+                 str(round(result['Home team win ratio'] * 100)) + ' %' + "\n" + \
                  'Predicted Goals of Home Team: ' + \
-                 str(round(result['Home team score'])) + "\n" +\
+                 str(round(result['Home team score'])) + "\n" + \
                  'Probability of Away Team winning: ' + \
-                 str(round(result['Away team win ratio']*100)) + ' %' + "\n" + \
+                 str(round(result['Away team win ratio'] * 100)) + ' %' + "\n" + \
                  'Predicted Goals of Away Team: ' + \
                  str(round(result['Away team score'])) + "\n" + \
                  'Probability of a Draw: ' + \
-                 str(round(result['Home and away team tie ratio']*100)) + ' %'
-        #showinfo("Prediction - Poisson Distribution", output)
+                 str(round(result['Home and away team tie ratio'] * 100)) + ' %'
         return output

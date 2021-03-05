@@ -1,8 +1,9 @@
-from unittest import TestCase
-from teamproject.Algorithms.LinearRegression import data
+"""This module tests all functions of Linear Regression.py"""
+
+import unittest
 
 
-class Test(TestCase):
+class Test(unittest.TestCase):
 
     def test_match_count(self):
         """function: try to test the matchCount method in LinearRegression, to make sure that
@@ -82,10 +83,12 @@ class Test(TestCase):
         assert (tiedPrecentage(data).dtype == 'float64')
         assert (tiedPrecentage(data) >= 0)
 
-
     def test_sumof_percentage(self):
         """function: try to test the sumofPercentage method in LinearRegression, to make sure that
                      the result is non-negative."""
         from teamproject.Algorithms.LinearRegression import sumofPercentage
         assert (sumofPercentage(data) >= 0)
 
+
+if __name__ == '__main__':
+    unittest.main()

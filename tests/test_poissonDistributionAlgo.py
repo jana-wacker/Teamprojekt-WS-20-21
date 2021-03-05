@@ -1,9 +1,12 @@
-from unittest import TestCase
+"""This module tests all functions of Poisson Distribution.py"""
+
+import unittest
 
 
-class Test(TestCase):
+class Test(unittest.TestCase):
     """function: try to test the checkMatch method in poissonDistribution, to make sure that
                      the result of match is non-negative and the type of output is int64."""
+
     def test_check_match(self):
         from teamproject.Algorithms.poissonDistribution import checkMatch
         assert (checkMatch(data) >= 0)
@@ -43,3 +46,7 @@ class Test(TestCase):
         from teamproject.Algorithms.poissonDistribution import PredictAwayTeamGoal
         assert (PredictAwayTeamGoal(data) >= 0)
         assert (PredictAwayTeamGoal(data).dtype == 'float64')
+
+
+if __name__ == '__main__':
+    unittest.main()

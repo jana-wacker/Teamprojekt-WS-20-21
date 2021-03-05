@@ -1,10 +1,13 @@
-from unittest import TestCase
+"""This module tests all functions of Minimal Prediction.py"""
+
+import unittest
 from teamproject.Algorithms.Minimal import data
 
 
-class Test(TestCase):
+class Test(unittest.TestCase):
     """function: try to test the machtNumber method in Minimal, to make sure that
                  the result of match is non-negative and the type of output is int64."""
+
     def test_match_number(self):
         from teamproject.Algorithms.Minimal import matchNumber
         assert (matchNumber(data) >= 0)
@@ -30,3 +33,7 @@ class Test(TestCase):
         from teamproject.Algorithms.Minimal import ProHomeTied
         assert (ProHomeTied(data) >= 0)
         assert (ProHomeTied(data).dtype == 'float64')
+
+
+if __name__ == '__main__':
+    unittest.main()

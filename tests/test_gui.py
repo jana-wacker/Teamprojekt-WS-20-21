@@ -1,8 +1,8 @@
-"""This module tests the gui using mockist testing."""
+"""This module tests gui.py using mockist testing."""
 
-import gui as g
-import crawler as c
-import Algorithms.Minimal as minimal
+import teamproject.gui as g
+import teamproject.crawler as c
+import teamproject.Algorithms
 import tkinter as tk
 import unittest
 from unittest import mock
