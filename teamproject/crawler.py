@@ -7,7 +7,6 @@ from typing import List, Any
 import pandas as pd
 import requests
 import json
-from tkinter.messagebox import showinfo
 from datetime import datetime
 
 def fetch_matchday():
