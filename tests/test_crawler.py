@@ -15,68 +15,6 @@ import datetime
 #    assert (data.guest_score >= 0).all()
 #    assert (data.home_team != data.guest_team).all()
 
-
-def test_fetch_data():
-    """
-    Test to check if the teampoints are integers
-    Test to check if the teampoints are all equal or bigger than 0
-    Test to check if team1 and team2 are different teams
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert data.team1points.dtype == 'int64'
-    assert data.team2points.dtype == 'int64'
-    assert (data.team1points >= 0).all()
-    assert (data.team2points >= 0).all()
-    assert (data.team1 != data.team2).all()
-
-
-def test_location():
-    """
-    Test to see if the name of the location is as string
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert type(data.location) == str.all()
-
-
-def test_date():
-    """
-    Test to see if the date is realistic
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert data.date == datetime.isoformat().all()
-
-
-def test_number_of_gamedays():
-    """
-    Test to see if the number of gamedays is between 1 and 34
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert (data.matchday > 0 & data.matchday <= 34).all()
-
-
-def test_team_names():
-    """
-    Test to see if the team names are strings
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert type(data.team1) == str.all()
-    assert type(data.team2) == str.all()
-
-
-def test_year():
-    """
-    Test to see if the year is realistic
-    """
-    data = crawler.fetch_data()
-    assert isinstance(data, pd.DataFrame)
-    assert (data.year >= 2004 & data.year <= 2021).all()
-
-
 def test_fetch_matchday():
     """Jana: Fehler ist #TypeError: string indices must be integers#"""
     data = crawler.fetch_matchday()
@@ -95,31 +33,105 @@ def test_fetch_matchday():
             # Test to see if MatchNr is an int
             assert type(row['Team2']) == 'int64'
 
-def test_fetch_all_data1():
+def test_fetch_data():
     """
-        Test to see if the Location is a String
-        Test to see if the amount of goals from team1 is an Integer
-        Test to see if the amount of goals from team2 is an Integer
-        Test to see if the number of goals is realistic
+    Test to check if the Locations are a strings
+    Test to check if the Dates are from the type datetime
+    Test to check if the Teamnames are strings
+    Test to check if the Goals are integers
+    Test to check if the Matchdays are integers
+    """
+    data = crawler.fetch_data()
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert type(row['Location']) == str
+            assert type(row['Date']) == datetime.isoformat()
+            assert type(row['Team1']) == str
+            assert type(row['Team2']) == str
+            assert type(row['GoalsTeam1']) == int
+            assert type(row['GoalsTeam2']) == int
+            assert type(row['Matchday']) == int
+
+def test_teamnames():
+    """
+    Test to check if team1 and team2 are different teams
+    """
+    data = crawler.fetch_data()
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert str(row['Team1']) != str(row['Team2'])
+
+def test_goals():
+    """
+    Test to check if the Goals are all equal or bigger than 0 and smaller than 12
+    """
+    data = crawler.fetch_data()
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (int(row['GoalsTeam1'])) >= 0
+            assert (int(row['GoalsTeam1'])) <= 12
+            assert (int(row['GoalsTeam2'])) >= 0
+            assert (int(row['GoalsTeam2'])) <= 12
+
+def test_date():
+    """
+    Test to see if the year is realistic
+    """
+    data = crawler.fetch_data()
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (row['Date']) <= datetime.now()
+            assert (row['Date']) >= datetime(2004, 8, 6)
+
+def test_gamedays():
+    """
+    Test to see if the number of gamedays is between 1 and 34
+    """
+    data = crawler.fetch_data()
+    with open('../teamproject/Crawler.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (int(row['Matchday'])) > 0
+            assert (int(row['Matchday'])) <= 34
+
+def test_fetch_all_data():
+    """
+    Test to check if the Locations are a strings
+    Test to check if the Dates are from the type datetime
+    Test to check if the Teamnames are strings
+    Test to check if the Goals are integers
+    Test to check if the Matchdays are integers
     """
     data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert data.team1points.dtype == 'int64'
-    assert data.team2points.dtype == 'int64'
-    assert (data.team1points >= 0).all()
-    assert (data.team2points >= 0).all()
-    assert (data.team1 != data.team2).all()
+    with open('../teamproject/Crawlercopy.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert type(row['Location']) == str
+            assert type(row['Date']) == datetime.isoformat()
+            assert type(row['Team1']) == str
+            assert type(row['Team2']) == str
+            assert type(row['GoalsTeam1']) == int
+            assert type(row['GoalsTeam2']) == int
+            assert type(row['Matchday']) == int
 
-
-
-def test_all_location():
+def test_all_teamnames():
     """
-    Test to see if the name of the location is as string
+    Test to check if team1 and team2 are different teams
     """
     data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert type(data.location) == str.all()
+    with open('../teamproject/Crawlercopy.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert str(row['Team1']) != str(row['Team2'])
 
+def test_all_goals():
+    """
+    Test to check if the Goals are all equal or bigger than 0 and smaller than 12
+    """
+    data = crawler.fetch_all_data()
+    with open('../teamproject/Crawlercopy.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (int(row['GoalsTeam1'])) >= 0
+            assert (int(row['GoalsTeam1'])) <= 12
+            assert (int(row['GoalsTeam2'])) >= 0
+            assert (int(row['GoalsTeam2'])) <= 12
 
 
 def test_all_date():
@@ -127,36 +139,19 @@ def test_all_date():
     Test to see if the date is realistic
     """
     data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert data.date == datetime.isoformat().all()
+    with open('../teamproject/Crawlercopy.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (row['Date']) <= datetime.now()
+            assert (row['Date']) >= datetime(2004, 8, 6)
 
 
 
-def test_all_number_of_gamedays():
+def test_all_gamedays():
     """
     Test to see if the number of gamedays is between 1 and 34
     """
     data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert (data.matchday > 0 & data.matchday <= 34).all()
-
-
-
-def test_all_team_names():
-    """
-    Test to see if the team names are strings"
-    """
-    data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert type(data.team1) == str.all()
-    assert type(data.team2) == str.all()
-
-
-
-def test_all_year():
-    """
-    Test to see if the year is realistic
-    """
-    data = crawler.fetch_all_data()
-    assert isinstance(data, pd.DataFrame)
-    assert (data.year >= 2004 & data.year <= 2021).all()
+    with open('../teamproject/Crawlercopy.csv', mode='r') as csv_file:
+        for row in csv_file:
+            assert (int(row['Matchday'])) > 0
+            assert (int(row['Matchday'])) <= 34
