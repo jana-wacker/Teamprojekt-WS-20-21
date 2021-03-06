@@ -31,7 +31,7 @@ Demo
 Necessary packages for Python
 =============================
 
-The following packages are necessary to have the software run smooth: 
+The following packages are necessary to have the software run smoothly: 
 
 - tkinter 
 - pillow
