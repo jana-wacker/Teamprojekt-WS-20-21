@@ -2,9 +2,8 @@
 It returns the probability of home team and away team winning, the probability of a draw and how many
 goals each team will most likely score."""
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
-import seaborn
+from tkinter.messagebox import showinfo
 from scipy.stats import poisson, skellam
 # importing the tools required for the Poisson regression model
 import statsmodels.api as sm
