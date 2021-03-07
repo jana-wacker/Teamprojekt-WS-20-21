@@ -112,7 +112,8 @@ plt.show()
 
 # Analysing for one club (in this example 'VfB Stuttgart')
 def analysisoneclub(team):
-    totalgames = 0
+    totalhomegames = 0
+    totalawaygames = 0
     homevictory = 0
     homedefeat = 0
     homedraw = 0
@@ -132,40 +133,40 @@ def analysisoneclub(team):
                 # Club wins at home
                 if row['GoalsTeam1'] > row['GoalsTeam2']:
                     homevictory = homevictory + 1
-                    totalgames = totalgames + 1
+                    totalhomegames = totalhomegames + 1
                 else:
                     # Club loses at home
                     if row['GoalsTeam1'] < row['GoalsTeam2']:
                         homedefeat = homedefeat + 1
-                        totalgames = totalgames + 1
+                        totalhomegames = totalhomegames + 1
                     else:
                         # Club plays draw at home
                         homedraw = homedraw + 1
-                        totalgames = totalgames + 1
+                        totalhomegames = totalhomegames + 1
             # Club plays away
             elif str(row['Team2']) == team:
                 # Club wins away
                 if row['GoalsTeam1'] < row['GoalsTeam2']:
                     awayvictory = awayvictory + 1
-                    totalgames = totalgames + 1
+                    totalawaygames = totalawaygames + 1
                 else:
                     # Club loses away
                     if row['GoalsTeam1'] > row['GoalsTeam2']:
                         awaydefeat = awaydefeat + 1
-                        totalgames = totalgames + 1
+                        totalawaygames = totalawaygames + 1
                     # Club plays draw away
                     else:
                         awaydraw = awaydraw + 1
-                        totalgames = totalgames + 1
+                        totalawaygames = totalawaygames + 1
             else:
                 continue
 
-    homevictoryratio = (100 / totalgames) * homevictory
-    homedefeatratio = (100 / totalgames) * homedefeat
-    homedrawratio = (100 / totalgames) * homedraw
-    awayvictoryratio = (100 / totalgames) * awayvictory
-    awaydefeatratio = (100 / totalgames) * awaydefeat
-    awaydrawratio = (100 / totalgames) * awaydraw
+    homevictoryratio = (100 / totalhomegames) * homevictory
+    homedefeatratio = (100 / totalhomegames) * homedefeat
+    homedrawratio = (100 / totalhomegames) * homedraw
+    awayvictoryratio = (100 / totalawaygames) * awayvictory
+    awaydefeatratio = (100 / totalawaygames) * awaydefeat
+    awaydrawratio = (100 / totalawaygames) * awaydraw
 
     ynumbers = [homevictoryratio, homedefeatratio, homedrawratio, awayvictoryratio, awaydefeatratio, awaydrawratio]
     xnumbers = ['Home' + '\n' + 'Win', 'Home' + '\n' + 'Defeat',
