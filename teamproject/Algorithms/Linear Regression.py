@@ -307,7 +307,7 @@ def predict(homeName, guestName, data):
     if (matchCount(homeName, guestName, final) <= 2) or (sumofPercentage(homeName, guestName, data) == 0):
         showinfo("Prediction - Linear Regression",
                  "Sorry, the data set is incomplete and cannot be used for prediction! "
-                 "Please choose other teams or data frame!")
+                 "Please choose other teams, algorithm or data frame!")
     else:
         result = {'Home Team': homeName,
                   'Away Team': guestName,

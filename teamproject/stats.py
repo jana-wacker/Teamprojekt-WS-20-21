@@ -2,14 +2,13 @@
 This module contains code to create a statistic on a specific team
 """
 
-import crawler
 import csv
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
+from tkinter.messagebox import showinfo
 import os
 
 
-def analysisoneclub(team):
+def analysis(team):
     """
     Calculation of the ratios with the results from before
     Homewinratio(int): Probability that the hometeam wins
