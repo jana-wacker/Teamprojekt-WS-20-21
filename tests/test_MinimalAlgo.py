@@ -1,39 +1,42 @@
-"""This module tests all functions of Minimal Prediction.py"""
+from unittest import TestCase
+import crawler
+import os
+import pandas as pd
 
-import unittest
-from teamproject.Algorithms.Minimal import data
 
+class Test(TestCase):
+    alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
+    global data
+    data = pd.read_csv(alldata)
 
-class Test(unittest.TestCase):
-    """function: try to test the machtNumber method in Minimal, to make sure that
-                 the result of match is non-negative and the type of output is int64."""
+    global homeName
+    homeName='Bayer Leverkusen'
+    global guestName
+    guestName='Hannover 96'
 
     def test_match_number(self):
+        """function: try to test the machtNumber method in Minimal, to make sure that
+                     the result of match is non-negative and the type of output is int."""
         from teamproject.Algorithms.Minimal import matchNumber
-        assert (matchNumber(data) >= 0)
-        assert (matchNumber(data).dtype == 'int64')
+        self.assertTrue(matchNumber(data) >= 0)
+        self.assertIsInstance(matchNumber(data), int)
+
 
     def test_pro_home_win(self):
         """function: try to test the ProHomeWin method in Minimal, to make sure that
-                     the result of percentage is non-negative and the output type is float64."""
+                     the result of percentage is non-negative."""
         from teamproject.Algorithms.Minimal import ProHomeWin
-        assert (ProHomeWin(data) >= 0)
-        assert (ProHomeWin(data).dtype == 'float64')
+        self.assertTrue(ProHomeWin(data) >= 0)
 
     def test_pro_home_loss(self):
         """function: try to test the ProHomeLoss method in Minimal, to make sure that
-                     the result of percentage is non-negative and the output type is float64."""
+                     the result of percentage is non-negative."""
         from teamproject.Algorithms.Minimal import ProHomeLoss
-        assert (ProHomeLoss(data) >= 0)
-        assert (ProHomeLoss(data).dtype == 'float64')
+        self.assertTrue(ProHomeLoss(data) >= 0)
 
     def test_pro_home_tied(self):
         """function: try to test the ProHomeTied method in Minimal, to make sure that
-                     the result of percentage is non-negative and the output type is float64."""
+                     the result of percentage is non-negative."""
         from teamproject.Algorithms.Minimal import ProHomeTied
-        assert (ProHomeTied(data) >= 0)
-        assert (ProHomeTied(data).dtype == 'float64')
+        self.assertTrue(ProHomeTied(data) >= 0)
 
-
-if __name__ == '__main__':
-    unittest.main()
