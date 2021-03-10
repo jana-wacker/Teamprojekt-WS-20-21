@@ -1,4 +1,4 @@
-'''This module imports the crawler and the algorithms and serves as an overall interface for the program.'''
+"""This module imports the crawler and the algorithms and serves as an overall interface for the program."""
 import tkinter as tk
 from PIL import Image, ImageTk
 import pandas as pd
@@ -17,7 +17,7 @@ import importlib
 class gui:
 
     def __init__(self, master):
-        # fetch_matchday()
+        fetch_matchday()
         self.master = master
 
         # Basics for the window
@@ -34,11 +34,11 @@ class gui:
         self.matchlabelcolour = self.framecolour
         self.menucolour = 'light blue'
         self.frameOcolour = self.menucolour
-        self.x_framesize = 450
-        self.y_framesize = 430
 
         # Variables for the size of the picture
         self.x_Picture = 1200
+        self.x_framesize = 450
+        self.y_framesize = 430
 
         # Setting background
         self.background = os.path.join(os.path.dirname(__file__), 'field.jpg')
@@ -56,6 +56,7 @@ class gui:
         self.paul_resized = self.paul_open.resize((100, 80), Image.ANTIALIAS)
         self.paul = ImageTk.PhotoImage(self.paul_resized)
 
+        # import logo.png
         self.logo_raw = os.path.join(os.path.dirname(__file__), 'logo.png')
         self.logo_open = Image.open(self.logo_raw)
         self.logo_resized = self.logo_open.resize((390, 100), Image.ANTIALIAS)
@@ -71,8 +72,7 @@ class gui:
         # Marking where the labels start, depending on the size of the main window
         self.begin_Labels = self.x_Picture / 100
 
-        # Setting up all  frames to insert the labels and the buttons into
-
+        # Frames
         self.frameMiddle = tk.Frame(master=self.master, bg=self.framecolour)
         self.frameMiddle.pack(side='top', padx=self.begin_Labels, pady=5)
 
@@ -130,7 +130,7 @@ class gui:
         self.frameCrawler = tk.Frame(master=self.frameBelow, bg=self.framecolour)
         self.frameCrawler.pack(side='top', padx=5, pady=5)
 
-        # All labels
+        # Labels
         self.settingsLabel = tk.Label(self.frameCrawler, text='Activate the Crawler:',
                                       bg=self.labelcolour, fg=self.fontcolour)
         self.settingsLabel.pack(side='top', padx=5, pady=2)
@@ -301,7 +301,7 @@ class gui:
         self.nextLabel.config(font=(self.font, 12))
 
     def check_fetch(self, startYear, startDay, endYear, endDay):
-        '''Checks whether input was correct and if so, fetch chosen data'''
+        """Checks whether input was correct and if so, fetch chosen data"""
         if startYear > endYear or startDay > endDay:
             showinfo('Activate Crawler', 'Incorrect Input: The first Gameday must be before the last Gameday.')
         else:
@@ -310,7 +310,7 @@ class gui:
             return 'Selected data fetched.'
 
     def displayMatchdays(self):
-        '''Displays all upcoming matchdays of a season'''
+        """Displays all upcoming matchdays of a season"""
         self.divisionLabel = tk.Label(master=self.frameLeft,
                                       text=('Date and Time       Home Team       Away Team'),
                                       bg=self.matchcolour, fg=self.fontcolour, font=(self.font, self.fontsize))
@@ -322,10 +322,10 @@ class gui:
             self.dateLabel.config(font=(self.font, self.fontsize))
 
     def getMatchDays(self):
-        '''
+        """
         Creates a dictionary with upcoming match day, using the Matchdays.csv as data basis
         :returns: upcoming match days (dictionary)
-        '''
+        """
         gamedates = os.path.join(os.path.dirname(__file__), 'Matchdays.csv')
         with open(gamedates, newline='', encoding='utf8') as dates_raw:
             game_dates = csv.DictReader(dates_raw, delimiter=',')
@@ -354,10 +354,10 @@ class gui:
         return self.matches
 
     def getTeams(self):
-        '''
+        """
         Creates a dictionary with all teams, using the Crawler.csv as data basis
         :returns: all team-names(dictionary)
-        '''
+        """
         alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
         with open(alldata, newline='', encoding='utf8') as all_data_raw:
             Teams = []
@@ -369,7 +369,7 @@ class gui:
         return Teams
 
     def refreshTeams(self):
-        '''Refreshes Teams with getTeams()'''
+        """Refreshes Teams with getTeams()"""
         self.dropDown1['menu'].delete(0, 'end')
         self.dropDown2['menu'].delete(0, 'end')
         teams = self.getTeams()
@@ -378,28 +378,29 @@ class gui:
             self.dropDown2['menu'].add_command(label=team, command=tk._setit(self.clicked2, team))
 
     def syncAlgo(self):
-        '''Imports chosen module for prediction'''
+        """Imports chosen module for prediction"""
         global data
         alldata = os.path.join(os.path.dirname(__file__), 'Crawler.csv')
         self.data = pd.read_csv(alldata)
         name = ('Algorithms.' + self.clicked3.get())
         module = importlib.import_module(name)
+        print(module)
         return module
 
     def wrapAlgo(self):
-        '''Wraps choice of algorithm.'''
+        """Wraps choice of algorithm."""
         output = self.syncAlgo().predict(self.clicked1.get(), self.clicked2.get(), self.data)
         self.outputLabel.config(text=output)
 
     def wrapCrawler(self):
-        '''Wraps Crawler for all data.'''
+        """Wraps Crawler for all data."""
         fetch_all_data()
         self.refreshTeams()
         return 'All data fetched.'
 
 
 def main():
-    '''Creates main window.'''
+    """Creates main window."""
     root = tk.Tk()
     gui(root)
     root.mainloop()
