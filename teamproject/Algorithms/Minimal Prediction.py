@@ -7,7 +7,6 @@ from tkinter.messagebox import showinfo
 pd.set_option('display.max_columns', 10)
 
 
-# Find the home and away teams and form them into a new pandas.
 def dataSource(homeName, guestName, data):
     """Calculate the number of games
     Variables: homeName, guestName  - both form GUI
@@ -18,17 +17,15 @@ def dataSource(homeName, guestName, data):
     data2 = data.loc[(data['Team1'] == homeName) & (data['Team2'] == guestName)]
     return data2
 
-#######################################################################################################
 
 def matchNumber(data):
     """Count the total number from new data to get the count of matches
     Variables: new data
-    Function: count the match
+    Function: count matches
     """
     count = len(data)
     return count
 
-#######################################################################################################
 
 def ProHomeWin(data):
     """Get the percentage, when the home team win.
@@ -44,7 +41,6 @@ def ProHomeWin(data):
         percentage = hostWinCount / matchNumber(data)
         return percentage
 
-#######################################################################################################
 
 def ProHomeLoss(data):
     """Get the percentage, when the home team lost.
@@ -60,7 +56,6 @@ def ProHomeLoss(data):
         percentage = hostWinCount / matchNumber(data)
         return percentage
 
-#######################################################################################################
 
 def ProHomeTied(data):
     """Get the procentage, when the teams tie.
@@ -76,9 +71,7 @@ def ProHomeTied(data):
         percentage = hostWinCount / matchNumber(data)
         return percentage
 
-#######################################################################################################
 
-# Method for the results to be called in the GUI button to predict results
 def predict(homeName, guestName, data):
     """The final method to print out the results
     Variables: new data
@@ -92,8 +85,9 @@ def predict(homeName, guestName, data):
     """
     data = dataSource(homeName, guestName, data)
     if matchNumber(data) == 0:
-        showinfo("Prediction", "Sorry, the data is incomplete and cannot be used for prediction! "
-                               "Please choose other teams or time!")
+        showinfo("Prediction - Minimal Prediction",
+                 "Sorry, the data set is incomplete and cannot be used for prediction! "
+                 "Please choose other teams or data frame!")
     else:
         result = {'Home Team Name': homeName,
                   'Away Team Name': guestName,
@@ -102,14 +96,15 @@ def predict(homeName, guestName, data):
                   'Home team loss ratio': ProHomeLoss(data),
                   'Home and away team tie ratio': ProHomeTied(data)}
 
-        output = homeName + ' vs. ' + guestName + "\n" + "\n" + \
+        output = 'Minimal Algorithm:' + "\n" + "\n" + \
+                 homeName + "\n" + ' vs. ' + "\n" + guestName + "\n" + "\n" + \
                  'Number of Matches between the two Teams: ' + \
                  str(result['Total number of matches']) + "\n" + \
                  'Probability of Home Team winning: ' + \
-                 str(round(result['Home team win ratio']*100)) + ' %' + "\n" + \
+                 str(round(result['Home team win ratio'] * 100)) + ' %' + "\n" + \
                  'Probability of Away Team winning: ' + \
-                 str(round(result['Home team loss ratio']*100)) + ' %' + "\n" + \
+                 str(round(result['Home team loss ratio'] * 100)) + ' %' + "\n" + \
                  'Probability of a Draw: ' + \
-                 str(round(result['Home and away team tie ratio']*100)) + ' %'
-        showinfo("Prediction - Minimal", output)
-#predict('VfL Wolfsburg', 'VfB Stuttgart', data)
+                 str(round(result['Home and away team tie ratio'] * 100)) + ' %'
+
+        return output
