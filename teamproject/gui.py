@@ -384,7 +384,6 @@ class gui:
         self.data = pd.read_csv(alldata)
         name = ('Algorithms.' + self.clicked3.get())
         module = importlib.import_module(name)
-        print(module)
         return module
 
     def wrapAlgo(self):
